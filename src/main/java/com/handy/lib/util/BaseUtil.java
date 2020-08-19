@@ -406,4 +406,25 @@ public class BaseUtil {
         return false;
     }
 
+    /**
+     * 进行物品发送
+     *
+     * @param playerInventory 玩家背包
+     * @param itemStack       物品
+     * @param amount          发送数量
+     */
+    private void addItem(PlayerInventory playerInventory, ItemStack itemStack, int amount) {
+        int maxStackSize = itemStack.getMaxStackSize();
+        if (amount > maxStackSize) {
+            // 如果发送数量大于最大上限
+            itemStack.setAmount(maxStackSize);
+            playerInventory.addItem(itemStack);
+            addItem(playerInventory, itemStack, amount - maxStackSize);
+        } else {
+            // 小于等于直接发送
+            itemStack.setAmount(amount);
+            playerInventory.addItem(itemStack);
+        }
+    }
+
 }
