@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -425,6 +426,99 @@ public class BaseUtil {
             itemStack.setAmount(amount);
             playerInventory.addItem(itemStack);
         }
+    }
+
+    /**
+     * 通过时间秒毫秒数判断两个时间的间隔
+     *
+     * @param dateTime 时间
+     * @return
+     */
+    public static int getDifferDay(Long dateTime) {
+        return (int) ((System.currentTimeMillis() - dateTime) / (1000 * 3600 * 24));
+    }
+
+    /**
+     * 玩家时间是否为夜晚
+     *
+     * @param player 玩家
+     * @return
+     */
+    public static boolean playerTimeIsNether(Player player) {
+        return World.Environment.NETHER.equals(player.getWorld().getEnvironment());
+    }
+
+    /**
+     * 玩家时间是否为夜晚
+     *
+     * @param player 玩家
+     * @return
+     */
+    public static boolean playerTimeIsNotNether(Player player) {
+        return !playerTimeIsNether(player);
+    }
+
+    /**
+     * 世界时间是否为夜晚
+     *
+     * @param player 玩家
+     * @return
+     */
+    public static boolean worldTimeIsNight(Player player) {
+        long time = player.getWorld().getTime() % 24000L;
+        return time < 0L || time > 12400L;
+    }
+
+    /**
+     * 世界时间是否为夜晚
+     *
+     * @param player 玩家
+     * @return
+     */
+    public static boolean worldTimeIsNotNight(Player player) {
+        return !worldTimeIsNight(player);
+    }
+
+    /**
+     * 判断是否晴天
+     *
+     * @param player 玩家
+     * @return
+     */
+    public static boolean worldIsStorm(Player player) {
+        return player.getWorld().hasStorm();
+    }
+
+    /**
+     * 判断是否晴天
+     *
+     * @param player 玩家
+     * @return
+     */
+    public static boolean worldIsNotStorm(Player player) {
+        return !worldIsStorm(player);
+    }
+
+    /**
+     * 玩家头上是否为空气
+     *
+     * @param player 玩家
+     * @return
+     */
+    public static boolean isUnderRoof(Player player) {
+        World world = player.getWorld();
+        int blockYat = world.getHighestBlockYAt(player.getLocation());
+        return blockYat >= 254;
+    }
+
+    /**
+     * 玩家头上是否为空气
+     *
+     * @param player 玩家
+     * @return
+     */
+    public static boolean isNotUnderRoof(Player player) {
+        return !isUnderRoof(player);
     }
 
 }
