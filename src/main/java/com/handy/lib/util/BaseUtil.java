@@ -9,6 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -500,19 +502,27 @@ public class BaseUtil {
     }
 
     /**
-     * 玩家头上是否为空气
+     * 玩家头上是否有方块
      *
      * @param player 玩家
      * @return
      */
     public static boolean isUnderRoof(Player player) {
-        World world = player.getWorld();
-        int blockYat = world.getHighestBlockYAt(player.getLocation());
-        return blockYat >= 254;
+        Block block = player.getLocation().getBlock();
+        if (player.getLocation().getY() >= 254.0D) {
+            return false;
+        }
+        while (block.getY() + 1 <= 255) {
+            block = block.getRelative(BlockFace.UP);
+            if (!Material.AIR.equals(block.getType())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
-     * 玩家头上是否为空气
+     * 玩家头上是否有方块
      *
      * @param player 玩家
      * @return
