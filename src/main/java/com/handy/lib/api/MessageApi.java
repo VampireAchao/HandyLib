@@ -3,6 +3,7 @@ package com.handy.lib.api;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.ActionBarUtil;
 import com.handy.lib.util.BaseUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -30,6 +31,17 @@ public class MessageApi {
      */
     public static void sendMessage(Player player, String msg) {
         player.sendMessage(BaseUtil.replaceChatColor(msg));
+    }
+
+    /**
+     * 发送全服消息
+     *
+     * @param msg 消息
+     */
+    public static void sendAllMessage(String msg) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage(BaseUtil.replaceChatColor(msg));
+        }
     }
 
     /**
@@ -86,6 +98,7 @@ public class MessageApi {
      */
     public static void sendActionbar(Player player, String msg) {
         if (VersionCheckEnum.V_1_7.equals(VersionCheckEnum.getEnum())) {
+            sendMessage(player, msg);
             return;
         }
         ActionBarUtil.sendActionBar(player, BaseUtil.replaceChatColor(msg));
