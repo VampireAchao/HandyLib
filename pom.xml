@@ -7,14 +7,14 @@
     <groupId>com.handy.lib</groupId>
     <artifactId>HandyLib</artifactId>
     <name>HandyLib</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>handy的基础插件</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spigot-api.vesion>1.16.1-R0.1-SNAPSHOT</spigot-api.vesion>
+        <spigot-api.vesion>1.16.2-R0.1-SNAPSHOT</spigot-api.vesion>
         <bstats.version>1.7</bstats.version>
         <lombok.version>1.18.8</lombok.version>
         <mysql.version>5.1.47</mysql.version>

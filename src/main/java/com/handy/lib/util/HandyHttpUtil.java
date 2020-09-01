@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
+import com.handy.lib.param.VerifySignParam;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -31,14 +32,12 @@ public class HandyHttpUtil {
     private final static String URL_1_16 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.16.json";
 
     /**
-     * 验签
+     * 进行验签
      *
-     * @param plugin     插件
-     * @param pluginName 插件名
-     * @param secretKey  私钥
-     * @param sign       签名
+     * @param verifySignParam 参数
      */
-    public static void verifySign(Plugin plugin, String pluginName, String secretKey, String sign) {
+    public static void verifySign(VerifySignParam verifySignParam) {
+        Plugin plugin = verifySignParam.getPlugin();
         int port = plugin.getServer().getPort();
         // 进行校验
         new BukkitRunnable() {
@@ -46,21 +45,37 @@ public class HandyHttpUtil {
             public void run() {
                 try {
                     HashMap<String, String> paramMap = Maps.newHashMapWithExpectedSize(4);
-                    paramMap.put("sign", sign);
+                    paramMap.put("sign", verifySignParam.getSign());
                     paramMap.put("port", port + "");
-                    paramMap.put("pluginName", pluginName);
-                    paramMap.put("secretKey", secretKey);
+                    paramMap.put("pluginName", verifySignParam.getPluginName());
+                    paramMap.put("secretKey", verifySignParam.getSecretKey());
                     String result = HttpUtil.get(VERIFY_SIGN, paramMap);
                     if ("true".equals(result)) {
-                        plugin.getLogger().info("§a完全版验证成功,感谢您的使用...");
                         BaseConstants.SIGN = true;
+                        if (BaseUtil.colLIsNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
+                            for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
+                                plugin.getLogger().info(BaseUtil.replaceChatColor(verifySignSucceedMsg));
+                            }
+                        }
                     } else {
-                        plugin.getLogger().info("§a检测到使用的公开版,感谢您的使用...");
-                        plugin.getLogger().info("§a完整版无任何限制,请联系作者购买QQ:956812056");
+                        if (BaseUtil.colLIsNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
+                            for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
+                                plugin.getLogger().info(BaseUtil.replaceChatColor(verifySignFailureMsg));
+                            }
+                        }
                     }
                     this.cancel();
                 } catch (Exception e) {
-                    plugin.getLogger().info("§4检测到网络不稳定,一分钟后自动重新验证..");
+                    if (BaseUtil.colLIsNotEmpty(verifySignParam.getRequestError())) {
+                        for (String requestError : verifySignParam.getRequestError()) {
+                            plugin.getLogger().info(BaseUtil.replaceChatColor(requestError));
+                        }
+                    }
+                    if (verifySignParam.getRetryNumber() == 0) {
+                        this.cancel();
+                    } else {
+                        verifySignParam.setRetryNumber(verifySignParam.getRetryNumber() - 1);
+                    }
                 }
             }
         }.runTaskTimerAsynchronously(plugin, 0, 20 * 60);
@@ -103,13 +118,7 @@ public class HandyHttpUtil {
                             player.sendMessage(message);
                         }
                     }
-                } catch (Exception e) {
-                    String message = "§4网络不稳定,本次启动没有进行版本检查";
-                    if (player == null) {
-                        plugin.getLogger().info(message);
-                    } else {
-                        player.sendMessage(message);
-                    }
+                } catch (Exception ignored) {
                 }
             }
         }.runTaskAsynchronously(plugin);
@@ -162,6 +171,7 @@ public class HandyHttpUtil {
      * @param url    下载路径
      */
     private static void getCloudZhCn(Plugin plugin, String url) {
+        final int[] retryNumber = {6};
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -174,8 +184,12 @@ public class HandyHttpUtil {
                         plugin.getLogger().info("§a获取云汉化数据成功...");
                     }
                     this.cancel();
-                } catch (Exception e) {
-                    plugin.getLogger().info("§4检测到网络不稳定,一分钟后自动重新获取云汉化数据..");
+                } catch (Exception ignored) {
+                    if (retryNumber[0] == 0) {
+                        this.cancel();
+                    } else {
+                        retryNumber[0]--;
+                    }
                 }
             }
         }.runTaskTimerAsynchronously(plugin, 0, 20 * 60);
@@ -188,6 +202,7 @@ public class HandyHttpUtil {
      * @param version 版本
      */
     public static void setCloudItemJsonCacheMap(Plugin plugin, String version) {
+        final int[] retryNumber = {6};
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -200,8 +215,12 @@ public class HandyHttpUtil {
                         plugin.getLogger().info("§获取云汉化数据成功...");
                     }
                     this.cancel();
-                } catch (Exception e) {
-                    plugin.getLogger().info("§4检测到网络不稳定,一分钟后自动重新获取云汉化数据..");
+                } catch (Exception ignored) {
+                    if (retryNumber[0] == 0) {
+                        this.cancel();
+                    } else {
+                        retryNumber[0]--;
+                    }
                 }
             }
         }.runTaskTimerAsynchronously(plugin, 0, 20 * 60);
@@ -223,8 +242,7 @@ public class HandyHttpUtil {
                     VersionCheckEnum versionCheckEnum = VersionCheckEnum.getEnum();
                     itemJsonCacheMap.put("version", versionCheckEnum.getVersion());
                     HttpUtil.post(CLOUD_SET_URL, new Gson().toJson(itemJsonCacheMap));
-                } catch (Exception e) {
-                    plugin.getLogger().info("§4网络不稳定,本次启动没有进行云汉化同步");
+                } catch (Exception ignored) {
                 }
             }
         }.runTaskAsynchronously(plugin);
