@@ -212,7 +212,7 @@ public class HandyHttpUtil {
                     String result = HttpUtil.get(CLOUD_GET_URL, paramMap);
                     if (StringUtils.isNotBlank(result)) {
                         BaseConstants.cloudItemJsonCacheMap = new Gson().fromJson(result, Map.class);
-                        plugin.getLogger().info("§获取云汉化数据成功...");
+                        plugin.getLogger().info("§a获取云汉化数据成功...");
                     }
                     this.cancel();
                 } catch (Exception ignored) {
