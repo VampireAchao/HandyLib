@@ -531,4 +531,19 @@ public class BaseUtil {
         return !isUnderRoof(player);
     }
 
+    /**
+     * 时间增加
+     *
+     * @param day 增加天数
+     * @return 时间
+     */
+    public static Date getDate(Integer day) {
+        Date date = new Date();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        //把日期往后增加一天.整数往后推,负数往前移动
+        calendar.add(Calendar.DATE, day);
+        return calendar.getTime();
+    }
+
 }
