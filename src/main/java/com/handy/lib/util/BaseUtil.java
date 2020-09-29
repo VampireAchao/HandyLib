@@ -557,4 +557,14 @@ public class BaseUtil {
         return calendar.getTime();
     }
 
+    /**
+     * 判断传入的时间是否大于2120-01-01 00:00:00
+     *
+     * @param date 日期
+     * @return true 是
+     */
+    public static boolean isPerpetual(Date date) {
+        return date.getTime() > 4733481600000L;
+    }
+
 }
