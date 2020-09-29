@@ -92,9 +92,13 @@ public class BaseUtil {
      * @return true是数字
      */
     public static Integer isNumericToInt(String str) {
-        Matcher isNum = BaseConstants.NUMERIC.matcher(str);
-        if (isNum.matches()) {
-            return Integer.valueOf(str);
+        try {
+            Matcher isNum = BaseConstants.NUMERIC.matcher(str);
+            if (isNum.matches()) {
+                return Integer.valueOf(str);
+            }
+        } catch (NumberFormatException e) {
+            return null;
         }
         return null;
     }
@@ -106,9 +110,13 @@ public class BaseUtil {
      * @return true是数字
      */
     public static Long isNumericToLong(String str) {
-        Matcher isNum = BaseConstants.NUMERIC.matcher(str);
-        if (isNum.matches()) {
-            return Long.parseLong(str);
+        try {
+            Matcher isNum = BaseConstants.NUMERIC.matcher(str);
+            if (isNum.matches()) {
+                return Long.parseLong(str);
+            }
+        } catch (NumberFormatException e) {
+            return null;
         }
         return null;
     }
