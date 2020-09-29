@@ -34,4 +34,19 @@ public abstract class BaseConstants {
      * 是否通过签名验证
      */
     public static Boolean SIGN = false;
+
+    /**
+     * true
+     */
+    public static String TRUE = "true";
+
+    /**
+     * 高度
+     */
+    public static Double HEIGHT_254 = 254.0D;
+
+    /**
+     * 高度
+     */
+    public static Integer HEIGHT_255 = 255;
 }

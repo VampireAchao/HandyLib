@@ -1,6 +1,7 @@
 package com.handy.lib.util;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.handy.lib.api.LangMsgApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
@@ -56,8 +57,8 @@ public class BaseUtil {
     /**
      * 转换小写
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return 小写字符串
      */
     public static String toLowerCase(String str) {
         return str != null ? str.toLowerCase() : null;
@@ -67,7 +68,7 @@ public class BaseUtil {
      * 颜色代码转换
      *
      * @param str 消息
-     * @return
+     * @return 转换后的字符串
      */
     public static String replaceChatColor(String str) {
         return str.replaceAll("&", "§");
@@ -76,8 +77,8 @@ public class BaseUtil {
     /**
      * 获取uuid
      *
-     * @param playerName
-     * @return
+     * @param playerName 玩家名
+     * @return uuid
      */
     public static UUID getUuid(String playerName) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
@@ -116,7 +117,7 @@ public class BaseUtil {
      * 获取语言文件中的配置
      *
      * @param langMsg 配置项
-     * @return
+     * @return 语言
      */
     public static String getLangMsg(String langMsg) {
         FileConfiguration langConfig = LangMsgApi.LANG_CONFIG;
@@ -131,7 +132,7 @@ public class BaseUtil {
      * 将#替换成空格
      *
      * @param str 字符串
-     * @return
+     * @return 替换后的字符串
      */
     public static String replaceSpace(String str) {
         if (StringUtils.isBlank(str)) {
@@ -143,9 +144,9 @@ public class BaseUtil {
     /**
      * 获取中文名称
      *
-     * @param displayName
-     * @param type
-     * @return
+     * @param displayName 显示名称
+     * @param type        类型
+     * @return 中文名
      */
     public static String getDisplayName(String displayName, String type) {
         // 如果不为空,返回
@@ -187,8 +188,8 @@ public class BaseUtil {
     /**
      * 字符串转集合
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return 集合
      */
     public static List<String> strToStrList(String str) {
         List<String> list = new ArrayList<>();
@@ -201,8 +202,8 @@ public class BaseUtil {
     /**
      * 字符串转集合
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return 集合
      */
     public static List<Long> strToLongList(String str) {
         List<Long> list = new ArrayList<>();
@@ -215,8 +216,8 @@ public class BaseUtil {
     /**
      * 集合转,分隔的字符串
      *
-     * @param list
-     * @return
+     * @param list 集合
+     * @return 字符串
      */
     public static String listToStr(List list) {
         return StringUtils.join(list.toArray(), ",");
@@ -225,7 +226,7 @@ public class BaseUtil {
     /**
      * 给物品添加附魔效果
      *
-     * @param itemMeta
+     * @param itemMeta 物品属性
      */
     public static void setEnchant(ItemMeta itemMeta) {
         // 耐久
@@ -240,7 +241,7 @@ public class BaseUtil {
     /**
      * 隐藏附魔效果
      *
-     * @param itemMeta
+     * @param itemMeta 物品属性
      */
     public static void hideEnchant(ItemMeta itemMeta) {
         VersionCheckEnum versionCheckEnum = VersionCheckEnum.getEnum();
@@ -307,19 +308,21 @@ public class BaseUtil {
     public static void readJsonFileToItemJsonCacheMap(File file) {
         String json = readJsonFile(file);
         if (json != null && json.length() > 1) {
-            BaseConstants.itemJsonCacheMap = new Gson().fromJson(json, Map.class);
+            BaseConstants.itemJsonCacheMap = new Gson().fromJson(json, new TypeToken<Map<String, String>>() {
+            }.getType());
         }
     }
 
     /**
      * 读取JSON文件并给MAP赋值
      *
-     * @PARAM file 文件
+     * @param file 文件
      */
     public static void readJsonFileToJsonCacheMap(File file) {
         String json = readJsonFile(file);
         if (json != null && json.length() > 1) {
-            BaseConstants.jsonCacheMap = new Gson().fromJson(json, Map.class);
+            BaseConstants.jsonCacheMap = new Gson().fromJson(json, new TypeToken<Map<String, String>>() {
+            }.getType());
         }
     }
 
@@ -333,7 +336,7 @@ public class BaseUtil {
         try {
             FileReader fileReader = new FileReader(fileName);
             Reader reader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
-            int ch = 0;
+            int ch;
             StringBuilder sb = new StringBuilder();
             while ((ch = reader.read()) != -1) {
                 sb.append((char) ch);
@@ -350,21 +353,21 @@ public class BaseUtil {
     /**
      * 集合是否为空
      *
-     * @param collection
-     * @return
+     * @param collection 集合
+     * @return true 是
      */
-    public static boolean colLIsEmpty(Collection<?> collection) {
+    public static boolean collIsEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
     }
 
     /**
      * 集合是否不为空
      *
-     * @param collection
-     * @return
+     * @param collection 集合
+     * @return true 是
      */
-    public static boolean colLIsNotEmpty(Collection<?> collection) {
-        return !colLIsEmpty(collection);
+    public static boolean collIsNotEmpty(Collection<?> collection) {
+        return !collIsEmpty(collection);
     }
 
     /**
@@ -434,7 +437,7 @@ public class BaseUtil {
      * 通过时间秒毫秒数判断两个时间的间隔
      *
      * @param dateTime 时间
-     * @return
+     * @return 时间间隔
      */
     public static int getDifferDay(Long dateTime) {
         return (int) ((System.currentTimeMillis() - dateTime) / (1000 * 3600 * 24));
@@ -444,17 +447,17 @@ public class BaseUtil {
      * 玩家时间是否为夜晚
      *
      * @param player 玩家
-     * @return
+     * @return true 是
      */
     public static boolean playerTimeIsNether(Player player) {
         return World.Environment.NETHER.equals(player.getWorld().getEnvironment());
     }
 
     /**
-     * 玩家时间是否为夜晚
+     * 玩家时间是否不为夜晚
      *
      * @param player 玩家
-     * @return
+     * @return true 是
      */
     public static boolean playerTimeIsNotNether(Player player) {
         return !playerTimeIsNether(player);
@@ -464,7 +467,7 @@ public class BaseUtil {
      * 世界时间是否为夜晚
      *
      * @param player 玩家
-     * @return
+     * @return true 是
      */
     public static boolean worldTimeIsNight(Player player) {
         long time = player.getWorld().getTime() % 24000L;
@@ -472,10 +475,10 @@ public class BaseUtil {
     }
 
     /**
-     * 世界时间是否为夜晚
+     * 世界时间是否不为夜晚
      *
      * @param player 玩家
-     * @return
+     * @return true 是
      */
     public static boolean worldTimeIsNotNight(Player player) {
         return !worldTimeIsNight(player);
@@ -485,17 +488,17 @@ public class BaseUtil {
      * 判断是否晴天
      *
      * @param player 玩家
-     * @return
+     * @return true 是
      */
     public static boolean worldIsStorm(Player player) {
         return player.getWorld().hasStorm();
     }
 
     /**
-     * 判断是否晴天
+     * 判断是否不为晴天
      *
      * @param player 玩家
-     * @return
+     * @return true 是
      */
     public static boolean worldIsNotStorm(Player player) {
         return !worldIsStorm(player);
@@ -505,14 +508,14 @@ public class BaseUtil {
      * 玩家头上是否有方块
      *
      * @param player 玩家
-     * @return
+     * @return true 有
      */
     public static boolean isUnderRoof(Player player) {
         Block block = player.getLocation().getBlock();
-        if (player.getLocation().getY() >= 254.0D) {
+        if (player.getLocation().getY() >= BaseConstants.HEIGHT_254) {
             return false;
         }
-        while (block.getY() + 1 <= 255) {
+        while (block.getY() + 1 <= BaseConstants.HEIGHT_255) {
             block = block.getRelative(BlockFace.UP);
             if (!Material.AIR.equals(block.getType())) {
                 return true;
@@ -522,10 +525,10 @@ public class BaseUtil {
     }
 
     /**
-     * 玩家头上是否有方块
+     * 玩家头上是否没有方块
      *
      * @param player 玩家
-     * @return
+     * @return true 是
      */
     public static boolean isNotUnderRoof(Player player) {
         return !isUnderRoof(player);

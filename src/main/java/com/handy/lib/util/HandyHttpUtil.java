@@ -3,6 +3,7 @@ package com.handy.lib.util;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.param.VerifySignParam;
@@ -12,6 +13,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +34,8 @@ public class HandyHttpUtil {
     private final static String URL_1_14 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.14.json";
     private final static String URL_1_15 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.15.json";
     private final static String URL_1_16 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.16.json";
+
+    private final static String IP_CHINA_URL = "http://mcadmin.ljxmc.top/api/public/getIp";
 
     /**
      * 进行验签
@@ -50,15 +56,15 @@ public class HandyHttpUtil {
                     paramMap.put("pluginName", verifySignParam.getPluginName());
                     paramMap.put("secretKey", verifySignParam.getSecretKey());
                     String result = HttpUtil.get(VERIFY_SIGN, paramMap);
-                    if ("true".equals(result)) {
+                    if (BaseConstants.TRUE.equals(result)) {
                         BaseConstants.SIGN = true;
-                        if (BaseUtil.colLIsNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
+                        if (BaseUtil.collIsNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
                             for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
                                 plugin.getLogger().info(BaseUtil.replaceChatColor(verifySignSucceedMsg));
                             }
                         }
                     } else {
-                        if (BaseUtil.colLIsNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
+                        if (BaseUtil.collIsNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
                             for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
                                 plugin.getLogger().info(BaseUtil.replaceChatColor(verifySignFailureMsg));
                             }
@@ -66,7 +72,7 @@ public class HandyHttpUtil {
                     }
                     this.cancel();
                 } catch (Exception e) {
-                    if (BaseUtil.colLIsNotEmpty(verifySignParam.getRequestError())) {
+                    if (BaseUtil.collIsNotEmpty(verifySignParam.getRequestError())) {
                         for (String requestError : verifySignParam.getRequestError()) {
                             plugin.getLogger().info(BaseUtil.replaceChatColor(requestError));
                         }
@@ -111,7 +117,7 @@ public class HandyHttpUtil {
                             plugin.getLogger().info("§a当前版本为最新版本");
                             return;
                         }
-                        String message = "§检测到最新版本:" + tagName + "更新内容:" + body;
+                        String message = "§a检测到最新版本:" + tagName + "更新内容:" + body;
                         if (player == null) {
                             plugin.getLogger().info(message);
                         } else {
@@ -128,11 +134,10 @@ public class HandyHttpUtil {
      * 云汉化系统
      *
      * @param plugin 插件
-     * @return
      */
     public static void getZhCn(Plugin plugin) {
         // 获取版本
-        String url = URL_1_15;
+        String url;
         VersionCheckEnum versionCheckEnum = VersionCheckEnum.getEnum();
         switch (versionCheckEnum) {
             case V_1_7:
@@ -211,7 +216,8 @@ public class HandyHttpUtil {
                     paramMap.put("version", version);
                     String result = HttpUtil.get(CLOUD_GET_URL, paramMap);
                     if (StringUtils.isNotBlank(result)) {
-                        BaseConstants.cloudItemJsonCacheMap = new Gson().fromJson(result, Map.class);
+                        BaseConstants.cloudItemJsonCacheMap = new Gson().fromJson(result, new TypeToken<Map<String, String>>() {
+                        }.getType());
                         plugin.getLogger().info("§a获取云汉化数据成功...");
                     }
                     this.cancel();
@@ -246,6 +252,20 @@ public class HandyHttpUtil {
                 }
             }
         }.runTaskAsynchronously(plugin);
+    }
+
+    /**
+     * 获取公网ip
+     *
+     * @return ip
+     */
+    public static String getIp() {
+        try {
+            return HttpUtil.get(IP_CHINA_URL);
+        } catch (NoSuchAlgorithmException | IOException | KeyManagementException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }
