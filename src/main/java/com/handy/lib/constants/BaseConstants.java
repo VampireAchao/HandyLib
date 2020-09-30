@@ -38,15 +38,25 @@ public abstract class BaseConstants {
     /**
      * true
      */
-    public static String TRUE = "true";
+    public final static String TRUE = "true";
 
     /**
      * 高度
      */
-    public static Double HEIGHT_254 = 254.0D;
+    public final static Double HEIGHT_254 = 254.0D;
 
     /**
      * 高度
      */
-    public static Integer HEIGHT_255 = 255;
+    public final static Integer HEIGHT_255 = 255;
+
+    /**
+     * 常量
+     */
+    public final static String MYSQL = "MySQL";
+
+    /**
+     * 存储类型
+     */
+    public final static String STORAGE_METHOD = "storage-method";
 }
