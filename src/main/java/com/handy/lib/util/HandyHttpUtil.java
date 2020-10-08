@@ -57,13 +57,14 @@ public class HandyHttpUtil {
                     paramMap.put("secretKey", verifySignParam.getSecretKey());
                     String result = HttpUtil.get(VERIFY_SIGN, paramMap);
                     if (BaseConstants.TRUE.equals(result)) {
-                        BaseConstants.SIGN = true;
+                        BaseConstants.VERIFY_SIGN = true;
                         if (BaseUtil.collIsNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
                             for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
                                 plugin.getLogger().info(BaseUtil.replaceChatColor(verifySignSucceedMsg));
                             }
                         }
                     } else {
+                        BaseConstants.VERIFY_SIGN = false;
                         if (BaseUtil.collIsNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
                             for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
                                 plugin.getLogger().info(BaseUtil.replaceChatColor(verifySignFailureMsg));
@@ -72,6 +73,7 @@ public class HandyHttpUtil {
                     }
                     this.cancel();
                 } catch (Exception e) {
+                    BaseConstants.VERIFY_SIGN = false;
                     if (BaseUtil.collIsNotEmpty(verifySignParam.getRequestError())) {
                         for (String requestError : verifySignParam.getRequestError()) {
                             plugin.getLogger().info(BaseUtil.replaceChatColor(requestError));
@@ -85,6 +87,34 @@ public class HandyHttpUtil {
                 }
             }
         }.runTaskTimerAsynchronously(plugin, 0, 20 * 60);
+    }
+
+    /**
+     * 重新进行验签(每小时进行一次校验)
+     *
+     * @param verifySignParam 参数
+     */
+    public static void anewVerifySign(VerifySignParam verifySignParam) {
+        Plugin plugin = verifySignParam.getPlugin();
+        int port = plugin.getServer().getPort();
+        // 进行校验
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    HashMap<String, String> paramMap = Maps.newHashMapWithExpectedSize(4);
+                    paramMap.put("sign", verifySignParam.getSign());
+                    paramMap.put("port", port + "");
+                    paramMap.put("pluginName", verifySignParam.getPluginName());
+                    paramMap.put("secretKey", verifySignParam.getSecretKey());
+                    String result = HttpUtil.get(VERIFY_SIGN, paramMap);
+                    BaseConstants.VERIFY_SIGN = BaseConstants.TRUE.equals(result);
+                    this.cancel();
+                } catch (Exception e) {
+                    BaseConstants.VERIFY_SIGN = false;
+                }
+            }
+        }.runTaskTimerAsynchronously(plugin, 20 * 60 * 60, 20 * 60 * 60);
     }
 
     /**
