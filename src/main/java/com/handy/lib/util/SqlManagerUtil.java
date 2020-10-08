@@ -1,6 +1,7 @@
 package com.handy.lib.util;
 
 import com.handy.lib.api.StorageApi;
+import com.handy.lib.constants.BaseConstants;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.plugin.Plugin;
@@ -30,12 +31,13 @@ public class SqlManagerUtil {
      * @param plugin 插件
      */
     public void enableTable(Plugin plugin) {
-        String storageMethod = StorageApi.storageConfig.getString("storage-method");
+
+        String storageMethod = StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD);
         if (storageMethod == null || "".equals(storageMethod)) {
-            storageMethod = "SQLite";
+            storageMethod = BaseConstants.SQLITE;
         }
         switch (storageMethod) {
-            case "MySQL":
+            case BaseConstants.MYSQL:
                 HikariConfig hikariConfig = new HikariConfig();
                 String host = StorageApi.storageConfig.getString("MySQL.Host");
                 String database = StorageApi.storageConfig.getString("MySQL.Database");
@@ -54,7 +56,7 @@ public class SqlManagerUtil {
                 hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
                 ds = new HikariDataSource(hikariConfig);
                 break;
-            case "SQLite":
+            case BaseConstants.SQLITE:
                 try {
                     Class.forName("org.sqlite.JDBC");
                 } catch (ClassNotFoundException e) {
@@ -74,7 +76,7 @@ public class SqlManagerUtil {
      * @throws SQLException 异常
      */
     public Connection getConnection(Plugin plugin) throws SQLException {
-        if ("MySQL".equals(StorageApi.storageConfig.getString("storage-method"))) {
+        if (BaseConstants.MYSQL.equals(StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD))) {
             return ds.getConnection();
         }
         return DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().getAbsolutePath() + "/" + plugin.getName() + ".db");

@@ -51,12 +51,38 @@ public abstract class BaseConstants {
     public final static Integer HEIGHT_255 = 255;
 
     /**
-     * 常量
+     * mysql常量
      */
     public final static String MYSQL = "MySQL";
+
+    /**
+     * SQLite变量
+     */
+    public final static String SQLITE = "SQLite";
 
     /**
      * 存储类型
      */
     public final static String STORAGE_METHOD = "storage-method";
+
+    /**
+     * 经济插件
+     */
+    public final static String VAULT = "Vault";
+
+    /**
+     * 变量插件
+     */
+    public final static String PLACEHOLDER_API = "PlaceholderAPI";
+
+    /**
+     * 点券插件
+     */
+    public final static String PLAYER_POINTS = "PlayerPoints";
+
+    /**
+     * 怪物插件
+     */
+    public final static String MYTHIC_MOBS = "MythicMobs";
+
 }

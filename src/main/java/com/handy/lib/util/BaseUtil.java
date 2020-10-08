@@ -23,6 +23,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
@@ -565,6 +567,22 @@ public class BaseUtil {
      */
     public static boolean isPerpetual(Date date) {
         return date.getTime() > 4733481600000L;
+    }
+
+    /**
+     * 获取今日日期
+     *
+     * @return 今日日期
+     */
+    public static Date getToday() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            date = sdf.parse(sdf.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
 }
