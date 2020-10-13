@@ -73,6 +73,9 @@ public class BaseUtil {
      * @return 转换后的字符串
      */
     public static String replaceChatColor(String str) {
+        if (StringUtils.isBlank(str)) {
+            return "";
+        }
         return str.replaceAll("&", "§");
     }
 
