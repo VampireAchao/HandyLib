@@ -142,9 +142,8 @@ public class HandyHttpUtil {
                         // 获取到的信息
                         String tagName = jsonObject.get("tag_name").getAsString();
                         String body = jsonObject.get("body").getAsString();
-                        // 版本为最新
+                        // 版本为最新不进行提醒
                         if (version.equals(tagName)) {
-                            plugin.getLogger().info("§a当前版本为最新版本");
                             return;
                         }
                         String message = "§a检测到最新版本:" + tagName + "更新内容:" + body;
