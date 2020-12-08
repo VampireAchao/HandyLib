@@ -9,8 +9,9 @@ import org.bukkit.plugin.Plugin;
 import java.util.Map;
 
 /**
+ * gui仓库模版
+ *
  * @author hs
- * @Description: {gui仓库模版}
  * @date 2020/7/15 17:47
  */
 @Data

@@ -14,8 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * handy的gui通用方法
+ *
  * @author hs
- * @Description: {handy的gui通用方法}
  * @date 2020/9/1 17:24
  */
 public class HandyInventoryUtil {

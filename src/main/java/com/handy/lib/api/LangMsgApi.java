@@ -4,7 +4,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  * @author hs
- * @Description: {}
  * @date 2020/8/1 10:30
  */
 public class LangMsgApi {

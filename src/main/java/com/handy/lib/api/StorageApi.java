@@ -8,8 +8,9 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 
 /**
+ * sql
+ *
  * @author hs
- * @Description: {sql}
  * @date 2020/7/30 11:40
  */
 public class StorageApi {

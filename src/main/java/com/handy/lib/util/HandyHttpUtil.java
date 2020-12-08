@@ -21,7 +21,6 @@ import java.util.Map;
 
 /**
  * @author hs
- * @Description: {}
  * @date 2020/7/22 11:15
  */
 public class HandyHttpUtil {

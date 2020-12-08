@@ -5,8 +5,9 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
+ * 一些缓存
+ *
  * @author hs
- * @Description: {一些缓存}
  * @date 2020/7/10 17:59
  */
 public abstract class BaseConstants {

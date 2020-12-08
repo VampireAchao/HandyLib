@@ -9,8 +9,9 @@ import org.bukkit.plugin.Plugin;
 import java.sql.*;
 
 /**
+ * 连接池管理
+ *
  * @author hs
- * @Description: {连接池管理}
  * @date 2020/3/25 12:00
  */
 public class SqlManagerUtil {

@@ -30,8 +30,9 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 /**
+ * 常用方法
+ *
  * @author hanshuai
- * @Description: {常用方法}
  * @date 2019/6/14 10:15
  */
 public class BaseUtil {

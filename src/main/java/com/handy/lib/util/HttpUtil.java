@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * http请求工具类
  * @author hs
- * @Description: {http请求工具类}
  * @date 2020/7/26 15:48
  */
 public class HttpUtil {

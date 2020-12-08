@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 
 /**
  * @author hs
- * @Description: {}
  * @date 2020/7/17 14:20
  */
 @Getter

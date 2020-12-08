@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 /**
  * @author hs
- * @Description: {}
  * @date 2020/3/31 9:58
  */
 public final class BukkitObjectSerializerUtil {

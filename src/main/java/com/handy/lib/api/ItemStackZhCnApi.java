@@ -7,8 +7,9 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 
 /**
+ * 云汉化
+ *
  * @author hs
- * @Description: {云汉化}
  * @date 2020/7/30 11:35
  */
 public class ItemStackZhCnApi {

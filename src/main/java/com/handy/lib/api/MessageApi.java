@@ -8,8 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
+ * 发送消息
+ *
  * @author hs
- * @Description: {发送消息}
  * @date 2020/7/23 18:22
  */
 public class MessageApi {

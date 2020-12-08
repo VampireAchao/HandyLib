@@ -5,8 +5,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 /**
+ * 版本检测
+ *
  * @author hs
- * @Description: {版本检测}
  * @date 2020/7/30 12:34
  */
 public class CheckVersionApi {
