@@ -17,7 +17,7 @@ public class MetricsUtil {
      * @param plugin   插件
      * @param pluginId 插件id
      */
-    private static void addMetrics(Plugin plugin, int pluginId) {
+    public static void addMetrics(Plugin plugin, int pluginId) {
         // bStats进行插件使用数据统计
         new Metrics(plugin, pluginId);
         // cStats进行插件使用数据统计
