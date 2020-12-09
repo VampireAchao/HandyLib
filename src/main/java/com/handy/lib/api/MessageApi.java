@@ -118,7 +118,7 @@ public class MessageApi {
      * @param title    标题
      * @param subtitle 副标题
      */
-    public static void sendTitle(String title, String subtitle) {
+    public static void sendAllTitle(String title, String subtitle) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Integer versionId = VersionCheckEnum.getEnum().getVersionId();
             if (versionId < VersionCheckEnum.V_1_9.getVersionId()) {
