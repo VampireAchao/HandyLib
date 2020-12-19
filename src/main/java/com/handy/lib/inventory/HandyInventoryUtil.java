@@ -83,7 +83,6 @@ public class HandyInventoryUtil {
         if (!(humanEntity instanceof Player)) {
             return false;
         }
-        Player player = (Player) humanEntity;
         // 点击为空返回
         ItemStack currentItem = event.getCurrentItem();
         if (currentItem == null || Material.AIR.equals(currentItem.getType())) {
