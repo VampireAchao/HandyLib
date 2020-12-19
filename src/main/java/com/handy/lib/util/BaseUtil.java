@@ -228,6 +228,20 @@ public class BaseUtil {
     }
 
     /**
+     * 字符串转集合
+     *
+     * @param str 字符串
+     * @return 集合
+     */
+    public static List<Integer> strToIntList(String str) {
+        List<Integer> list = new ArrayList<>();
+        if (StringUtils.isBlank(str)) {
+            return list;
+        }
+        return Arrays.stream(str.split(",")).map(s -> Integer.valueOf(s.trim())).collect(Collectors.toList());
+    }
+
+    /**
      * 集合转,分隔的字符串
      *
      * @param list 集合
