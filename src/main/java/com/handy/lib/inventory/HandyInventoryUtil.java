@@ -73,37 +73,46 @@ public class HandyInventoryUtil {
      * @param guiType 类型
      * @return 是否对应true:是
      */
-    public static boolean inventoryCheck(InventoryClickEvent event, Plugin plugin, String guiType) {
+    public static InventoryCheckVo inventoryCheck(InventoryClickEvent event, Plugin plugin, String guiType) {
+        InventoryCheckVo inventoryCheckVo = new InventoryCheckVo();
+        inventoryCheckVo.setCheck(false);
         // 必填校验
         if (event == null || plugin == null || guiType == null) {
-            return false;
+            return inventoryCheckVo;
         }
         // 如果操作对象不是玩家则返回
         HumanEntity humanEntity = event.getWhoClicked();
         if (!(humanEntity instanceof Player)) {
-            return false;
+            return inventoryCheckVo;
         }
+        Player player = (Player) humanEntity;
         // 点击为空返回
         ItemStack currentItem = event.getCurrentItem();
         if (currentItem == null || Material.AIR.equals(currentItem.getType())) {
-            return false;
+            return inventoryCheckVo;
         }
         // 判断是否是对应gui
         InventoryHolder holder = event.getInventory().getHolder();
         if (!(holder instanceof HandyInventory)) {
-            return false;
+            return inventoryCheckVo;
         }
         HandyInventory handyInventory = (HandyInventory) holder;
         // 判断是否为对应插件
         if (handyInventory.getPlugin() == null || !plugin.getName().equals(handyInventory.getPlugin().getName())) {
-            return false;
+            return inventoryCheckVo;
         }
         // 判断是否为对应类型
         if (!guiType.equals(handyInventory.getGuiType())) {
-            return false;
+            return inventoryCheckVo;
         }
         // 事件是否被取消
-        return !event.isCancelled();
+        if (event.isCancelled()) {
+            return inventoryCheckVo;
+        }
+        inventoryCheckVo.setCheck(true);
+        inventoryCheckVo.setPlayer(player);
+        inventoryCheckVo.setHandyInventory(handyInventory);
+        return inventoryCheckVo;
     }
 
 }
