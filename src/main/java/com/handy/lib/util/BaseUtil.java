@@ -210,7 +210,7 @@ public class BaseUtil {
         if (StringUtils.isBlank(str)) {
             return list;
         }
-        return Arrays.asList(str.split(","));
+        return Arrays.stream(str.split(",")).map(String::trim).collect(Collectors.toList());
     }
 
     /**
