@@ -21,12 +21,6 @@ import java.util.Set;
  * @date 2020/7/26 15:48
  */
 public class HttpUtil {
-    private static final HttpUtil INSTANCE = new HttpUtil();
-
-    public static HttpUtil getInstance() {
-        return INSTANCE;
-    }
-
     private final static String REQUEST_TYPE_FORM = "application/x-www-form-urlencoded;charset=utf-8";
     private final static String REQUEST_TYPE_JSON = "application/json; charset=utf-8";
     private final static String CHARSET = "utf-8";
@@ -34,13 +28,12 @@ public class HttpUtil {
     private final static Integer READ_TIMEOUT = 5000;
     private final static String HTTPS = "https";
 
-
     /**
      * POST 以application/json; charset=utf-8方式传输
      *
      * @param url         路径
      * @param jsonContent json参数
-     * @return
+     * @return 响应
      */
     public static String post(String url, String jsonContent) throws NoSuchAlgorithmException, IOException, KeyManagementException {
         return doRequest("POST", url, jsonContent, REQUEST_TYPE_JSON);
@@ -50,7 +43,7 @@ public class HttpUtil {
      * POST以application/x-www-form-urlencoded;charset=utf-8方式传输
      *
      * @param url 路径
-     * @return
+     * @return 响应
      */
     public static String post(String url) throws NoSuchAlgorithmException, IOException, KeyManagementException {
         return doRequest("POST", url, "", REQUEST_TYPE_FORM);

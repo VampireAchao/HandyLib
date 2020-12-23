@@ -603,4 +603,21 @@ public class BaseUtil {
         return date;
     }
 
+    /**
+     * 获取材质
+     *
+     * @param materialStr 材质
+     * @return Material
+     */
+    public static Material getMaterial(String materialStr) {
+        try {
+            if (StringUtils.isNotBlank(materialStr)) {
+                return Material.valueOf(materialStr);
+            }
+        } catch (Exception ignored) {
+            Bukkit.getLogger().info("没有找到对应的物品材质: " + materialStr);
+        }
+        return Material.STONE;
+    }
+
 }
