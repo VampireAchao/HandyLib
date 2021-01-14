@@ -80,6 +80,17 @@ public class HandyInventoryUtil {
         if (event == null || plugin == null || guiType == null) {
             return inventoryCheckVo;
         }
+        // 判断是否是对应gui
+        InventoryHolder holder = event.getInventory().getHolder();
+        if (!(holder instanceof HandyInventory)) {
+            return inventoryCheckVo;
+        }
+        // 禁止数字键和shift键
+        if (event.getClick().isShiftClick() || event.getClick().isKeyboardClick()){
+            // 取消点击效果
+            event.setCancelled(true);
+            return inventoryCheckVo;
+        }
         // 如果操作对象不是玩家则返回
         HumanEntity humanEntity = event.getWhoClicked();
         if (!(humanEntity instanceof Player)) {
@@ -91,11 +102,7 @@ public class HandyInventoryUtil {
         if (currentItem == null || Material.AIR.equals(currentItem.getType())) {
             return inventoryCheckVo;
         }
-        // 判断是否是对应gui
-        InventoryHolder holder = event.getInventory().getHolder();
-        if (!(holder instanceof HandyInventory)) {
-            return inventoryCheckVo;
-        }
+
         HandyInventory handyInventory = (HandyInventory) holder;
         // 判断是否为对应插件
         if (handyInventory.getPlugin() == null || !plugin.getName().equals(handyInventory.getPlugin().getName())) {
