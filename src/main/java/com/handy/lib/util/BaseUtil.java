@@ -79,7 +79,7 @@ public class BaseUtil {
         if (StringUtils.isBlank(str)) {
             return "";
         }
-        return str.replace("&", "§");
+        return replaceRpgChatColor(str.replace("&", "§"));
     }
 
     /**
