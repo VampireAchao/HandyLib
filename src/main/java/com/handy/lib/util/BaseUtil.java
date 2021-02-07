@@ -107,6 +107,9 @@ public class BaseUtil {
         if (StringUtils.isBlank(str)) {
             return "";
         }
+        if (ColorApi.colorConfig == null) {
+            return str;
+        }
         Matcher matcher = BaseConstants.RPG_PATTERN.matcher(str);
         List<String> matchStrList = new ArrayList<>();
         while (matcher.find()) {
