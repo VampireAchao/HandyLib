@@ -17,6 +17,16 @@ public abstract class BaseConstants {
     public final static Pattern NUMERIC = Pattern.compile("^-?\\d+(\\.\\d+)?$");
 
     /**
+     * 变量正则
+     */
+    public final static Pattern RPG_PATTERN = Pattern.compile("%+[a-zA-Z0-9]+%");
+
+    /**
+     * 去除变量正则
+     */
+    public final static Pattern RPG_DEL_PATTERN = Pattern.compile("[%]");
+
+    /**
      * 物品汉化map
      */
     public static Map<String, String> jsonCacheMap = new HashMap<>();

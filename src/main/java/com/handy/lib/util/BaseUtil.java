@@ -2,9 +2,11 @@ package com.handy.lib.util;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.handy.lib.api.ColorApi;
 import com.handy.lib.api.LangMsgApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
+import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -77,7 +79,61 @@ public class BaseUtil {
         if (StringUtils.isBlank(str)) {
             return "";
         }
-        return str.replaceAll("&", "§");
+        return str.replace("&", "§");
+    }
+
+    /**
+     * 颜色代码转换
+     *
+     * @param str   消息
+     * @param isRpg 是否rpg消息
+     * @return 转换后的字符串
+     */
+    public static String replaceChatColor(String str, boolean isRpg) {
+        if (StringUtils.isBlank(str)) {
+            return "";
+        }
+        String newStr = str.replace("&", "§");
+        return isRpg ? replaceRpgChatColor(newStr) : newStr;
+    }
+
+    /**
+     * rpg颜色转换
+     *
+     * @param str 字符串
+     * @return str
+     */
+    public static String replaceRpgChatColor(String str) {
+        if (StringUtils.isBlank(str)) {
+            return "";
+        }
+        Matcher matcher = BaseConstants.RPG_PATTERN.matcher(str);
+        List<String> matchStrList = new ArrayList<>();
+        while (matcher.find()) {
+            matchStrList.add(matcher.group());
+        }
+        if (BaseUtil.collIsEmpty(matchStrList)) {
+            return str;
+        }
+        for (String value : matchStrList) {
+            String rpgStr = ColorApi.colorConfig.getString(stringFilter(value));
+            if (StringUtils.isBlank(rpgStr) || rpgStr.length() != 6) {
+                continue;
+            }
+            ChatColor chatColor = ChatColor.of("#" + rpgStr);
+            str = str.replace(value, chatColor + "");
+        }
+        return str;
+    }
+
+    /**
+     * 过滤特殊字符 %
+     *
+     * @param str 变量
+     * @return str
+     */
+    public static String stringFilter(String str) {
+        return BaseConstants.RPG_DEL_PATTERN.matcher(str).replaceAll("").trim();
     }
 
     /**
