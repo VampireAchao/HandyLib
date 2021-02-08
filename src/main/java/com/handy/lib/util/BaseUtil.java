@@ -458,6 +458,23 @@ public class BaseUtil {
     }
 
     /**
+     * 判断list是否相等
+     *
+     * @param list  list
+     * @param list1 list1
+     * @return true/等于
+     */
+    public static boolean collIsEquals(List<String> list, List<String> list1) {
+        if (list == list1) {
+            return true;
+        }
+        if (list == null) {
+            return false;
+        }
+        return list.equals(list1);
+    }
+
+    /**
      * 物品减少计算
      *
      * @param playerInventory 玩家背包
@@ -473,28 +490,48 @@ public class BaseUtil {
             if (item == null || Material.AIR.equals(item.getType())) {
                 continue;
             }
-
-            if (item.isSimilar(itemStack)) {
-                num += item.getAmount();
-                items.add(item);
+            // 1.判断类型
+            if (!item.getType().equals(itemStack.getType())) {
+                continue;
             }
-            if (num == amount) {
-                for (ItemStack itemStack1 : items) {
+            if (item.getItemMeta() == null || itemStack.getItemMeta() == null) {
+                continue;
+            }
+            // 2.判断名称
+            if (!item.getItemMeta().getDisplayName().equals(itemStack.getItemMeta().getDisplayName())) {
+                continue;
+            }
+            // 3.判断lore
+            if (!collIsEquals(item.getItemMeta().getLore(), itemStack.getItemMeta().getLore())) {
+                continue;
+            }
+            num += item.getAmount();
+            items.add(item);
+            // 如果数量够了就不继续循环了
+            if (num >= amount) {
+                break;
+            }
+        }
+        if (num == amount) {
+            for (ItemStack itemStack1 : items) {
+                playerInventory.removeItem(itemStack1);
+            }
+            return true;
+        }
+        if (num > amount) {
+            for (ItemStack itemStack1 : items) {
+                if (amount == 0) {
+                    return true;
+                }
+                if (amount > itemStack1.getAmount()) {
+                    amount = amount - itemStack1.getAmount();
                     playerInventory.removeItem(itemStack1);
+                } else {
+                    itemStack1.setAmount(itemStack1.getAmount() - amount);
+                    amount = 0;
                 }
-                return true;
             }
-            if (num > amount) {
-                for (ItemStack itemStack1 : items) {
-                    if (amount > itemStack1.getAmount()) {
-                        amount = amount - itemStack1.getAmount();
-                        playerInventory.removeItem(itemStack1);
-                    } else {
-                        itemStack1.setAmount(itemStack1.getAmount() - amount);
-                    }
-                }
-                return true;
-            }
+            return true;
         }
         return false;
     }
