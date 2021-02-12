@@ -85,6 +85,24 @@ public class BaseUtil {
     /**
      * 颜色代码转换
      *
+     * @param stringList 消息
+     * @param isRpg      是否rpg消息
+     * @return 转换后的字符串集合
+     */
+    public static List<String> replaceChatColor(List<String> stringList, boolean isRpg) {
+        List<String> loreList = new ArrayList<>();
+        if (collIsEmpty(stringList)) {
+            return loreList;
+        }
+        for (String lore : stringList) {
+            loreList.add(replaceChatColor(lore, isRpg));
+        }
+        return loreList;
+    }
+
+    /**
+     * 颜色代码转换
+     *
      * @param str   消息
      * @param isRpg 是否rpg消息
      * @return 转换后的字符串
@@ -127,6 +145,28 @@ public class BaseUtil {
             str = str.replace(value, chatColor + "");
         }
         return str;
+    }
+
+    /**
+     * 获取强化等级转换
+     *
+     * @param str 字符串
+     * @return str
+     */
+    public static int getIntensifyLevel(String str) {
+        if (StringUtils.isBlank(str)) {
+            return 0;
+        }
+        Matcher matcher = BaseConstants.INTENSIFY_PATTERN.matcher(str);
+        List<String> matchStrList = new ArrayList<>();
+        while (matcher.find()) {
+            matchStrList.add(matcher.group());
+        }
+        if (BaseUtil.collIsEmpty(matchStrList)) {
+            return 0;
+        }
+        String levelStr = matchStrList.get(0);
+        return Integer.parseInt(levelStr.replace("+", "").trim());
     }
 
     /**

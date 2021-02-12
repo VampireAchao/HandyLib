@@ -17,14 +17,19 @@ public abstract class BaseConstants {
     public final static Pattern NUMERIC = Pattern.compile("^-?\\d+(\\.\\d+)?$");
 
     /**
-     * 变量正则
+     * rgb变量正则
      */
     public final static Pattern RPG_PATTERN = Pattern.compile("%+[a-zA-Z0-9]+%");
 
     /**
-     * 去除变量正则
+     * 去除rgb变量正则
      */
     public final static Pattern RPG_DEL_PATTERN = Pattern.compile("[%]");
+
+    /**
+     * 强化变量正则
+     */
+    public final static Pattern INTENSIFY_PATTERN = Pattern.compile("\\++[0-9]+\\s");
 
     /**
      * 物品汉化map
