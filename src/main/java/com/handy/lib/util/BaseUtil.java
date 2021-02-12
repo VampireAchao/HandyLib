@@ -170,6 +170,28 @@ public class BaseUtil {
     }
 
     /**
+     * 去除强化等级
+     *
+     * @param str 字符串
+     * @return str
+     */
+    public static String delIntensifyLevel(String str) {
+        if (StringUtils.isBlank(str)) {
+            return "";
+        }
+        Matcher matcher = BaseConstants.INTENSIFY_PATTERN.matcher(str);
+        List<String> matchStrList = new ArrayList<>();
+        while (matcher.find()) {
+            matchStrList.add(matcher.group());
+        }
+        if (BaseUtil.collIsEmpty(matchStrList)) {
+            return str;
+        }
+        String levelStr = matchStrList.get(0);
+        return str.replace(levelStr, "");
+    }
+
+    /**
      * 过滤特殊字符 %
      *
      * @param str 变量
