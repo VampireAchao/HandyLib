@@ -29,7 +29,7 @@ public abstract class BaseConstants {
     /**
      * 强化变量正则
      */
-    public final static Pattern INTENSIFY_PATTERN = Pattern.compile("\\++[0-9]+\\s");
+    public final static Pattern INTENSIFY_PATTERN = Pattern.compile("§f\\[\\+§a+[0-9]+§f\\]");
 
     /**
      * 物品汉化map

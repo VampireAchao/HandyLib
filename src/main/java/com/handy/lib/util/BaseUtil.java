@@ -165,7 +165,7 @@ public class BaseUtil {
         if (BaseUtil.collIsEmpty(matchStrList)) {
             return 0;
         }
-        String levelStr = matchStrList.get(0);
+        String levelStr = matchStrList.get(matchStrList.size() - 1);
         return Integer.parseInt(levelStr.replace("+", "").trim());
     }
 
@@ -187,7 +187,7 @@ public class BaseUtil {
         if (BaseUtil.collIsEmpty(matchStrList)) {
             return str;
         }
-        String levelStr = matchStrList.get(0);
+        String levelStr = matchStrList.get(matchStrList.size() - 1);
         return str.replace(levelStr, "");
     }
 
