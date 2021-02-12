@@ -166,7 +166,9 @@ public class BaseUtil {
             return 0;
         }
         String levelStr = matchStrList.get(matchStrList.size() - 1);
-        return Integer.parseInt(levelStr.replace("+", "").trim());
+
+        String replace = levelStr.replace("§f[+§a", "").replace("§f]", "");
+        return Integer.parseInt(replace);
     }
 
     /**

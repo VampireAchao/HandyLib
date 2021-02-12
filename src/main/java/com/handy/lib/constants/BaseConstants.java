@@ -32,6 +32,11 @@ public abstract class BaseConstants {
     public final static Pattern INTENSIFY_PATTERN = Pattern.compile("§f\\[\\+§a+[0-9]+§f\\]");
 
     /**
+     * 强化等级变量正则
+     */
+    public final static Pattern INTENSIFY_LEVEL_PATTERN = Pattern.compile("\\++[0-9]+§f\\]");
+
+    /**
      * 物品汉化map
      */
     public static Map<String, String> jsonCacheMap = new HashMap<>();
