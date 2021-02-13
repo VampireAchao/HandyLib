@@ -561,6 +561,14 @@ public class BaseUtil {
             if (item.getItemMeta() == null || itemStack.getItemMeta() == null) {
                 continue;
             }
+            String displayName = item.getItemMeta().getDisplayName();
+            if (displayName == null) {
+                displayName = "";
+            }
+            String displayName1 = itemStack.getItemMeta().getDisplayName();
+            if (displayName1 == null) {
+                displayName1 = "";
+            }
             // 2.判断名称
             if (!item.getItemMeta().getDisplayName().equals(itemStack.getItemMeta().getDisplayName())) {
                 continue;
