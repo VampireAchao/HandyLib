@@ -570,7 +570,7 @@ public class BaseUtil {
                 displayName1 = "";
             }
             // 2.判断名称
-            if (!item.getItemMeta().getDisplayName().equals(itemStack.getItemMeta().getDisplayName())) {
+            if (!displayName.equals(displayName1)) {
                 continue;
             }
             // 3.判断lore
