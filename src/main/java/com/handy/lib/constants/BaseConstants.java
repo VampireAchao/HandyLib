@@ -87,6 +87,16 @@ public abstract class BaseConstants {
     public final static String STORAGE_METHOD = "storage-method";
 
     /**
+     * 是否检查更新
+     */
+    public final static String IS_CHECK_UPDATE = "isCheckUpdate";
+
+    /**
+     * 是否检查更新
+     */
+    public final static String IS_CHECK_UPDATE_TO_OP_MSG = "isCheckUpdateToOpMsg";
+
+    /**
      * 经济插件
      */
     public final static String VAULT = "Vault";
