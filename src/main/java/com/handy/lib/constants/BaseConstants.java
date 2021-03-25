@@ -106,4 +106,19 @@ public abstract class BaseConstants {
      */
     public final static String MYTHIC_MOBS = "MythicMobs";
 
+    /**
+     * 公民插件
+     */
+    public final static String CITIZENS = "Citizens";
+
+    /**
+     * gui初始化大小
+     */
+    public final static int GUI_SIZE_54 = 54;
+
+    /**
+     * gui初始化大小
+     */
+    public final static int GUI_SIZE_27 = 27;
+
 }
