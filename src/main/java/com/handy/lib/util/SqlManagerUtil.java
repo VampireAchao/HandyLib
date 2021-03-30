@@ -32,7 +32,6 @@ public class SqlManagerUtil {
      * @param plugin 插件
      */
     public void enableTable(Plugin plugin) {
-
         String storageMethod = StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD);
         if (storageMethod == null || "".equals(storageMethod)) {
             storageMethod = BaseConstants.SQLITE;
