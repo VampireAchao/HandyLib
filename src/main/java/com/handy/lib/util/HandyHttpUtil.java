@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.param.VerifySignParam;
@@ -60,14 +61,14 @@ public class HandyHttpUtil {
                         BaseConstants.VERIFY_SIGN = true;
                         if (BaseUtil.collIsNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
                             for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
-                                plugin.getServer().getConsoleSender().sendMessage(BaseUtil.replaceChatColor(verifySignSucceedMsg));
+                                MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(verifySignSucceedMsg));
                             }
                         }
                     } else {
                         BaseConstants.VERIFY_SIGN = false;
                         if (BaseUtil.collIsNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
                             for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
-                                plugin.getServer().getConsoleSender().sendMessage(BaseUtil.replaceChatColor(verifySignFailureMsg));
+                                MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(verifySignFailureMsg));
                             }
                         }
                     }
@@ -76,7 +77,7 @@ public class HandyHttpUtil {
                     BaseConstants.VERIFY_SIGN = false;
                     if (BaseUtil.collIsNotEmpty(verifySignParam.getRequestError())) {
                         for (String requestError : verifySignParam.getRequestError()) {
-                            plugin.getServer().getConsoleSender().sendMessage(BaseUtil.replaceChatColor(requestError));
+                            MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(requestError));
                         }
                     }
                     if (verifySignParam.getRetryNumber() == 0) {

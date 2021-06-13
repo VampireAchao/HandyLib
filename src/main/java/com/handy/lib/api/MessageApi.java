@@ -4,8 +4,12 @@ import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.ActionBarUtil;
 import com.handy.lib.util.BaseUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+
+import static org.bukkit.Bukkit.getServer;
 
 /**
  * 发送消息
@@ -53,6 +57,16 @@ public class MessageApi {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendMessage(BaseUtil.replaceChatColor(msg));
         }
+    }
+
+    /**
+     * 发送Console消息
+     *
+     * @param player 玩家
+     * @param msg    消息
+     */
+    public static void sendConsoleMessage(Plugin plugin, String msg) {
+        getServer().getConsoleSender().sendMessage(ChatColor.WHITE + "[" + plugin.getName() + "]" + msg);
     }
 
     /**
