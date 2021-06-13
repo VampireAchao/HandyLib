@@ -66,7 +66,7 @@ public class MessageApi {
      * @param msg    消息
      */
     public static void sendConsoleMessage(Plugin plugin, String msg) {
-        getServer().getConsoleSender().sendMessage(ChatColor.WHITE + "[" + plugin.getName() + "]" + msg);
+        getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "[" + plugin.getName() + "] " + msg);
     }
 
     /**
