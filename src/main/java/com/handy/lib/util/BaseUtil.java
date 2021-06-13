@@ -783,7 +783,7 @@ public class BaseUtil {
                 return Material.valueOf(materialStr);
             }
         } catch (Exception ignored) {
-            Bukkit.getLogger().info("没有找到对应的物品材质: " + materialStr);
+            Bukkit.getServer().getConsoleSender().sendMessage("没有找到对应的物品材质: " + materialStr);
         }
         return Material.STONE;
     }
@@ -801,7 +801,7 @@ public class BaseUtil {
                 return Material.valueOf(materialStr);
             }
         } catch (Exception ignored) {
-            Bukkit.getLogger().info("没有找到对应的物品材质: " + materialStr);
+            Bukkit.getServer().getConsoleSender().sendMessage("没有找到对应的物品材质: " + materialStr);
         }
         return material;
     }

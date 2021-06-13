@@ -8,6 +8,7 @@ import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.param.VerifySignParam;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -59,14 +60,14 @@ public class HandyHttpUtil {
                         BaseConstants.VERIFY_SIGN = true;
                         if (BaseUtil.collIsNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
                             for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
-                                plugin.getLogger().info(BaseUtil.replaceChatColor(verifySignSucceedMsg));
+                                plugin.getServer().getConsoleSender().sendMessage(BaseUtil.replaceChatColor(verifySignSucceedMsg));
                             }
                         }
                     } else {
                         BaseConstants.VERIFY_SIGN = false;
                         if (BaseUtil.collIsNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
                             for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
-                                plugin.getLogger().info(BaseUtil.replaceChatColor(verifySignFailureMsg));
+                                plugin.getServer().getConsoleSender().sendMessage(BaseUtil.replaceChatColor(verifySignFailureMsg));
                             }
                         }
                     }
@@ -75,7 +76,7 @@ public class HandyHttpUtil {
                     BaseConstants.VERIFY_SIGN = false;
                     if (BaseUtil.collIsNotEmpty(verifySignParam.getRequestError())) {
                         for (String requestError : verifySignParam.getRequestError()) {
-                            plugin.getLogger().info(BaseUtil.replaceChatColor(requestError));
+                            plugin.getServer().getConsoleSender().sendMessage(BaseUtil.replaceChatColor(requestError));
                         }
                     }
                     if (verifySignParam.getRetryNumber() == 0) {
@@ -145,9 +146,9 @@ public class HandyHttpUtil {
                         if (version.equals(tagName)) {
                             return;
                         }
-                        String message = "§a检测到最新版本:" + tagName + "更新内容:" + body;
+                        String message = ChatColor.GREEN + "检测到最新版本:" + tagName + "更新内容:" + body;
                         if (player == null) {
-                            plugin.getLogger().info(message);
+                            plugin.getServer().getConsoleSender().sendMessage(message);
                         } else {
                             player.sendMessage(message);
                         }
@@ -214,7 +215,7 @@ public class HandyHttpUtil {
                     File zhChFile = new File(plugin.getDataFolder(), "zh_cn.json");
                     if (zhChFile.exists()) {
                         BaseUtil.readJsonFileToJsonCacheMap(zhChFile);
-                        plugin.getLogger().info("§a获取云汉化数据成功...");
+                        plugin.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "获取云汉化数据成功...");
                     }
                     this.cancel();
                 } catch (Exception ignored) {
@@ -246,7 +247,7 @@ public class HandyHttpUtil {
                     if (StringUtils.isNotBlank(result)) {
                         BaseConstants.cloudItemJsonCacheMap = new Gson().fromJson(result, new TypeToken<Map<String, String>>() {
                         }.getType());
-                        plugin.getLogger().info("§a获取云汉化数据成功...");
+                        plugin.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "获取云汉化数据成功...");
                     }
                     this.cancel();
                 } catch (Exception ignored) {

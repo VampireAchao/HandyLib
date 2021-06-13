@@ -331,7 +331,7 @@ public class CStatsMetrics {
             throw new IllegalAccessException("This method must not be called from the main thread!");
         }
         if (logSentData) {
-            plugin.getLogger().info("Sending data to cStats: " + data);
+            plugin.getServer().getConsoleSender().sendMessage("Sending data to cStats: " + data);
         }
         HttpsURLConnection connection = (HttpsURLConnection) new URL(URL).openConnection();
 
@@ -362,7 +362,7 @@ public class CStatsMetrics {
         }
 
         if (logResponseStatusText) {
-            plugin.getLogger().info("Sent data to cStats and received response: " + builder);
+            plugin.getServer().getConsoleSender().sendMessage("Sent data to cStats and received response: " + builder);
         }
     }
 
