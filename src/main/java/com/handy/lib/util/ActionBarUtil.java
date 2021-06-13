@@ -35,6 +35,9 @@ public class ActionBarUtil {
 
     public static void actionBarReflect() {
         version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+        if (version.contains("1_17")) {
+            return;
+        }
         try {
             IChatBaseComponent = Class.forName("net.minecraft.server." + version + ".IChatBaseComponent");
             ChatComponentText = Class.forName("net.minecraft.server." + version + ".ChatComponentText");
@@ -49,10 +52,10 @@ public class ActionBarUtil {
 
             makeChatComponentText = ChatComponentText.getConstructor(String.class);
 
-            if (version.contains("1_12") || version.contains("1_13") || version.contains("1_14") || version.contains("1_15") || version.contains("1_16") || version.contains("1_17")) {
+            if (version.contains("1_12") || version.contains("1_13") || version.contains("1_14") || version.contains("1_15") || version.contains("1_16")) {
                 classChatMessageType = Class.forName("net.minecraft.server." + version + ".ChatMessageType");
                 makeChatType = classChatMessageType.getMethod("a", Byte.TYPE);
-                if (version.contains("1_16") || version.contains("1_17")) {
+                if (version.contains("1_16")) {
                     makePacketPlayOutChat = PacketPlayOutChat.getConstructor(IChatBaseComponent, classChatMessageType, UUID.class);
                 } else {
                     makePacketPlayOutChat = PacketPlayOutChat.getConstructor(IChatBaseComponent, classChatMessageType);
@@ -70,7 +73,7 @@ public class ActionBarUtil {
         try {
             Object o = makeChatComponentText.newInstance(string);
             Object bar;
-            if (version.contains("1_16") || version.contains("1_17")) {
+            if (version.contains("1_16")) {
                 bar = makePacketPlayOutChat.newInstance(o, makeChatType.invoke(null, (byte) 2), player.getUniqueId());
             } else {
                 if (version.contains("1_12") || version.contains("1_13") || version.contains("1_14") || version.contains("1_15")) {

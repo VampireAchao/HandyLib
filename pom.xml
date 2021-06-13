@@ -7,14 +7,14 @@
     <groupId>com.handy.lib</groupId>
     <artifactId>HandyLib</artifactId>
     <name>HandyLib</name>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <description>handy的基础插件</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spigot-api.vesion>1.16.2-R0.1-SNAPSHOT</spigot-api.vesion>
+        <spigot-api.vesion>1.17-R0.1-SNAPSHOT</spigot-api.vesion>
         <bstats.version>1.7</bstats.version>
         <lombok.version>1.18.18</lombok.version>
         <mysql.version>8.0.23</mysql.version>
@@ -26,7 +26,7 @@
     <repositories>
         <repository>
             <id>minecraft</id>
-            <url>http://maven.ljxmc.top/repository/minecraft/</url>
+            <url>http://127.0.0.1:8081/repository/minecraft/</url>
         </repository>
     </repositories>
 
