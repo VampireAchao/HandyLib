@@ -149,7 +149,7 @@ public class HandyHttpUtil {
                         }
                         String message = ChatColor.GREEN + "检测到最新版本:" + tagName + "更新内容:" + body;
                         if (player == null) {
-                            plugin.getServer().getConsoleSender().sendMessage(message);
+                            MessageApi.sendConsoleMessage(plugin, message);
                         } else {
                             player.sendMessage(message);
                         }
@@ -216,7 +216,7 @@ public class HandyHttpUtil {
                     File zhChFile = new File(plugin.getDataFolder(), "zh_cn.json");
                     if (zhChFile.exists()) {
                         BaseUtil.readJsonFileToJsonCacheMap(zhChFile);
-                        plugin.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "获取云汉化数据成功...");
+                        MessageApi.sendConsoleMessage(plugin, ChatColor.GREEN + "获取云汉化数据成功...");
                     }
                     this.cancel();
                 } catch (Exception ignored) {
@@ -248,7 +248,7 @@ public class HandyHttpUtil {
                     if (StringUtils.isNotBlank(result)) {
                         BaseConstants.cloudItemJsonCacheMap = new Gson().fromJson(result, new TypeToken<Map<String, String>>() {
                         }.getType());
-                        plugin.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "获取云汉化数据成功...");
+                        MessageApi.sendConsoleMessage(plugin, ChatColor.GREEN + "获取云汉化数据成功...");
                     }
                     this.cancel();
                 } catch (Exception ignored) {
