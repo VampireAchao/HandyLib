@@ -4,8 +4,9 @@ import lombok.Data;
 import org.bukkit.entity.Player;
 
 /**
- * @author hs
- * @date 2020-12-19 13:31
+ * gui校验参数
+ *
+ * @author handy
  **/
 @Data
 public class InventoryCheckVo {

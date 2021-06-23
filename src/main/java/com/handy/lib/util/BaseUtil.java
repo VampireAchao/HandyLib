@@ -34,8 +34,7 @@ import java.util.stream.Collectors;
 /**
  * 常用方法
  *
- * @author hanshuai
- * @date 2019/6/14 10:15
+ * @author handy
  */
 public class BaseUtil {
 

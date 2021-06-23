@@ -7,8 +7,7 @@ import java.util.Random;
 /**
  * 概率工具类
  *
- * @author hs
- * @date 2021/3/29 18:29
+ * @author handy
  */
 public class ProbabilityUtil {
     private final Random random = new Random();
@@ -17,17 +16,12 @@ public class ProbabilityUtil {
     private ProbabilityUtil() {
     }
 
-    private static volatile ProbabilityUtil INSTANCE;
+    private static class SingletonHolder {
+        private static final ProbabilityUtil INSTANCE = new ProbabilityUtil();
+    }
 
     public static ProbabilityUtil getInstance() {
-        if (INSTANCE == null) {
-            synchronized (ProbabilityUtil.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new ProbabilityUtil();
-                }
-            }
-        }
-        return INSTANCE;
+        return ProbabilityUtil.SingletonHolder.INSTANCE;
     }
 
     /**

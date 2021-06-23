@@ -14,8 +14,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author hs
- * @date 2020/3/31 9:58
+ * 序列化工具类
+ *
+ * @author handy
  */
 public final class BukkitObjectSerializerUtil {
 

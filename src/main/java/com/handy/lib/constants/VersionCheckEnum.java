@@ -5,8 +5,9 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 
 /**
- * @author hs
- * @date 2020/7/17 14:20
+ * 版本常量
+ *
+ * @author handy
  */
 @Getter
 @AllArgsConstructor
@@ -23,7 +24,8 @@ public enum VersionCheckEnum {
     V_1_13("1.13", 13),
     V_1_14("1.14", 14),
     V_1_15("1.15", 15),
-    V_1_16("1.16", 16);
+    V_1_16("1.16", 16),
+    V_1_17("1.17", 17);
 
     private final String version;
     private final Integer versionId;

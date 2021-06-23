@@ -11,8 +11,7 @@ import java.util.Map;
 /**
  * gui仓库模版
  *
- * @author hs
- * @date 2020/7/15 17:47
+ * @author handy
  */
 @Data
 public class HandyInventory implements InventoryHolder {

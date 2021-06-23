@@ -22,8 +22,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author hs
- * @date 2020/7/22 11:15
+ * 调用http工具类
+ *
+ * @author handy
  */
 public class HandyHttpUtil {
     private final static String VERIFY_SIGN = "http://mcadmin.ljxmc.top/api/public/verifySign";

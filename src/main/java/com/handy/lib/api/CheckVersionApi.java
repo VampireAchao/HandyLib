@@ -7,8 +7,7 @@ import org.bukkit.plugin.Plugin;
 /**
  * 版本检测
  *
- * @author hs
- * @date 2020/7/30 12:34
+ * @author handy
  */
 public class CheckVersionApi {
     private CheckVersionApi() {

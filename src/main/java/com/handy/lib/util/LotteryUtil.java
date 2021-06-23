@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * @author hs
- * @date 2020/4/4 20:10
+ * 概率工具类
+ *
+ * @author handy
  */
 public class LotteryUtil {
     private final List<LotteryUtil.ContinuousList> lotteryList = new ArrayList<>();

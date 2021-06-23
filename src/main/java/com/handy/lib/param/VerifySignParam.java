@@ -7,8 +7,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author hs
- * @date 2020/9/1 16:43
+ * 完全版校验参数
+ *
+ * @author handy
  */
 @Data
 public class VerifySignParam {

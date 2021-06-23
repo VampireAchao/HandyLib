@@ -4,10 +4,9 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.Plugin;
 
 /**
- * 进行插件使用统计
+ * 插件使用统计工具类
  *
- * @author hs
- * @date 2020-12-08 14:01
+ * @author handy
  **/
 public class MetricsUtil {
 

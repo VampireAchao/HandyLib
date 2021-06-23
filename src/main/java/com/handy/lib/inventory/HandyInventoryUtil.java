@@ -16,8 +16,7 @@ import java.util.List;
 /**
  * handy的gui通用方法
  *
- * @author hs
- * @date 2020/9/1 17:24
+ * @author handy
  */
 public class HandyInventoryUtil {
 
@@ -86,7 +85,7 @@ public class HandyInventoryUtil {
             return inventoryCheckVo;
         }
         // 禁止数字键和shift键
-        if (event.getClick().isShiftClick() || event.getClick().isKeyboardClick()){
+        if (event.getClick().isShiftClick() || event.getClick().isKeyboardClick()) {
             // 取消点击效果
             event.setCancelled(true);
             return inventoryCheckVo;

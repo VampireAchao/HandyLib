@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author hs
- * @date 2021/6/17 17:21
+ * 基础sql
+ *
+ * @author handy
+ * @since 1.0.4
  */
 @Getter
 @AllArgsConstructor

@@ -14,8 +14,7 @@ import static org.bukkit.Bukkit.getServer;
 /**
  * 发送消息
  *
- * @author hs
- * @date 2020/7/23 18:22
+ * @author handy
  */
 public class MessageApi {
     private MessageApi() {

@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * sql常用方法
+ * sql基础方法
  *
- * @author hs
- * @date 2021/6/17 17:26
+ * @author handy
+ * @since 1.0.4
  */
 public class SqlService {
     private SqlService() {
@@ -38,7 +38,7 @@ public class SqlService {
      * @param tableName     表名
      * @return 全部
      */
-    public synchronized List<Map<String, Object>> findAll(Plugin plugin, String storageMethod, String tableName) {
+    public List<Map<String, Object>> findAll(Plugin plugin, String storageMethod, String tableName) {
         // 关闭现有连接
         SqlManagerUtil.getInstance().close();
         // 创建新连接
@@ -48,7 +48,7 @@ public class SqlService {
         ResultSet rst = null;
         List<Map<String, Object>> allResult = new ArrayList<>();
         try {
-            String selectStr = SqlEnum.SELECT_ALL + tableName;
+            String selectStr = SqlEnum.SELECT_ALL.getCommand() + tableName;
             conn = SqlManagerUtil.getInstance().getConnection(plugin);
             ps = conn.prepareStatement(selectStr);
             rst = ps.executeQuery();
@@ -87,7 +87,7 @@ public class SqlService {
      * @param tableName     表名
      * @param allResult     数据
      */
-    public synchronized void addDate(Plugin plugin, String storageMethod, String tableName, List<Map<String, Object>> allResult) {
+    public void addDate(Plugin plugin, String storageMethod, String tableName, List<Map<String, Object>> allResult) {
         int successNum = 0;
         int failNum = 0;
         if (BaseUtil.collIsEmpty(allResult)) {
@@ -137,7 +137,7 @@ public class SqlService {
     private String getSql(Map<String, Object> stringObjectMap) {
         String values = String.join(",", stringObjectMap.keySet());
         StringBuilder addStr = new StringBuilder();
-        addStr.append(SqlEnum.ADD_DATA);
+        addStr.append(SqlEnum.ADD_DATA.getCommand());
         addStr.append(" ");
         addStr.append("(");
         addStr.append(values);

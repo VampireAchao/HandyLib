@@ -17,8 +17,8 @@ import java.util.Set;
 
 /**
  * http请求工具类
- * @author hs
- * @date 2020/7/26 15:48
+ *
+ * @author handy
  */
 public class HttpUtil {
     private final static String REQUEST_TYPE_FORM = "application/x-www-form-urlencoded;charset=utf-8";

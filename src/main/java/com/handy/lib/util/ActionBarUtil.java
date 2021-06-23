@@ -10,7 +10,9 @@ import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
- * @author hanshuai
+ * ActionBar工具类
+ *
+ * @author handy
  */
 public class ActionBarUtil {
 

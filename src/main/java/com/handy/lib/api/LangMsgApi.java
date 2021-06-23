@@ -3,8 +3,9 @@ package com.handy.lib.api;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
- * @author hs
- * @date 2020/8/1 10:30
+ * 语言文件初始化
+ *
+ * @author handy
  */
 public class LangMsgApi {
     public static FileConfiguration LANG_CONFIG;

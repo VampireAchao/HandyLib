@@ -7,8 +7,9 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 
 /**
- * @author hs
- * @date 2021-02-07 17:48
+ * RGB颜色
+ *
+ * @author handy
  **/
 public class ColorApi {
     private ColorApi() {

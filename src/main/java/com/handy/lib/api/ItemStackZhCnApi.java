@@ -9,8 +9,7 @@ import java.io.File;
 /**
  * 云汉化
  *
- * @author hs
- * @date 2020/7/30 11:35
+ * @author handy
  */
 public class ItemStackZhCnApi {
     private ItemStackZhCnApi() {

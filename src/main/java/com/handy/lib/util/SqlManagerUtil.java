@@ -11,8 +11,7 @@ import java.sql.*;
 /**
  * 连接池管理
  *
- * @author hs
- * @date 2020/3/25 12:00
+ * @author handy
  */
 public class SqlManagerUtil {
     private SqlManagerUtil() {
@@ -32,42 +31,8 @@ public class SqlManagerUtil {
      * @param plugin 插件
      */
     public void enableTable(Plugin plugin) {
-        String storageMethod = StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD);
-        if (storageMethod == null || "".equals(storageMethod)) {
-            storageMethod = BaseConstants.SQLITE;
-        }
-        switch (storageMethod) {
-            case BaseConstants.MYSQL:
-                HikariConfig hikariConfig = new HikariConfig();
-                String host = StorageApi.storageConfig.getString("MySQL.Host");
-                String database = StorageApi.storageConfig.getString("MySQL.Database");
-                int port = StorageApi.storageConfig.getInt("MySQL.Port");
-                String useSsl = StorageApi.storageConfig.getString("MySQL.UseSSL");
-                String jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=" + useSsl + "&useUnicode=true&characterEncoding=UTF-8";
-                hikariConfig.setJdbcUrl(jdbcUrl);
-                hikariConfig.setPoolName(plugin.getName() + "HikariPool");
-                hikariConfig.setUsername(StorageApi.storageConfig.getString("MySQL.User"));
-                hikariConfig.setPassword(StorageApi.storageConfig.getString("MySQL.Password"));
-                // 是否自定义配置，为true时下面两个参数才生效
-                hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
-                // 连接池大小默认25，官方推荐250-500
-                hikariConfig.addDataSourceProperty("prepStmtCacheSize", "10");
-                // 单条语句最大长度默认256，官方推荐2048
-                hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-                ds = new HikariDataSource(hikariConfig);
-                break;
-            case BaseConstants.SQLITE:
-                try {
-                    Class.forName("org.sqlite.JDBC");
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;
-            default:
-                break;
-        }
+        this.enableTable(plugin, StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD));
     }
-
 
     /**
      * 初始化连接
@@ -76,38 +41,30 @@ public class SqlManagerUtil {
      * @param storageMethod 连接方式
      */
     public void enableTable(Plugin plugin, String storageMethod) {
-        if (storageMethod == null || "".equals(storageMethod)) {
-            storageMethod = BaseConstants.SQLITE;
-        }
-        switch (storageMethod) {
-            case BaseConstants.MYSQL:
-                HikariConfig hikariConfig = new HikariConfig();
-                String host = StorageApi.storageConfig.getString("MySQL.Host");
-                String database = StorageApi.storageConfig.getString("MySQL.Database");
-                int port = StorageApi.storageConfig.getInt("MySQL.Port");
-                String useSsl = StorageApi.storageConfig.getString("MySQL.UseSSL");
-                String jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=" + useSsl + "&useUnicode=true&characterEncoding=UTF-8";
-                hikariConfig.setJdbcUrl(jdbcUrl);
-                hikariConfig.setPoolName(plugin.getName() + "HikariPool");
-                hikariConfig.setUsername(StorageApi.storageConfig.getString("MySQL.User"));
-                hikariConfig.setPassword(StorageApi.storageConfig.getString("MySQL.Password"));
-                // 是否自定义配置，为true时下面两个参数才生效
-                hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
-                // 连接池大小默认25，官方推荐250-500
-                hikariConfig.addDataSourceProperty("prepStmtCacheSize", "10");
-                // 单条语句最大长度默认256，官方推荐2048
-                hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-                ds = new HikariDataSource(hikariConfig);
-                break;
-            case BaseConstants.SQLITE:
-                try {
-                    Class.forName("org.sqlite.JDBC");
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;
-            default:
-                break;
+        if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
+            HikariConfig hikariConfig = new HikariConfig();
+            String host = StorageApi.storageConfig.getString("MySQL.Host");
+            String database = StorageApi.storageConfig.getString("MySQL.Database");
+            int port = StorageApi.storageConfig.getInt("MySQL.Port");
+            String useSsl = StorageApi.storageConfig.getString("MySQL.UseSSL");
+            String jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=" + useSsl + "&useUnicode=true&characterEncoding=UTF-8";
+            hikariConfig.setJdbcUrl(jdbcUrl);
+            hikariConfig.setPoolName(plugin.getName() + "HikariPool");
+            hikariConfig.setUsername(StorageApi.storageConfig.getString("MySQL.User"));
+            hikariConfig.setPassword(StorageApi.storageConfig.getString("MySQL.Password"));
+            // 是否自定义配置，为true时下面两个参数才生效
+            hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
+            // 连接池大小默认25，官方推荐250-500
+            hikariConfig.addDataSourceProperty("prepStmtCacheSize", "10");
+            // 单条语句最大长度默认256，官方推荐2048
+            hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+            ds = new HikariDataSource(hikariConfig);
+        } else {
+            try {
+                Class.forName("org.sqlite.JDBC");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -120,10 +77,7 @@ public class SqlManagerUtil {
      * @throws SQLException 异常
      */
     public Connection getConnection(Plugin plugin, String storageMethod) throws SQLException {
-        if (storageMethod == null || "".equals(storageMethod)) {
-            storageMethod = BaseConstants.SQLITE;
-        }
-        if (BaseConstants.MYSQL.equals(storageMethod)) {
+        if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
             return ds.getConnection();
         }
         return DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().getAbsolutePath() + "/" + plugin.getName() + ".db");
@@ -137,10 +91,7 @@ public class SqlManagerUtil {
      * @throws SQLException 异常
      */
     public Connection getConnection(Plugin plugin) throws SQLException {
-        if (BaseConstants.MYSQL.equals(StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD))) {
-            return ds.getConnection();
-        }
-        return DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().getAbsolutePath() + "/" + plugin.getName() + ".db");
+        return this.getConnection(plugin, StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD));
     }
 
     /**
