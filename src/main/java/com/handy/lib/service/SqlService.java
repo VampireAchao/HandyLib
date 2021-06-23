@@ -99,7 +99,7 @@ public class SqlService {
         // 创建新连接
         SqlManagerUtil.getInstance().enableTable(plugin, storageMethod);
         // 获取新增sql
-        String sql = this.getSql(allResult.get(0));
+        String sql = this.getSql(allResult.get(0), tableName);
         MessageApi.sendConsoleMessage(plugin, "&a 数据表 &e" + tableName + " &a正在转换，生成转换sql" + sql);
         for (Map<String, Object> stringObjectMap : allResult) {
             Connection conn = null;
@@ -132,14 +132,15 @@ public class SqlService {
      * 获取新增sql
      *
      * @param stringObjectMap 对象
+     * @param tableName       表名
      * @return sql
      */
-    private String getSql(Map<String, Object> stringObjectMap) {
+    private String getSql(Map<String, Object> stringObjectMap, String tableName) {
         String values = String.join(",", stringObjectMap.keySet());
         StringBuilder addStr = new StringBuilder();
         addStr.append(SqlEnum.ADD_DATA.getCommand());
-        addStr.append(" ");
-        addStr.append("(");
+        addStr.append(tableName);
+        addStr.append(" (");
         addStr.append(values);
         addStr.append(") ");
         addStr.append("VALUES");
