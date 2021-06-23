@@ -49,7 +49,7 @@ public class SqlService {
         List<Map<String, Object>> allResult = new ArrayList<>();
         try {
             String selectStr = SqlEnum.SELECT_ALL.getCommand() + tableName;
-            conn = SqlManagerUtil.getInstance().getConnection(plugin);
+            conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
             ps = conn.prepareStatement(selectStr);
             rst = ps.executeQuery();
             // 获得列的结果
@@ -100,12 +100,12 @@ public class SqlService {
         SqlManagerUtil.getInstance().enableTable(plugin, storageMethod);
         // 获取新增sql
         String sql = this.getSql(allResult.get(0), tableName);
-        MessageApi.sendConsoleMessage(plugin, "&a 数据表 &e" + tableName + " &a正在转换，生成转换sql" + sql);
+        MessageApi.sendConsoleMessage(plugin, "&a 数据表 &e" + tableName + " &a正在转换，生成转换sql: " + sql);
         for (Map<String, Object> stringObjectMap : allResult) {
             Connection conn = null;
             PreparedStatement ps = null;
             try {
-                conn = SqlManagerUtil.getInstance().getConnection(plugin);
+                conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
                 ps = conn.prepareStatement(sql);
                 // 赋值
                 int i = 1;
@@ -136,12 +136,16 @@ public class SqlService {
      * @return sql
      */
     private String getSql(Map<String, Object> stringObjectMap, String tableName) {
-        String values = String.join(",", stringObjectMap.keySet());
+        List<String> keys = new ArrayList<>(stringObjectMap.keySet());
         StringBuilder addStr = new StringBuilder();
-        addStr.append(SqlEnum.ADD_DATA.getCommand());
-        addStr.append(tableName);
+        addStr.append(SqlEnum.ADD_DATA.getCommand()).append("`").append(tableName).append("`");
         addStr.append(" (");
-        addStr.append(values);
+        for (int i = 0; i < keys.size(); i++) {
+            addStr.append("`").append(keys.get(i)).append("`");
+            if (i < keys.size() - 1) {
+                addStr.append(",");
+            }
+        }
         addStr.append(") ");
         addStr.append("VALUES");
         addStr.append(" (");
