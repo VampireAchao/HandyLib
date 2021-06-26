@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -803,6 +804,19 @@ public class BaseUtil {
             Bukkit.getLogger().info("没有找到对应的物品材质: " + materialStr);
         }
         return material;
+    }
+
+    /**
+     * 获取版本第一位
+     *
+     * @param plugin 插件
+     * @return 版本
+     * @since 1.1.5
+     */
+    public static int getFirstPluginVersion(Plugin plugin) {
+        String version = plugin.getDescription().getVersion();
+        String[] split = version.split("\\.");
+        return Integer.parseInt(split[0]);
     }
 
 }

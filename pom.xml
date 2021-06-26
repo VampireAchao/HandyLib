@@ -7,7 +7,7 @@
     <groupId>com.handy.lib</groupId>
     <artifactId>HandyLib</artifactId>
     <name>HandyLib</name>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
     <description>handy的基础插件</description>
 
     <properties>
@@ -21,6 +21,8 @@
         <sqlite.version>3.34.0</sqlite.version>
         <HikariCP.version>3.4.5</HikariCP.version>
         <slf4j.version>1.7.2</slf4j.version>
+        <SXAttribute.version>2.0.3</SXAttribute.version>
+        <MythicMobs.version>4.3.2</MythicMobs.version>
     </properties>
 
     <repositories>
@@ -66,6 +68,16 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
             <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>github.saukiya.sxattribute</groupId>
+            <artifactId>SXAttribute</artifactId>
+            <version>${SXAttribute.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.lumine.xikage</groupId>
+            <artifactId>MythicMobs</artifactId>
+            <version>${MythicMobs.version}</version>
         </dependency>
     </dependencies>
 
