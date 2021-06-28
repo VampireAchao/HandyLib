@@ -16,6 +16,11 @@ public abstract class BaseConstants {
     public final static Pattern NUMERIC = Pattern.compile("^-?\\d+(\\.\\d+)?$");
 
     /**
+     * 括号数字正则
+     */
+    public static final Pattern BRACKET_NUMBER = Pattern.compile("\\[(\\d+)\\]");
+
+    /**
      * rgb变量正则
      */
     public final static Pattern RPG_PATTERN = Pattern.compile("%+[a-zA-Z0-9]+%");
