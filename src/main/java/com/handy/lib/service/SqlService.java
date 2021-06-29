@@ -86,7 +86,7 @@ public class SqlService {
                     map.put(key, value);
                     // 时间字段特殊处理
                     if (value != null && BaseUtil.collIsNotEmpty(SqlService.specialFields) && SqlService.specialFields.contains(key)) {
-                        if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
+                        if (BaseConstants.SQLITE.equalsIgnoreCase(storageMethod)) {
                             Date date = new Date((long) value);
                             map.put(key, date);
                         } else {
