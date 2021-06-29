@@ -87,7 +87,8 @@ public class SqlService {
                     // 时间字段特殊处理
                     if (value != null && BaseUtil.collIsNotEmpty(SqlService.specialFields) && SqlService.specialFields.contains(key)) {
                         if (BaseConstants.SQLITE.equalsIgnoreCase(storageMethod)) {
-                            Date date = new Date((long) value);
+                            String value1 = (String) value;
+                            Date date = new Date(Long.parseLong(value1));
                             map.put(key, date);
                         } else {
                             Date value1 = (Date) value;
