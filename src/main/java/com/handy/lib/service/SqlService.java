@@ -94,8 +94,8 @@ public class SqlService {
                             map.put(key, value1.getTime());
                         }
                     }
-                    allResult.add(map);
                 }
+                allResult.add(map);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,8 +114,7 @@ public class SqlService {
      * @param tableName     表名
      * @param allResult     数据
      */
-    public void addDate(Plugin plugin, String storageMethod, String
-            tableName, List<Map<String, Object>> allResult) {
+    public void addDate(Plugin plugin, String storageMethod, String tableName, List<Map<String, Object>> allResult) {
         int successNum = 0;
         int failNum = 0;
         if (BaseUtil.collIsEmpty(allResult)) {
