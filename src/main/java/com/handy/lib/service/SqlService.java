@@ -1,16 +1,15 @@
 package com.handy.lib.service;
 
 import com.handy.lib.api.MessageApi;
+import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.SqlEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import org.bukkit.plugin.Plugin;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Date;
+import java.util.*;
 
 /**
  * sql基础方法
@@ -19,6 +18,14 @@ import java.util.Map;
  * @since 1.0.4
  */
 public class SqlService {
+
+    /**
+     * 特殊处理的字段
+     *
+     * @since 1.1.7
+     */
+    private static List<String> specialFields = new ArrayList<>();
+
     private SqlService() {
     }
 
@@ -27,6 +34,16 @@ public class SqlService {
     }
 
     public static SqlService getInstance() {
+        return SqlService.SingletonHolder.INSTANCE;
+    }
+
+    /**
+     * 特殊处理的字段构造注入
+     *
+     * @since 1.1.7
+     */
+    public static SqlService getInstance(List<String> specialFields) {
+        SqlService.specialFields = specialFields;
         return SqlService.SingletonHolder.INSTANCE;
     }
 
@@ -67,8 +84,18 @@ public class SqlService {
                     String key = colNameList.get(i);
                     Object value = rst.getString(colNameList.get(i));
                     map.put(key, value);
+                    // 时间字段特殊处理
+                    if (value != null && BaseUtil.collIsNotEmpty(SqlService.specialFields) && SqlService.specialFields.contains(key)) {
+                        if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
+                            Date date = new Date((long) value);
+                            map.put(key, date);
+                        } else {
+                            Date value1 = (Date) value;
+                            map.put(key, value1.getTime());
+                        }
+                    }
+                    allResult.add(map);
                 }
-                allResult.add(map);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -87,7 +114,8 @@ public class SqlService {
      * @param tableName     表名
      * @param allResult     数据
      */
-    public void addDate(Plugin plugin, String storageMethod, String tableName, List<Map<String, Object>> allResult) {
+    public void addDate(Plugin plugin, String storageMethod, String
+            tableName, List<Map<String, Object>> allResult) {
         int successNum = 0;
         int failNum = 0;
         if (BaseUtil.collIsEmpty(allResult)) {
