@@ -8,6 +8,8 @@ import com.handy.lib.util.SqlManagerUtil;
 import org.bukkit.plugin.Plugin;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.*;
 
@@ -89,8 +91,8 @@ public class SqlService {
                             Date date = new Date(Long.parseLong(str));
                             map.put(key, date);
                         } else {
-                            Date date = (Date) value;
-                            map.put(key, date.getTime());
+                            LocalDateTime date = (LocalDateTime) value;
+                            map.put(key, date.toInstant(ZoneOffset.of("+8")).toEpochMilli());
                         }
                     }
                 }
