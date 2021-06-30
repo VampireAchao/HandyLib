@@ -156,7 +156,7 @@ public class SqlService {
      * @param plugin        插件
      * @param storageMethod 存储方法
      */
-    private void refreshStorage(Plugin plugin, String storageMethod) {
+    public void refreshStorage(Plugin plugin, String storageMethod) {
         // 关闭现有连接
         SqlManagerUtil.getInstance().close();
         // 创建新连接
