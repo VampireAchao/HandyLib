@@ -85,7 +85,8 @@ public class SqlService {
                     // 时间字段特殊处理
                     if (value != null && BaseUtil.collIsNotEmpty(SqlService.specialFields) && SqlService.specialFields.contains(key)) {
                         if (BaseConstants.SQLITE.equalsIgnoreCase(storageMethod)) {
-                            Date date = new Date((long) value);
+                            String str = (String) value;
+                            Date date = new Date(Long.parseLong(str));
                             map.put(key, date);
                         } else {
                             Date date = (Date) value;
@@ -122,7 +123,6 @@ public class SqlService {
         this.refreshStorage(plugin, storageMethod);
         // 获取新增sql
         String sql = this.getSql(allResult.get(0), tableName);
-        MessageApi.sendConsoleMessage(plugin, "&a 数据表 &e" + tableName + " &a正在转换，生成转换sql: " + sql);
         for (Map<String, Object> stringObjectMap : allResult) {
             Connection conn = null;
             PreparedStatement ps = null;
