@@ -56,10 +56,8 @@ public class SqlService {
      * @return 全部
      */
     public List<Map<String, Object>> findAll(Plugin plugin, String storageMethod, String tableName) {
-        // 关闭现有连接
-        SqlManagerUtil.getInstance().close();
-        // 创建新连接
-        SqlManagerUtil.getInstance().enableTable(plugin, storageMethod);
+        // 重构连接
+        this.refreshStorage(plugin, storageMethod);
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rst = null;
@@ -82,17 +80,16 @@ public class SqlService {
                 Map<String, Object> map = new HashMap<>();
                 for (int i = 0; i < columnCount; i++) {
                     String key = colNameList.get(i);
-                    Object value = rst.getString(colNameList.get(i));
+                    Object value = rst.getObject(colNameList.get(i));
                     map.put(key, value);
                     // 时间字段特殊处理
                     if (value != null && BaseUtil.collIsNotEmpty(SqlService.specialFields) && SqlService.specialFields.contains(key)) {
                         if (BaseConstants.SQLITE.equalsIgnoreCase(storageMethod)) {
-                            String value1 = (String) value;
-                            Date date = new Date(Long.parseLong(value1));
+                            Date date = new Date((long) value);
                             map.put(key, date);
                         } else {
-                            Date value1 = (Date) value;
-                            map.put(key, value1.getTime());
+                            Date date = (Date) value;
+                            map.put(key, date.getTime());
                         }
                     }
                 }
@@ -119,13 +116,10 @@ public class SqlService {
         int successNum = 0;
         int failNum = 0;
         if (BaseUtil.collIsEmpty(allResult)) {
-            MessageApi.sendConsoleMessage(plugin, "&a数据表 &e" + tableName + " &a没有需要转换的数据");
             return;
         }
-        // 关闭现有连接
-        SqlManagerUtil.getInstance().close();
-        // 创建新连接
-        SqlManagerUtil.getInstance().enableTable(plugin, storageMethod);
+        // 重构连接
+        this.refreshStorage(plugin, storageMethod);
         // 获取新增sql
         String sql = this.getSql(allResult.get(0), tableName);
         MessageApi.sendConsoleMessage(plugin, "&a 数据表 &e" + tableName + " &a正在转换，生成转换sql: " + sql);
@@ -154,6 +148,19 @@ public class SqlService {
             }
         }
         MessageApi.sendConsoleMessage(plugin, "&a 数据表 &e" + tableName + " &a转换结束，成功条数: &e" + successNum + " &a失败条数: &e" + failNum);
+    }
+
+    /**
+     * 重构连接
+     *
+     * @param plugin        插件
+     * @param storageMethod 存储方法
+     */
+    private void refreshStorage(Plugin plugin, String storageMethod) {
+        // 关闭现有连接
+        SqlManagerUtil.getInstance().close();
+        // 创建新连接
+        SqlManagerUtil.getInstance().enableTable(plugin, storageMethod);
     }
 
     /**
