@@ -3,7 +3,7 @@ package com.handy.lib.service;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.SqlEnum;
-import com.handy.lib.util.BaseUtil;
+import com.handy.lib.core.CollUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import org.bukkit.plugin.Plugin;
 
@@ -85,7 +85,7 @@ public class SqlService {
                     Object value = rst.getObject(colNameList.get(i));
                     map.put(key, value);
                     // 时间字段特殊处理
-                    if (value != null && BaseUtil.collIsNotEmpty(SqlService.specialFields) && SqlService.specialFields.contains(key)) {
+                    if (value != null && CollUtil.isNotEmpty(SqlService.specialFields) && SqlService.specialFields.contains(key)) {
                         if (BaseConstants.SQLITE.equalsIgnoreCase(storageMethod)) {
                             String str = (String) value;
                             Date date = new Date(Long.parseLong(str));
@@ -118,7 +118,7 @@ public class SqlService {
     public void addDate(Plugin plugin, String storageMethod, String tableName, List<Map<String, Object>> allResult) {
         int successNum = 0;
         int failNum = 0;
-        if (BaseUtil.collIsEmpty(allResult)) {
+        if (CollUtil.isEmpty(allResult)) {
             return;
         }
         // 重构连接

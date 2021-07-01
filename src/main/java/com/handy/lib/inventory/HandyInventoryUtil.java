@@ -1,6 +1,7 @@
 package com.handy.lib.inventory;
 
 import com.handy.lib.util.BaseUtil;
+import com.handy.lib.util.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -38,7 +39,7 @@ public class HandyInventoryUtil {
      * @param index     下标
      */
     public static void setBack(Inventory inventory, Integer index) {
-        inventory.setItem(index, BaseUtil.getItemStack(Material.ENDER_PEARL, BaseUtil.getLangMsg("guiBack"), null));
+        inventory.setItem(index, ItemStackUtil.getItemStack(Material.ENDER_PEARL, BaseUtil.getLangMsg("guiBack"), null));
     }
 
     /**
@@ -56,12 +57,12 @@ public class HandyInventoryUtil {
         List<String> previousPage = new ArrayList<>();
         previousPage.add(BaseUtil.getLangMsg("currentPage") + (pageNum + 1));
         previousPage.add(BaseUtil.getLangMsg("totalPages") + pageCount);
-        inventory.setItem(48, BaseUtil.getItemStack(Material.PAPER, BaseUtil.getLangMsg("previousPage"), previousPage));
+        inventory.setItem(48, ItemStackUtil.getItemStack(Material.PAPER, BaseUtil.getLangMsg("previousPage"), previousPage));
         // 下一页
         List<String> nextPage = new ArrayList<>();
         nextPage.add(BaseUtil.getLangMsg("currentPage") + (pageNum + 1));
         nextPage.add(BaseUtil.getLangMsg("totalPages") + pageCount);
-        inventory.setItem(50, BaseUtil.getItemStack(Material.PAPER, BaseUtil.getLangMsg("nextPage"), nextPage));
+        inventory.setItem(50, ItemStackUtil.getItemStack(Material.PAPER, BaseUtil.getLangMsg("nextPage"), nextPage));
     }
 
     /**

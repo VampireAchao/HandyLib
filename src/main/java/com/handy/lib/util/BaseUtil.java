@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.handy.lib.api.ColorApi;
 import com.handy.lib.api.LangMsgApi;
 import com.handy.lib.constants.BaseConstants;
-import com.handy.lib.constants.VersionCheckEnum;
+import com.handy.lib.core.CollUtil;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -16,12 +16,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
@@ -30,7 +25,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.stream.Collectors;
 
 /**
  * 常用方法
@@ -60,16 +54,6 @@ public class BaseUtil {
     }
 
     /**
-     * 转换小写
-     *
-     * @param str 字符串
-     * @return 小写字符串
-     */
-    public static String toLowerCase(String str) {
-        return str != null ? str.toLowerCase() : null;
-    }
-
-    /**
      * 颜色代码转换
      *
      * @param str 消息
@@ -91,7 +75,7 @@ public class BaseUtil {
      */
     public static List<String> replaceChatColor(List<String> stringList, boolean isRpg) {
         List<String> loreList = new ArrayList<>();
-        if (collIsEmpty(stringList)) {
+        if (CollUtil.isEmpty(stringList)) {
             return loreList;
         }
         for (String lore : stringList) {
@@ -133,7 +117,7 @@ public class BaseUtil {
         while (matcher.find()) {
             matchStrList.add(matcher.group());
         }
-        if (BaseUtil.collIsEmpty(matchStrList)) {
+        if (CollUtil.isEmpty(matchStrList)) {
             return str;
         }
         for (String value : matchStrList) {
@@ -162,7 +146,7 @@ public class BaseUtil {
         while (matcher.find()) {
             matchStrList.add(matcher.group());
         }
-        if (BaseUtil.collIsEmpty(matchStrList)) {
+        if (CollUtil.isEmpty(matchStrList)) {
             return 0;
         }
         String levelStr = matchStrList.get(matchStrList.size() - 1);
@@ -186,7 +170,7 @@ public class BaseUtil {
         while (matcher.find()) {
             matchStrList.add(matcher.group());
         }
-        if (BaseUtil.collIsEmpty(matchStrList)) {
+        if (CollUtil.isEmpty(matchStrList)) {
             return str;
         }
         String levelStr = matchStrList.get(matchStrList.size() - 1);
@@ -266,19 +250,6 @@ public class BaseUtil {
     }
 
     /**
-     * 将#替换成空格
-     *
-     * @param str 字符串
-     * @return 替换后的字符串
-     */
-    public static String replaceSpace(String str) {
-        if (StringUtils.isBlank(str)) {
-            return str;
-        }
-        return str.replace("#", " ");
-    }
-
-    /**
      * 获取中文名称
      *
      * @param displayName 显示名称
@@ -320,135 +291,6 @@ public class BaseUtil {
         }
         // 直接返回类型
         return type;
-    }
-
-    /**
-     * 字符串转集合
-     *
-     * @param str 字符串
-     * @return 集合
-     */
-    public static List<String> strToStrList(String str) {
-        List<String> list = new ArrayList<>();
-        if (StringUtils.isBlank(str)) {
-            return list;
-        }
-        return Arrays.stream(str.split(",")).map(String::trim).collect(Collectors.toList());
-    }
-
-    /**
-     * 字符串转集合
-     *
-     * @param str 字符串
-     * @return 集合
-     */
-    public static List<Long> strToLongList(String str) {
-        List<Long> list = new ArrayList<>();
-        if (StringUtils.isBlank(str)) {
-            return list;
-        }
-        return Arrays.stream(str.split(",")).map(s -> Long.parseLong(s.trim())).collect(Collectors.toList());
-    }
-
-    /**
-     * 字符串转集合
-     *
-     * @param str 字符串
-     * @return 集合
-     */
-    public static List<Integer> strToIntList(String str) {
-        List<Integer> list = new ArrayList<>();
-        if (StringUtils.isBlank(str)) {
-            return list;
-        }
-        return Arrays.stream(str.split(",")).map(s -> Integer.valueOf(s.trim())).collect(Collectors.toList());
-    }
-
-    /**
-     * 集合转,分隔的字符串
-     *
-     * @param list 集合
-     * @return 字符串
-     */
-    public static String listToStr(List list) {
-        return StringUtils.join(list.toArray(), ",");
-    }
-
-    /**
-     * 给物品添加附魔效果
-     *
-     * @param itemMeta 物品属性
-     */
-    public static void setEnchant(ItemMeta itemMeta) {
-        // 耐久
-        itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
-        VersionCheckEnum versionCheckEnum = VersionCheckEnum.getEnum();
-        if (!VersionCheckEnum.V_1_7.equals(versionCheckEnum)) {
-            // 隐藏附魔效果
-            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
-    }
-
-    /**
-     * 隐藏附魔效果
-     *
-     * @param itemMeta 物品属性
-     */
-    public static void hideEnchant(ItemMeta itemMeta) {
-        VersionCheckEnum versionCheckEnum = VersionCheckEnum.getEnum();
-        if (!VersionCheckEnum.V_1_7.equals(versionCheckEnum)) {
-            // 隐藏附魔效果
-            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
-    }
-
-    /**
-     * 物品生成
-     *
-     * @param material    材质
-     * @param displayName 名称
-     * @param loreList    lore
-     * @return 自定义物品
-     */
-    public static ItemStack getItemStack(Material material, String displayName, List<String> loreList) {
-        ItemStack itemStack = new ItemStack(material);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta != null) {
-            itemMeta.setDisplayName(displayName);
-            if (loreList != null && loreList.size() > 0) {
-                itemMeta.setLore(loreList);
-            }
-            // 附魔效果
-            setEnchant(itemMeta);
-            itemStack.setItemMeta(itemMeta);
-        }
-        return itemStack;
-    }
-
-    /**
-     * 物品生成
-     *
-     * @param material    材质
-     * @param displayName 名称
-     * @param loreList    lore
-     * @param isEnchant   附魔效果
-     * @return 自定义物品
-     */
-    public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, Boolean isEnchant) {
-        ItemStack itemStack = new ItemStack(material);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta != null) {
-            itemMeta.setDisplayName(displayName);
-            if (loreList != null && loreList.size() > 0) {
-                itemMeta.setLore(loreList);
-            }
-            if (isEnchant) {
-                // 附魔效果
-                setEnchant(itemMeta);
-            }
-            itemStack.setItemMeta(itemMeta);
-        }
-        return itemStack;
     }
 
     /**
@@ -499,134 +341,6 @@ public class BaseUtil {
             e.printStackTrace();
         }
         return null;
-    }
-
-    /**
-     * 集合是否为空
-     *
-     * @param collection 集合
-     * @return true 是
-     */
-    public static boolean collIsEmpty(Collection<?> collection) {
-        return collection == null || collection.isEmpty();
-    }
-
-    /**
-     * 集合是否不为空
-     *
-     * @param collection 集合
-     * @return true 是
-     */
-    public static boolean collIsNotEmpty(Collection<?> collection) {
-        return !collIsEmpty(collection);
-    }
-
-    /**
-     * 判断list是否相等
-     *
-     * @param list  list
-     * @param list1 list1
-     * @return true/等于
-     */
-    public static boolean collIsEquals(List<String> list, List<String> list1) {
-        if (list == list1) {
-            return true;
-        }
-        if (list == null) {
-            return false;
-        }
-        return list.equals(list1);
-    }
-
-    /**
-     * 物品减少计算
-     *
-     * @param playerInventory 玩家背包
-     * @param itemStack       指定物品
-     * @param amount          数量
-     * @return 是否成功扣除
-     */
-    public static Boolean removeItem(PlayerInventory playerInventory, ItemStack itemStack, Integer amount) {
-        ItemStack[] contents = playerInventory.getContents();
-        int num = 0;
-        List<ItemStack> items = new ArrayList<>();
-        for (ItemStack item : contents) {
-            if (item == null || Material.AIR.equals(item.getType())) {
-                continue;
-            }
-            // 1.判断类型
-            if (!item.getType().equals(itemStack.getType())) {
-                continue;
-            }
-            if (item.getItemMeta() == null || itemStack.getItemMeta() == null) {
-                continue;
-            }
-            String displayName = item.getItemMeta().getDisplayName();
-            if (displayName == null) {
-                displayName = "";
-            }
-            String displayName1 = itemStack.getItemMeta().getDisplayName();
-            if (displayName1 == null) {
-                displayName1 = "";
-            }
-            // 2.判断名称
-            if (!displayName.equals(displayName1)) {
-                continue;
-            }
-            // 3.判断lore
-            if (!collIsEquals(item.getItemMeta().getLore(), itemStack.getItemMeta().getLore())) {
-                continue;
-            }
-            num += item.getAmount();
-            items.add(item);
-            // 如果数量够了就不继续循环了
-            if (num >= amount) {
-                break;
-            }
-        }
-        if (num == amount) {
-            for (ItemStack itemStack1 : items) {
-                playerInventory.removeItem(itemStack1);
-            }
-            return true;
-        }
-        if (num > amount) {
-            for (ItemStack itemStack1 : items) {
-                if (amount == 0) {
-                    return true;
-                }
-                if (amount > itemStack1.getAmount()) {
-                    amount = amount - itemStack1.getAmount();
-                    playerInventory.removeItem(itemStack1);
-                } else {
-                    itemStack1.setAmount(itemStack1.getAmount() - amount);
-                    amount = 0;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 进行物品发送
-     *
-     * @param playerInventory 玩家背包
-     * @param itemStack       物品
-     * @param amount          发送数量
-     */
-    private void addItem(PlayerInventory playerInventory, ItemStack itemStack, int amount) {
-        int maxStackSize = itemStack.getMaxStackSize();
-        if (amount > maxStackSize) {
-            // 如果发送数量大于最大上限
-            itemStack.setAmount(maxStackSize);
-            playerInventory.addItem(itemStack);
-            addItem(playerInventory, itemStack, amount - maxStackSize);
-        } else {
-            // 小于等于直接发送
-            itemStack.setAmount(amount);
-            playerInventory.addItem(itemStack);
-        }
     }
 
     /**
@@ -769,41 +483,6 @@ public class BaseUtil {
             e.printStackTrace();
         }
         return date;
-    }
-
-    /**
-     * 获取材质
-     *
-     * @param materialStr 材质
-     * @return Material
-     */
-    public static Material getMaterial(String materialStr) {
-        try {
-            if (StringUtils.isNotBlank(materialStr)) {
-                return Material.valueOf(materialStr);
-            }
-        } catch (Exception ignored) {
-            Bukkit.getLogger().info("没有找到对应的物品材质: " + materialStr);
-        }
-        return Material.STONE;
-    }
-
-    /**
-     * 获取材质
-     *
-     * @param materialStr 材质
-     * @param material    未找到的的默认材质
-     * @return Material
-     */
-    public static Material getMaterial(String materialStr, Material material) {
-        try {
-            if (StringUtils.isNotBlank(materialStr)) {
-                return Material.valueOf(materialStr);
-            }
-        } catch (Exception ignored) {
-            Bukkit.getLogger().info("没有找到对应的物品材质: " + materialStr);
-        }
-        return material;
     }
 
     /**

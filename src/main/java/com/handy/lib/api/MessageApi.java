@@ -53,9 +53,7 @@ public class MessageApi {
      * @param msg 消息
      */
     public static void sendAllMessage(String msg) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(BaseUtil.replaceChatColor(msg));
-        }
+        Bukkit.broadcastMessage(BaseUtil.replaceChatColor(msg));
     }
 
     /**

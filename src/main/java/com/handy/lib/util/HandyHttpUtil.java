@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
+import com.handy.lib.core.CollUtil;
 import com.handy.lib.param.VerifySignParam;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -60,14 +61,14 @@ public class HandyHttpUtil {
                     String result = HttpUtil.get(VERIFY_SIGN, paramMap);
                     if (BaseConstants.TRUE.equals(result)) {
                         BaseConstants.VERIFY_SIGN = true;
-                        if (BaseUtil.collIsNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
+                        if (CollUtil.isNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
                             for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
                                 MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(verifySignSucceedMsg));
                             }
                         }
                     } else {
                         BaseConstants.VERIFY_SIGN = false;
-                        if (BaseUtil.collIsNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
+                        if (CollUtil.isNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
                             for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
                                 MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(verifySignFailureMsg));
                             }
@@ -76,7 +77,7 @@ public class HandyHttpUtil {
                     this.cancel();
                 } catch (Exception e) {
                     BaseConstants.VERIFY_SIGN = false;
-                    if (BaseUtil.collIsNotEmpty(verifySignParam.getRequestError())) {
+                    if (CollUtil.isNotEmpty(verifySignParam.getRequestError())) {
                         for (String requestError : verifySignParam.getRequestError()) {
                             MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(requestError));
                         }
