@@ -1,13 +1,13 @@
 package com.handy.lib.util;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * ItemStack工具类
@@ -27,25 +26,33 @@ import java.util.Map;
 public class ItemStackUtil {
 
     /**
-     * 序列化itemStack为json
+     * 序列化itemStack为String
      *
      * @param itemStack 物品
-     * @return json
+     * @return String
      */
     public static String itemStackSerialize(ItemStack itemStack) {
-        return new Gson().toJson(itemStack.serialize());
+        YamlConfiguration yml = new YamlConfiguration();
+        yml.set("item", itemStack);
+        return yml.saveToString();
     }
 
     /**
-     * 序列化itemStack为json
+     * 反序列化String为itemStack
      *
-     * @param json 物品json
-     * @return json
+     * @param str 物品str
+     * @return ItemStack
      */
-    public static ItemStack itemStackDeserialize(String json) {
-        Map<String, Object> map = new Gson().fromJson(json, new TypeToken<Map<String, Object>>() {
-        }.getType());
-        return ItemStack.deserialize(map);
+    public static ItemStack itemStackDeserialize(String str) {
+        YamlConfiguration yml = new YamlConfiguration();
+        ItemStack item;
+        try {
+            yml.loadFromString(str);
+            item = yml.getItemStack("item");
+        } catch (InvalidConfigurationException ex) {
+            item = new ItemStack(Material.AIR, 1);
+        }
+        return item;
     }
 
     /**
