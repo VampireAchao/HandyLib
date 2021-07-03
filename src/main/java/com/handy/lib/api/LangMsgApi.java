@@ -15,6 +15,8 @@ public class LangMsgApi {
 
     /**
      * 初始化语言文件
+     *
+     * @param langConfig 语言文件
      */
     public static void initLangMsg(FileConfiguration langConfig) {
         LANG_CONFIG = langConfig;

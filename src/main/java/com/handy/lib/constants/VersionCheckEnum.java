@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 
 /**
- * 版本常量
+ * mc版本
  *
  * @author handy
  */
@@ -30,6 +30,11 @@ public enum VersionCheckEnum {
     private final String version;
     private final Integer versionId;
 
+    /**
+     * 获取当前版本枚举
+     *
+     * @return 当前版本VersionCheckEnum
+     */
     public static VersionCheckEnum getEnum() {
         String version = Bukkit.getVersion();
         version = version.substring(version.indexOf(":") + 2);

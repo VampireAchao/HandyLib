@@ -34,6 +34,9 @@ public class HttpUtil {
      * @param url         路径
      * @param jsonContent json参数
      * @return 响应
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException异常
+     * @throws IOException              IOException异常
+     * @throws KeyManagementException   KeyManagementException异常
      */
     public static String post(String url, String jsonContent) throws NoSuchAlgorithmException, IOException, KeyManagementException {
         return doRequest("POST", url, jsonContent, REQUEST_TYPE_JSON);
@@ -44,6 +47,9 @@ public class HttpUtil {
      *
      * @param url 路径
      * @return 响应
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException异常
+     * @throws IOException              IOException异常
+     * @throws KeyManagementException   KeyManagementException异常
      */
     public static String post(String url) throws NoSuchAlgorithmException, IOException, KeyManagementException {
         return doRequest("POST", url, "", REQUEST_TYPE_FORM);
@@ -52,9 +58,12 @@ public class HttpUtil {
     /**
      * POST 以application/x-www-form-urlencoded;charset=utf-8方式传输
      *
-     * @param url
-     * @param params
-     * @return
+     * @param url    路径
+     * @param params 入参
+     * @return 响应
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException异常
+     * @throws IOException              IOException异常
+     * @throws KeyManagementException   KeyManagementException异常
      */
     public static String post(String url, Map<String, String> params) throws IOException, NoSuchAlgorithmException, KeyManagementException {
         return doRequest("POST", url, buildQuery(params), REQUEST_TYPE_FORM);
@@ -64,7 +73,10 @@ public class HttpUtil {
      * get 以application/x-www-form-urlencoded;charset=utf-8方式传输
      *
      * @param url 路径
-     * @return
+     * @return 响应
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException异常
+     * @throws IOException              IOException异常
+     * @throws KeyManagementException   KeyManagementException异常
      */
     public static String get(String url) throws NoSuchAlgorithmException, IOException, KeyManagementException {
         return doRequest("GET", url, "", REQUEST_TYPE_FORM);
@@ -75,7 +87,10 @@ public class HttpUtil {
      *
      * @param url    路径
      * @param params 参数
-     * @return
+     * @return 响应
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException异常
+     * @throws IOException              IOException异常
+     * @throws KeyManagementException   KeyManagementException异常
      */
     public static String get(String url, Map<String, String> params) throws IOException, NoSuchAlgorithmException, KeyManagementException {
         return doRequest("GET", url + buildQuery(params), "", REQUEST_TYPE_FORM);
@@ -89,6 +104,9 @@ public class HttpUtil {
      * @param requestContent 请求内容
      * @param requestType    请求类型
      * @return 响应
+     * @throws IOException              IOException异常
+     * @throws KeyManagementException   KeyManagementException异常
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException异常
      */
     private static String doRequest(String method, String url, String requestContent, String requestType) throws IOException, KeyManagementException, NoSuchAlgorithmException {
         HttpURLConnection conn = null;
@@ -120,7 +138,10 @@ public class HttpUtil {
      * @param url         url
      * @param method      方法
      * @param requestType 请求类型
-     * @return
+     * @return 响应
+     * @throws IOException              IOException异常
+     * @throws KeyManagementException   KeyManagementException异常
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException异常
      */
     private static HttpURLConnection getConnection(URL url, String method, String requestType) throws NoSuchAlgorithmException, KeyManagementException, IOException {
         HttpURLConnection conn;
@@ -213,6 +234,7 @@ public class HttpUtil {
      * @param urlStr   路径
      * @param saveDir  保存路径
      * @param fileName 文件名称
+     * @throws IOException IOException异常
      */
     public static void downloadFile(String urlStr, File saveDir, String fileName) throws IOException {
         URL url = new URL(urlStr);
@@ -240,7 +262,8 @@ public class HttpUtil {
      * 从输入流中获取字节数组
      *
      * @param inputStream 输入流
-     * @return
+     * @return 响应
+     * @throws IOException IOException异常
      */
     public static byte[] readInputStream(InputStream inputStream) throws IOException {
         ByteArrayOutputStream bos = null;

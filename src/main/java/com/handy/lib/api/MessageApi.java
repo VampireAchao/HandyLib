@@ -59,7 +59,7 @@ public class MessageApi {
     /**
      * 发送Console消息
      *
-     * @param player 玩家
+     * @param plugin 插件
      * @param msg    消息
      */
     public static void sendConsoleMessage(Plugin plugin, String msg) {

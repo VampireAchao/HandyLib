@@ -28,6 +28,7 @@ import java.util.zip.GZIPOutputStream;
  * Check out https://cstats.iroselle.com/ to learn more about cStats!
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
+@Deprecated
 public class CStatsMetrics {
 
     static {
@@ -387,7 +388,7 @@ public class CStatsMetrics {
     /**
      * Represents a custom chart.
      */
-    public static abstract class CustomChart {
+    protected static abstract class CustomChart {
 
         // The id of the chart
         final String chartId;
@@ -430,7 +431,7 @@ public class CStatsMetrics {
     /**
      * Represents a custom simple pie.
      */
-    public static class SimplePie extends CustomChart {
+    protected static class SimplePie extends CustomChart {
 
         private final Callable<String> callable;
 
@@ -461,7 +462,7 @@ public class CStatsMetrics {
     /**
      * Represents a custom advanced pie.
      */
-    public static class AdvancedPie extends CustomChart {
+    protected static class AdvancedPie extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
 
@@ -505,7 +506,7 @@ public class CStatsMetrics {
     /**
      * Represents a custom drilldown pie.
      */
-    public static class DrilldownPie extends CustomChart {
+    protected static class DrilldownPie extends CustomChart {
 
         private final Callable<Map<String, Map<String, Integer>>> callable;
 
@@ -554,7 +555,7 @@ public class CStatsMetrics {
     /**
      * Represents a custom single line chart.
      */
-    public static class SingleLineChart extends CustomChart {
+    protected static class SingleLineChart extends CustomChart {
 
         private final Callable<Integer> callable;
 
@@ -586,7 +587,7 @@ public class CStatsMetrics {
     /**
      * Represents a custom multi line chart.
      */
-    public static class MultiLineChart extends CustomChart {
+    protected static class MultiLineChart extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
 
@@ -631,7 +632,7 @@ public class CStatsMetrics {
     /**
      * Represents a custom simple bar chart.
      */
-    public static class SimpleBarChart extends CustomChart {
+    protected static class SimpleBarChart extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
 
@@ -669,7 +670,7 @@ public class CStatsMetrics {
     /**
      * Represents a custom advanced bar chart.
      */
-    public static class AdvancedBarChart extends CustomChart {
+    protected static class AdvancedBarChart extends CustomChart {
 
         private final Callable<Map<String, int[]>> callable;
 

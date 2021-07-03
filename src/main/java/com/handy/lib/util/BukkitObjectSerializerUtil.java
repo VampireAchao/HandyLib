@@ -14,9 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 序列化工具类
+ * 序列化工具类(已过期,请使用ItemStackUtil)
  *
  * @author handy
+ * @see ItemStackUtil
  */
 public final class BukkitObjectSerializerUtil {
 
@@ -49,7 +50,7 @@ public final class BukkitObjectSerializerUtil {
      *
      * @param object 对象
      * @return 字节数组
-     * @throws IOException
+     * @throws IOException io异常
      */
     public static byte[] singleObjectToByteArray(Object object) throws IOException {
         if (object instanceof ConfigurationSerializable || object instanceof Serializable) {
@@ -89,7 +90,7 @@ public final class BukkitObjectSerializerUtil {
      *
      * @param objects 对象
      * @return 字节数组
-     * @throws IOException
+     * @throws IOException io异常
      */
     public static byte[] collectionToByteArray(Collection<Object> objects) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
@@ -113,8 +114,10 @@ public final class BukkitObjectSerializerUtil {
      *
      * @param serialized 字符串
      * @param classOfT   字符串所表示的对象的类
+     * @param <T>        序列化类
      * @return 实例对象
      */
+
     public static <T> T singleObjectFromString(String serialized, Class<T> classOfT) {
         try {
             return singleObjectFromByteArray(Base64Coder.decodeLines(serialized), classOfT);
@@ -129,8 +132,9 @@ public final class BukkitObjectSerializerUtil {
      *
      * @param serialized 字节数组
      * @param classOfT   字节数组所表示的对象的类
+     * @param <T>        序列化类
      * @return 实例对象
-     * @throws IOException
+     * @throws IOException io异常
      */
     @SuppressWarnings("unchecked")
     public static <T> T singleObjectFromByteArray(byte[] serialized, Class<T> classOfT) throws IOException {
@@ -155,8 +159,10 @@ public final class BukkitObjectSerializerUtil {
      * @param serialized 字符串
      * @param classOfC   集合类型
      * @param classOfT   字符串所表示的对象的类
+     * @param <T>        序列化的类
+     * @param <C>        序列化的类
      * @return 实例对象集合
-     * @throws IOException
+     * @throws IOException io异常
      */
     public static <T, C extends Collection<T>> C collectionFromString(String serialized, Class<C> classOfC, Class<T> classOfT) throws IOException {
         return collectionFromByteArray(Base64Coder.decodeLines(serialized), classOfC, classOfT);
@@ -168,8 +174,10 @@ public final class BukkitObjectSerializerUtil {
      * @param serialized 字节数组
      * @param classOfC   集合类型
      * @param classOfT   字节数组所表示的对象的类
+     * @param <T>        序列化的类
+     * @param <C>        序列化的类
      * @return 实例对象集合
-     * @throws IOException
+     * @throws IOException io异常
      */
     @SuppressWarnings("unchecked")
     public static <T, C extends Collection<T>> C collectionFromByteArray(byte[] serialized, Class<C> classOfC, Class<T> classOfT) throws IOException {

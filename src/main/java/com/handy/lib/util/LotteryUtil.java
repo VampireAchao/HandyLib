@@ -50,7 +50,7 @@ public class LotteryUtil {
         }
     }
 
-    public static class ContinuousList {
+    private static class ContinuousList {
         private final double minElement;
         private final double maxElement;
 

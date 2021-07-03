@@ -266,6 +266,8 @@ public class HandyHttpUtil {
 
     /**
      * 同步自定义汉化数据
+     *
+     * @param plugin 插件
      */
     public static void setItemName(Plugin plugin) {
         // 异步处理

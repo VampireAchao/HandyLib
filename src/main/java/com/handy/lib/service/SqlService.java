@@ -42,6 +42,8 @@ public class SqlService {
     /**
      * 特殊处理的字段构造注入
      *
+     * @param specialFields 特殊字段
+     * @return SqlService 对象
      * @since 1.1.7
      */
     public static SqlService getInstance(List<String> specialFields) {

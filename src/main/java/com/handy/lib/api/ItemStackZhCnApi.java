@@ -17,6 +17,7 @@ public class ItemStackZhCnApi {
 
     /**
      * 加载物品汉化文件
+     * @param plugin  插件
      */
     public static void initZhCn(Plugin plugin) {
         // 优先加载zh_cn.json
