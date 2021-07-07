@@ -102,6 +102,7 @@ public class SqlManagerUtil {
      * @param index 下标
      * @return Date
      * @throws SQLException SQLException异常
+     * @since 1.1.9
      */
     public Date getDate(ResultSet rst, Integer index) throws SQLException {
         if (BaseConstants.SQLITE.equalsIgnoreCase(this.getStorageMethod())) {
