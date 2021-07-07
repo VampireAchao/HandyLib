@@ -7,6 +7,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.plugin.Plugin;
 
 import java.sql.*;
+import java.util.Date;
 
 /**
  * 连接池管理
@@ -31,7 +32,7 @@ public class SqlManagerUtil {
      * @param plugin 插件
      */
     public void enableTable(Plugin plugin) {
-        this.enableTable(plugin, StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD));
+        this.enableTable(plugin, this.getStorageMethod());
     }
 
     /**
@@ -95,6 +96,21 @@ public class SqlManagerUtil {
     }
 
     /**
+     * 根据当前存储类型获取date
+     *
+     * @param rst   ResultSet
+     * @param index 下标
+     * @return Date
+     * @throws SQLException SQLException异常
+     */
+    public Date getDate(ResultSet rst, Integer index) throws SQLException {
+        if (BaseConstants.SQLITE.equalsIgnoreCase(this.getStorageMethod())) {
+            return new Date(Long.parseLong(rst.getString(index)));
+        }
+        return rst.getDate(index);
+    }
+
+    /**
      * 归还数据连接
      *
      * @param ps   PreparedStatement
@@ -124,6 +140,20 @@ public class SqlManagerUtil {
         if (ds != null) {
             ds.close();
         }
+    }
+
+    /**
+     * 判断当前是什么存储类型
+     *
+     * @return 存储类型
+     * @since 1.1.9
+     */
+    public String getStorageMethod() {
+        String storageMethod = StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD);
+        if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
+            return BaseConstants.MYSQL;
+        }
+        return BaseConstants.SQLITE;
     }
 
 }
