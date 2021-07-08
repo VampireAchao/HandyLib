@@ -1,7 +1,10 @@
-package com.handy.lib.inventory;
+package com.handy.lib.param;
 
+import com.handy.lib.inventory.HandyInventory;
 import lombok.Data;
 import org.bukkit.entity.Player;
+
+import java.io.Serializable;
 
 /**
  * gui校验参数
@@ -9,7 +12,7 @@ import org.bukkit.entity.Player;
  * @author handy
  **/
 @Data
-public class InventoryCheckVo {
+public class InventoryCheckParam implements Serializable {
 
     /**
      * 校验结果

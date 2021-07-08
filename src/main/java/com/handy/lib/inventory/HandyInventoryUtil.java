@@ -1,5 +1,9 @@
 package com.handy.lib.inventory;
 
+import com.handy.lib.constants.BaseConstants;
+import com.handy.lib.core.CollUtil;
+import com.handy.lib.param.InventoryCheckParam;
+import com.handy.lib.param.InventoryWriteParam;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.ItemStackUtil;
 import org.bukkit.Material;
@@ -11,7 +15,6 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,42 +30,68 @@ public class HandyInventoryUtil {
      * @param inventory gui
      */
     public static void refreshInventory(Inventory inventory) {
-        for (int i = 0; i < 54; i++) {
+        for (int i = 0; i < BaseConstants.GUI_SIZE_54; i++) {
             inventory.setItem(i, new ItemStack(Material.AIR));
         }
     }
 
     /**
-     * 设置返回按钮
+     * 刷新背包
      *
      * @param inventory gui
-     * @param index     下标
+     * @param size      大小
+     * @since 1.2.0
      */
-    public static void setBack(Inventory inventory, Integer index) {
-        inventory.setItem(index, ItemStackUtil.getItemStack(Material.ENDER_PEARL, BaseUtil.getLangMsg("guiBack"), null));
+    public static void refreshInventory(Inventory inventory, int size) {
+        for (int i = 0; i < size; i++) {
+            inventory.setItem(i, new ItemStack(Material.AIR));
+        }
     }
 
     /**
-     * 分页设置
+     * 设置指定按钮
      *
      * @param inventory gui
-     * @param pageNum   当前页
-     * @param pageCount 总页
+     * @param index     下标
+     * @param material  材质
+     * @param name      名称
+     * @since 1.2.0
      */
-    public static void setPage(Inventory inventory, Integer pageNum, Integer pageCount) {
-        if (pageCount == 0) {
-            pageCount = 1;
+    public static void setButton(Inventory inventory, Integer index, Material material, String name) {
+        inventory.setItem(index, ItemStackUtil.getItemStack(material, BaseUtil.replaceChatColor(name), null));
+    }
+
+    /**
+     * 设置指定按钮
+     *
+     * @param inventory gui
+     * @param index     下标
+     * @param material  材质
+     * @param name      名称
+     * @param loreList  loreList
+     * @since 1.2.0
+     */
+    public static void setButton(Inventory inventory, Integer index, Material material, String name, List<String> loreList) {
+        inventory.setItem(index, ItemStackUtil.getItemStack(material, BaseUtil.replaceChatColor(name), BaseUtil.replaceChatColor(loreList, true)));
+    }
+
+    /**
+     * 批量设置指定按钮
+     *
+     * @param inventory gui
+     * @param paramList 入参
+     * @since 1.2.0
+     */
+    public static void batchSetButton(Inventory inventory, List<InventoryWriteParam> paramList) {
+        if (CollUtil.isEmpty(paramList)) {
+            return;
         }
-        // 上一页
-        List<String> previousPage = new ArrayList<>();
-        previousPage.add(BaseUtil.getLangMsg("currentPage") + (pageNum + 1));
-        previousPage.add(BaseUtil.getLangMsg("totalPages") + pageCount);
-        inventory.setItem(48, ItemStackUtil.getItemStack(Material.PAPER, BaseUtil.getLangMsg("previousPage"), previousPage));
-        // 下一页
-        List<String> nextPage = new ArrayList<>();
-        nextPage.add(BaseUtil.getLangMsg("currentPage") + (pageNum + 1));
-        nextPage.add(BaseUtil.getLangMsg("totalPages") + pageCount);
-        inventory.setItem(50, ItemStackUtil.getItemStack(Material.PAPER, BaseUtil.getLangMsg("nextPage"), nextPage));
+        for (InventoryWriteParam param : paramList) {
+            if (!param.getIsUse()) {
+                continue;
+            }
+            setButton(inventory, param.getIndex(), ItemStackUtil.getMaterial(param.getMaterial()), param.getName(), param.getLoreList());
+        }
     }
 
     /**
@@ -71,10 +100,10 @@ public class HandyInventoryUtil {
      * @param event   事件
      * @param plugin  插件
      * @param guiType 类型
-     * @return 是否对应true:是
+     * @return 校验结果
      */
-    public static InventoryCheckVo inventoryCheck(InventoryClickEvent event, Plugin plugin, String guiType) {
-        InventoryCheckVo inventoryCheckVo = new InventoryCheckVo();
+    public static InventoryCheckParam inventoryCheck(InventoryClickEvent event, Plugin plugin, String guiType) {
+        InventoryCheckParam inventoryCheckVo = new InventoryCheckParam();
         inventoryCheckVo.setCheck(false);
         // 必填校验
         if (event == null || plugin == null || guiType == null) {

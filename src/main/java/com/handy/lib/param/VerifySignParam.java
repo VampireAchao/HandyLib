@@ -3,6 +3,7 @@ package com.handy.lib.param;
 import lombok.Data;
 import org.bukkit.plugin.Plugin;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @author handy
  */
 @Data
-public class VerifySignParam {
+public class VerifySignParam implements Serializable {
     /**
      * 插件
      */
