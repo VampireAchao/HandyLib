@@ -1,6 +1,4 @@
-package com.handy.lib.inventory.click;
-
-import com.handy.lib.inventory.HandyInventory;
+package com.handy.lib.inventory;
 
 import java.util.List;
 

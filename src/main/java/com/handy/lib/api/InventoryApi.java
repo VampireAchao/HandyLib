@@ -1,8 +1,11 @@
 package com.handy.lib.api;
 
+import com.handy.lib.inventory.HandyClickFactory;
+import com.handy.lib.inventory.IHandyClickEvent;
 import com.handy.lib.param.InventoryWriteParam;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,16 @@ import java.util.Map;
  */
 public class InventoryApi {
     private InventoryApi() {
+    }
+
+    /**
+     * 初始化实现类
+     *
+     * @param handyClickEvents 点击处理事件
+     * @param plugin           插件
+     */
+    public void init(List<IHandyClickEvent> handyClickEvents, Plugin plugin) {
+        HandyClickFactory.getInstance().init(handyClickEvents, plugin);
     }
 
     /**
