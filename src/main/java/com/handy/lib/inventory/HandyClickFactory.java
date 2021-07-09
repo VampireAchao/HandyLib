@@ -92,8 +92,6 @@ public class HandyClickFactory {
         if (event.isCancelled()) {
             return inventoryCheckParam;
         }
-        handyInventory.setEvent(event);
-        handyInventory.setPlayer(player);
         inventoryCheckParam.setCheck(true);
         inventoryCheckParam.setHandyInventory(handyInventory);
         return inventoryCheckParam;
@@ -103,13 +101,13 @@ public class HandyClickFactory {
      * 进行处理
      *
      * @param handyInventory 入参
+     * @param event          事件
      */
-    public void rawSlotClick(HandyInventory handyInventory) {
-        String guiType = handyInventory.getGuiType();
-        int rawSlot = handyInventory.getEvent().getRawSlot();
-        for (IHandyClickEvent event : HANDY_CLICK_EVENT_LIST) {
-            if (event.guiType().equals(guiType) && event.rawSlotList().contains(rawSlot)) {
-                event.rawSlotClick(handyInventory);
+    public void rawSlotClick(HandyInventory handyInventory, InventoryClickEvent event) {
+        for (IHandyClickEvent handyClickEvent : HANDY_CLICK_EVENT_LIST) {
+            if (handyClickEvent.guiType().equals(handyInventory.getGuiType()) && handyClickEvent.rawSlotList().contains(event.getRawSlot())) {
+                handyClickEvent.rawSlotClick(handyInventory, event);
+                return;
             }
         }
     }

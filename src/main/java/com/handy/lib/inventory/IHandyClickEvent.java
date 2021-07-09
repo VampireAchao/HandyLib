@@ -1,5 +1,7 @@
 package com.handy.lib.inventory;
 
+import org.bukkit.event.inventory.InventoryClickEvent;
+
 import java.util.List;
 
 /**
@@ -27,6 +29,7 @@ public interface IHandyClickEvent {
      * 点击格子进行处理
      *
      * @param handyInventory 入参
+     * @param event          事件
      */
-    void rawSlotClick(HandyInventory handyInventory);
+    void rawSlotClick(HandyInventory handyInventory, InventoryClickEvent event);
 }

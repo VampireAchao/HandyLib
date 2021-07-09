@@ -24,7 +24,8 @@ public class HandyInventoryListener implements Listener {
         if (!inventoryCheckParam.isCheck()) {
             return;
         }
-        HandyClickFactory.getInstance().rawSlotClick(inventoryCheckParam.getHandyInventory());
+        event.setCancelled(true);
+        HandyClickFactory.getInstance().rawSlotClick(inventoryCheckParam.getHandyInventory(), event);
     }
 
 }

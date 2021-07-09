@@ -4,7 +4,6 @@ import com.handy.lib.constants.BaseConstants;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
@@ -51,10 +50,6 @@ public class HandyInventory implements InventoryHolder {
      * 玩家
      */
     private Player player;
-    /**
-     * 事件
-     */
-    private InventoryClickEvent event;
 
     /**
      * 创建gui
