@@ -27,8 +27,8 @@
 
     <repositories>
         <repository>
-            <id>handy-minecraft</id>
-            <url>http://23.224.140.154:18208/repository/handy-minecraft/</url>
+            <id>minecraft</id>
+            <url>http://23.224.140.154:18208/repository/minecraft/</url>
         </repository>
     </repositories>
 

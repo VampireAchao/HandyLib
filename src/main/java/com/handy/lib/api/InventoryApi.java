@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Inventory配置
+ *
  * @author handy
  * @since 1.2.0
  */
-public class MaterialApi {
-    private MaterialApi() {
+public class InventoryApi {
+    private InventoryApi() {
     }
 
     /**

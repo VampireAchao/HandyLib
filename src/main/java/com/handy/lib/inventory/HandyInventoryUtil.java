@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * handy的gui通用方法
@@ -82,7 +83,7 @@ public class HandyInventoryUtil {
      * @param paramList 入参
      * @since 1.2.0
      */
-    public static void batchSetButton(Inventory inventory, List<InventoryWriteParam> paramList) {
+    public static void batchSetButton(Inventory inventory, List<InventoryWriteParam> paramList, Map<Integer, Long> map) {
         if (CollUtil.isEmpty(paramList)) {
             return;
         }
@@ -91,6 +92,7 @@ public class HandyInventoryUtil {
                 continue;
             }
             setButton(inventory, param.getIndex(), ItemStackUtil.getMaterial(param.getMaterial()), param.getName(), param.getLoreList());
+            map.put(param.getIndex(), param.getIndexValue());
         }
     }
 
