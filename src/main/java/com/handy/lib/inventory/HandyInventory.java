@@ -3,6 +3,7 @@ package com.handy.lib.inventory;
 import com.handy.lib.constants.BaseConstants;
 import lombok.Data;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
@@ -24,6 +25,7 @@ public class HandyInventory implements InventoryHolder {
     private Integer pageNum;
     private Integer pageCount;
     private String searchType;
+    private Player player;
 
     /**
      * 创建gui
