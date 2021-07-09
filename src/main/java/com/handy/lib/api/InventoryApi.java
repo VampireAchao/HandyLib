@@ -27,7 +27,7 @@ public class InventoryApi {
      * @param handyClickEvents 点击处理事件
      * @param plugin           插件
      */
-    public void init(List<IHandyClickEvent> handyClickEvents, Plugin plugin) {
+    public static void init(List<IHandyClickEvent> handyClickEvents, Plugin plugin) {
         HandyClickFactory.getInstance().init(handyClickEvents, plugin);
     }
 
