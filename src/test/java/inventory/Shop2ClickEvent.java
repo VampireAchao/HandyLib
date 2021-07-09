@@ -22,7 +22,7 @@ public class Shop2ClickEvent implements IHandyClickEvent {
     }
 
     @Override
-    public void rawSlotClick(HandyInventory handyInventory, int rawSlot) {
+    public void rawSlotClick(HandyInventory handyInventory) {
         System.out.println("shop2测试");
     }
 

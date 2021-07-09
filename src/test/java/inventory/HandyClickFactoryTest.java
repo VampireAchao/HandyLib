@@ -16,7 +16,7 @@ public class HandyClickFactoryTest {
     public static void main(String[] args) {
         List<IHandyClickEvent> iHandyClickEvents = Arrays.asList(new ShopClickEvent(), new Shop2ClickEvent(), new OpenClickEvent());
         HandyClickFactory.getInstance().init(iHandyClickEvents);
-        HandyClickFactory.getInstance().rawSlotClick(new HandyInventory("test", "tset", null), 5);
+        HandyClickFactory.getInstance().rawSlotClick(new HandyInventory("test", "tset", null));
     }
 
 }

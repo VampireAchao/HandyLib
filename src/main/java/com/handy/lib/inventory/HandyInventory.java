@@ -4,6 +4,7 @@ import com.handy.lib.constants.BaseConstants;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
@@ -18,14 +19,46 @@ import java.util.Map;
  */
 @Data
 public class HandyInventory implements InventoryHolder {
+    /**
+     * 背包
+     */
     private Inventory inventory;
+    /**
+     * 插件
+     */
     private Plugin plugin;
+    /**
+     * 数据map
+     */
     private Map<Integer, Long> map;
+    /**
+     * gui类型
+     */
     private String guiType;
+    /**
+     * 当前页
+     */
     private Integer pageNum;
+    /**
+     * 总页数
+     */
     private Integer pageCount;
+    /**
+     * 搜索条件
+     */
     private String searchType;
+    /**
+     * 玩家
+     */
     private Player player;
+    /**
+     * 点击类型
+     */
+    private ClickType clickType;
+    /**
+     * 点击位置
+     */
+    private int rawSlot;
 
     /**
      * 创建gui

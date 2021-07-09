@@ -22,7 +22,7 @@ public class OpenClickEvent implements IHandyClickEvent {
     }
 
     @Override
-    public void rawSlotClick(HandyInventory handyInventory, int rawSlot) {
+    public void rawSlotClick(HandyInventory handyInventory) {
         System.out.println("open测试");
     }
 

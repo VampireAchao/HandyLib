@@ -29,7 +29,6 @@ public interface IHandyClickEvent {
      * 点击格子进行处理
      *
      * @param handyInventory 入参
-     * @param rawSlot        格子
      */
-    void rawSlotClick(HandyInventory handyInventory, int rawSlot);
+    void rawSlotClick(HandyInventory handyInventory);
 }

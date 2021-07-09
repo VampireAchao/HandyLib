@@ -41,12 +41,11 @@ public class HandyClickFactory {
      * 进行处理
      *
      * @param handyInventory 入参
-     * @param rawSlot        点击的格子
      */
-    public void rawSlotClick(HandyInventory handyInventory, int rawSlot) {
-        IHandyClickEvent handyClickEvent = this.getFactory(handyInventory.getGuiType(), rawSlot);
+    public void rawSlotClick(HandyInventory handyInventory) {
+        IHandyClickEvent handyClickEvent = this.getFactory(handyInventory.getGuiType(), handyInventory.getRawSlot());
         if (handyClickEvent != null) {
-            handyClickEvent.rawSlotClick(handyInventory, rawSlot);
+            handyClickEvent.rawSlotClick(handyInventory);
         }
     }
 

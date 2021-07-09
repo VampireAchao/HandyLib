@@ -2,7 +2,6 @@ package inventory;
 
 import com.handy.lib.inventory.HandyInventory;
 import com.handy.lib.inventory.click.IHandyClickEvent;
-import com.handy.lib.util.BaseUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  * @author handy
  * @since 1.2.0
  */
-public class ShopClickEvent extends BaseUtil implements IHandyClickEvent {
+public class ShopClickEvent implements IHandyClickEvent {
     @Override
     public String guiType() {
         return "shop";
@@ -23,7 +22,7 @@ public class ShopClickEvent extends BaseUtil implements IHandyClickEvent {
     }
 
     @Override
-    public void rawSlotClick(HandyInventory handyInventory, int rawSlot) {
+    public void rawSlotClick(HandyInventory handyInventory) {
         System.out.println("shop测试");
     }
 
