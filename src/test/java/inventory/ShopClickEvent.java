@@ -1,5 +1,6 @@
 package inventory;
 
+import com.handy.lib.inventory.HandyInventory;
 import com.handy.lib.inventory.click.IHandyClickEvent;
 import com.handy.lib.util.BaseUtil;
 
@@ -22,7 +23,7 @@ public class ShopClickEvent extends BaseUtil implements IHandyClickEvent {
     }
 
     @Override
-    public void rawSlotClick() {
+    public void rawSlotClick(HandyInventory handyInventory, int rawSlot) {
         System.out.println("shop测试");
     }
 

@@ -1,5 +1,6 @@
 package inventory;
 
+import com.handy.lib.inventory.HandyInventory;
 import com.handy.lib.inventory.click.HandyClickFactory;
 import com.handy.lib.inventory.click.IHandyClickEvent;
 
@@ -15,8 +16,7 @@ public class HandyClickFactoryTest {
     public static void main(String[] args) {
         List<IHandyClickEvent> iHandyClickEvents = Arrays.asList(new ShopClickEvent(), new Shop2ClickEvent(), new OpenClickEvent());
         HandyClickFactory.getInstance().init(iHandyClickEvents);
-
-        HandyClickFactory.getInstance().rawSlotClick("open", 5);
-
+        HandyClickFactory.getInstance().rawSlotClick(new HandyInventory("test", "tset", null), 5);
     }
+
 }

@@ -1,5 +1,7 @@
 package com.handy.lib.inventory.click;
 
+import com.handy.lib.inventory.HandyInventory;
+
 import java.util.List;
 
 /**
@@ -25,6 +27,9 @@ public interface IHandyClickEvent {
 
     /**
      * 点击格子进行处理
+     *
+     * @param handyInventory 入参
+     * @param rawSlot        格子
      */
-    void rawSlotClick();
+    void rawSlotClick(HandyInventory handyInventory, int rawSlot);
 }

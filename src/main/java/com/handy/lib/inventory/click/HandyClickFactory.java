@@ -1,6 +1,7 @@
 package com.handy.lib.inventory.click;
 
 import com.handy.lib.core.CollUtil;
+import com.handy.lib.inventory.HandyInventory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +40,13 @@ public class HandyClickFactory {
     /**
      * 进行处理
      *
-     * @param guiType 类型
-     * @param rawSlot 点击的格子
+     * @param handyInventory 入参
+     * @param rawSlot        点击的格子
      */
-    public void rawSlotClick(String guiType, int rawSlot) {
-        IHandyClickEvent handyClickEvent = this.getFactory(guiType, rawSlot);
+    public void rawSlotClick(HandyInventory handyInventory, int rawSlot) {
+        IHandyClickEvent handyClickEvent = this.getFactory(handyInventory.getGuiType(), rawSlot);
         if (handyClickEvent != null) {
-            handyClickEvent.rawSlotClick();
+            handyClickEvent.rawSlotClick(handyInventory, rawSlot);
         }
     }
 
