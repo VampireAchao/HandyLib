@@ -60,22 +60,22 @@ public class ItemStackUtil {
      *
      * @param material    材质
      * @param displayName 名称
+     * @return 自定义物品
+     */
+    public static ItemStack getItemStack(Material material, String displayName) {
+        return getItemStack(material, displayName, null);
+    }
+
+    /**
+     * 物品生成
+     *
+     * @param material    材质
+     * @param displayName 名称
      * @param loreList    lore
      * @return 自定义物品
      */
     public static ItemStack getItemStack(Material material, String displayName, List<String> loreList) {
-        ItemStack itemStack = new ItemStack(material);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta != null) {
-            itemMeta.setDisplayName(displayName);
-            if (loreList != null && loreList.size() > 0) {
-                itemMeta.setLore(loreList);
-            }
-            // 附魔效果
-            setEnchant(itemMeta);
-            itemStack.setItemMeta(itemMeta);
-        }
-        return itemStack;
+        return getItemStack(material, displayName, loreList, true);
     }
 
     /**
