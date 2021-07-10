@@ -6,6 +6,9 @@ import com.handy.lib.param.InventoryWriteParam;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.ItemStackUtil;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -88,6 +91,20 @@ public class HandyInventoryUtil {
             setButton(inventory, param.getIndex(), ItemStackUtil.getMaterial(param.getMaterial()), param.getName(), param.getLoreList());
             map.put(param.getIndex(), param.getIndexValue());
         }
+    }
+
+    /**
+     * 获取玩家
+     *
+     * @param event 事件
+     * @return 玩家
+     */
+    public static Player getPlayer(InventoryClickEvent event) {
+        HumanEntity humanEntity = event.getWhoClicked();
+        if (humanEntity instanceof Player) {
+            return (Player) humanEntity;
+        }
+        return null;
     }
 
 }

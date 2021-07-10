@@ -3,7 +3,6 @@ package com.handy.lib.inventory;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.param.InventoryCheckParam;
 import org.bukkit.Material;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.InventoryHolder;
@@ -71,11 +70,10 @@ public class HandyClickFactory {
             return inventoryCheckParam;
         }
         // 如果操作对象不是玩家则返回
-        HumanEntity humanEntity = event.getWhoClicked();
-        if (!(humanEntity instanceof Player)) {
+        Player player = HandyInventoryUtil.getPlayer(event);
+        if (player == null) {
             return inventoryCheckParam;
         }
-        Player player = (Player) humanEntity;
         // 点击为空返回
         ItemStack currentItem = event.getCurrentItem();
         if (currentItem == null || Material.AIR.equals(currentItem.getType())) {

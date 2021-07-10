@@ -47,7 +47,7 @@ public class HandyInventory implements InventoryHolder {
      */
     private String searchType;
     /**
-     * 玩家
+     * 玩家,只是用来传值,不是真实玩家
      */
     private Player player;
 
