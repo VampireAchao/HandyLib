@@ -92,6 +92,7 @@ public class HandyClickFactory {
         if (event.isCancelled()) {
             return inventoryCheckParam;
         }
+        handyInventory.setPlayer(player);
         inventoryCheckParam.setCheck(true);
         inventoryCheckParam.setHandyInventory(handyInventory);
         return inventoryCheckParam;
