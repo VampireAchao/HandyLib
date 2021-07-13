@@ -4,6 +4,7 @@ import com.handy.lib.constants.BaseConstants;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
@@ -79,6 +80,36 @@ public class HandyInventory implements InventoryHolder {
         this.map = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
+        this.plugin = plugin;
+    }
+
+    /**
+     * 创建gui
+     *
+     * @param guiType       类型
+     * @param title         标题
+     * @param inventoryType 类型
+     * @param plugin        插件
+     */
+    public HandyInventory(String guiType, InventoryType inventoryType, Plugin plugin) {
+        this.map = new HashMap<>();
+        this.guiType = guiType;
+        this.inventory = Bukkit.createInventory(this, inventoryType);
+        this.plugin = plugin;
+    }
+
+    /**
+     * 创建gui
+     *
+     * @param guiType       类型
+     * @param title         标题
+     * @param inventoryType 类型
+     * @param plugin        插件
+     */
+    public HandyInventory(String guiType, String title, InventoryType inventoryType, Plugin plugin) {
+        this.map = new HashMap<>();
+        this.guiType = guiType;
+        this.inventory = Bukkit.createInventory(this, inventoryType, title);
         this.plugin = plugin;
     }
 

@@ -28,7 +28,7 @@
     <repositories>
         <repository>
             <id>minecraft</id>
-            <url>http://127.0.0.1:8081/repository/minecraft/</url>
+            <url>http://23.224.140.154:18208/repository/minecraft/</url>
         </repository>
     </repositories>
 
