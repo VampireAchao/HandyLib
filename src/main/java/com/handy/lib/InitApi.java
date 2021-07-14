@@ -6,16 +6,12 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.command.HandyCommandEventHandler;
 import com.handy.lib.command.HandyCommandFactory;
 import com.handy.lib.command.IHandyCommandEvent;
-import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.inventory.HandyClickEventHandler;
 import com.handy.lib.inventory.HandyClickFactory;
 import com.handy.lib.inventory.IHandyClickEvent;
-import com.handy.lib.util.BaseUtil;
-import com.handy.lib.util.HandyHttpUtil;
-import com.handy.lib.util.SqlManagerUtil;
+import com.handy.lib.util.ActionBarUtil;
+import com.handy.lib.util.MetricsUtil;
 import lombok.SneakyThrows;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.reflections.Reflections;
@@ -23,7 +19,6 @@ import org.reflections.scanners.FieldAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ConfigurationBuilder;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +48,7 @@ public class InitApi {
      * 初始化实现类
      *
      * @param packageName 扫描的包名
+     * @return this
      */
     @SneakyThrows
     public InitApi init(String packageName) {
@@ -92,76 +88,37 @@ public class InitApi {
     }
 
     /**
-     * 加载Color文件
-     */
-    public InitApi initColor() {
-        File colorFile = new File(PLUGIN.getDataFolder(), "color.yml");
-        if (!(colorFile.exists())) {
-            PLUGIN.saveResource("color.yml", false);
-        }
-        BaseConstants.COLOR_CONFIG = YamlConfiguration.loadConfiguration(colorFile);
-        return this;
-    }
-
-    /**
-     * 加载物品汉化文件
-     */
-    public InitApi initZhCn() {
-        // 优先加载zh_cn.json
-        File zhChFile = new File(PLUGIN.getDataFolder(), "zh_cn.json");
-        if (zhChFile.exists()) {
-            BaseUtil.readJsonFileToJsonCacheMap(zhChFile);
-            return this;
-        }
-        // 运行云汉化
-        HandyHttpUtil.getZhCn(PLUGIN);
-
-        // 加载item.json
-        File itemFile = new File(PLUGIN.getDataFolder(), "item.json");
-        if (!itemFile.exists()) {
-            PLUGIN.saveResource("item.json", false);
-        }
-        BaseUtil.readJsonFileToItemJsonCacheMap(itemFile);
-
-        // 自动同步自定义汉化
-        HandyHttpUtil.setItemName(PLUGIN);
-        return this;
-    }
-
-    /**
-     * 初始化语言文件
-     *
-     * @param langConfig 语言文件
-     */
-    public InitApi initLangMsg(FileConfiguration langConfig) {
-        BaseConstants.LANG_CONFIG = langConfig;
-        return this;
-    }
-
-    /**
-     * 加载storage文件,并初始化连接池
-     */
-    public InitApi initSql() {
-        File langFile = new File(PLUGIN.getDataFolder(), "storage.yml");
-        if (!(langFile.exists())) {
-            PLUGIN.saveResource("storage.yml", false);
-        }
-        BaseConstants.STORAGE_CONFIG = YamlConfiguration.loadConfiguration(langFile);
-        // 初始化连接池
-        SqlManagerUtil.getInstance().enableTable(PLUGIN);
-        return this;
-    }
-
-    /**
      * 初始化版本更新提醒
      *
      * @param isVersion 是否提醒
      * @param url       提醒url
+     * @return this
      */
     public InitApi checkVersion(boolean isVersion, String url) {
         if (isVersion) {
             CheckVersionApi.checkVersion(PLUGIN, null, url);
         }
+        return this;
+    }
+
+    /**
+     * 初始化ActionBar
+     *
+     * @return this
+     */
+    public InitApi initActionBar() {
+        ActionBarUtil.actionBarReflect();
+        return this;
+    }
+
+    /**
+     * 进行插件使用数据统计
+     *
+     * @param pluginId 插件id
+     * @return this
+     */
+    public InitApi addMetrics(int pluginId) {
+        MetricsUtil.addMetrics(PLUGIN, pluginId);
         return this;
     }
 

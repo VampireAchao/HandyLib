@@ -168,6 +168,112 @@ public class SqlService {
     }
 
     /**
+     * 创建表
+     *
+     * @param plugin        插件
+     * @param storageMethod 存储方法
+     * @param mysqlSql      mysqlSql
+     * @param sqliteSql     sqliteSql
+     * @return true/成功
+     * @since 1.2.3
+     */
+    public boolean createTable(Plugin plugin, String storageMethod, String mysqlSql, String sqliteSql) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            String sql = sqliteSql;
+            conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+            if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
+                sql = mysqlSql;
+            }
+            ps = conn.prepareStatement(sql);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
+        }
+        return false;
+    }
+
+    /**
+     * 根据id删除
+     *
+     * @param plugin        插件
+     * @param storageMethod 存储方法
+     * @param sql           sql
+     * @param id            id
+     * @return true/成功
+     * @since 1.2.3
+     */
+    public boolean removeById(Plugin plugin, String storageMethod, String sql, Long id) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+            ps = conn.prepareStatement(sql);
+            ps.setLong(1, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
+        }
+        return false;
+    }
+
+    /**
+     * 执行普通sql
+     *
+     * @param plugin        插件
+     * @param storageMethod 存储方法
+     * @param sql           sql
+     * @return true/成功
+     * @since 1.2.3
+     */
+    public boolean executionSql(Plugin plugin, String storageMethod, String sql) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+            ps = conn.prepareStatement(sql);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
+        }
+        return false;
+    }
+
+    /**
+     * 执行普通sql
+     *
+     * @param plugin        插件
+     * @param storageMethod 存储方法
+     * @param sql           sql
+     * @param ignored       是否忽视异常
+     * @return true/成功
+     * @since 1.2.3
+     */
+    public boolean executionSql(Plugin plugin, String storageMethod, String sql, boolean ignored) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+            ps = conn.prepareStatement(sql);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            if (ignored) {
+                e.printStackTrace();
+            }
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
+        }
+        return false;
+    }
+
+    /**
      * 获取新增sql
      *
      * @param stringObjectMap 对象
