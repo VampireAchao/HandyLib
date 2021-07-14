@@ -7,7 +7,7 @@
     <groupId>com.handy.lib</groupId>
     <artifactId>HandyLib</artifactId>
     <name>HandyLib</name>
-    <version>1.2.3</version>
+    <version>1.2.4</version>
     <description>handy的基础插件</description>
 
     <properties>
@@ -33,12 +33,6 @@
     </repositories>
 
     <dependencies>
-        <!-- java反射包 -->
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.9.12</version>
-        </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
@@ -111,7 +105,6 @@
                             <include>com.zaxxer:*:*:*</include>
                             <include>org.slf4j:*:*:*</include>
                             <include>org.bstats:*:*:*</include>
-                            <include>org.reflections:*:*:*</include>
                         </includes>
                     </artifactSet>
                     <relocations>
@@ -126,10 +119,6 @@
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>com.handy.lib.bstats</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.reflections</pattern>
-                            <shadedPattern>com.handy.lib.reflections</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

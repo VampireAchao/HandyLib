@@ -6,6 +6,7 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.command.HandyCommandEventHandler;
 import com.handy.lib.command.HandyCommandFactory;
 import com.handy.lib.command.IHandyCommandEvent;
+import com.handy.lib.core.loader.ClassUtil;
 import com.handy.lib.inventory.HandyClickEventHandler;
 import com.handy.lib.inventory.HandyClickFactory;
 import com.handy.lib.inventory.IHandyClickEvent;
@@ -14,10 +15,6 @@ import com.handy.lib.util.MetricsUtil;
 import lombok.SneakyThrows;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
-import org.reflections.Reflections;
-import org.reflections.scanners.FieldAnnotationsScanner;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ConfigurationBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,32 +50,30 @@ public class InitApi {
     @SneakyThrows
     public InitApi init(String packageName) {
         long startTime = System.currentTimeMillis();
-        // 初始化工具类
-        Reflections reflections = new Reflections(new ConfigurationBuilder().forPackages(packageName).addScanners(new SubTypesScanner()).addScanners(new FieldAnnotationsScanner()));
 
         // 子命令处理器注入
-        Set<Class<? extends HandyCommandEventHandler>> handyCommandEventList = reflections.getSubTypesOf(HandyCommandEventHandler.class);
+        Set<Class<?>> handyCommandEventList = ClassUtil.scanPackageBySuper(packageName, HandyCommandEventHandler.class);
         if (handyCommandEventList.size() > 0) {
             List<IHandyCommandEvent> handyCommandEvents = new ArrayList<>();
-            for (Class<? extends HandyCommandEventHandler> aClass : handyCommandEventList) {
-                handyCommandEvents.add(aClass.newInstance());
+            for (Class<?> aClass : handyCommandEventList) {
+                handyCommandEvents.add((HandyCommandEventHandler) aClass.newInstance());
             }
             HandyCommandFactory.getInstance().init(handyCommandEvents);
         }
 
         // 监听器注入
-        Set<Class<?>> listenerTypesAnnotatedWith = reflections.getTypesAnnotatedWith(HandyListener.class, true);
+        Set<Class<?>> listenerTypesAnnotatedWith = ClassUtil.scanPackageByAnnotation(packageName, HandyListener.class);
         if (listenerTypesAnnotatedWith.size() > 0) {
             for (Class<?> aClass : listenerTypesAnnotatedWith) {
                 PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
             }
         }
         // 背包事件处理器注入
-        Set<Class<? extends HandyClickEventHandler>> handyClickEventList = reflections.getSubTypesOf(HandyClickEventHandler.class);
+        Set<Class<?>> handyClickEventList = ClassUtil.scanPackageBySuper(packageName, HandyClickEventHandler.class);
         if (handyClickEventList.size() > 0) {
             List<IHandyClickEvent> handyClickEvents = new ArrayList<>();
-            for (Class<? extends HandyClickEventHandler> aClass : handyClickEventList) {
-                handyClickEvents.add(aClass.newInstance());
+            for (Class<?> aClass : handyClickEventList) {
+                handyClickEvents.add((HandyClickEventHandler) aClass.newInstance());
             }
             HandyClickFactory.getInstance().init(handyClickEvents);
         }
