@@ -1,5 +1,6 @@
 package com.handy.lib.inventory;
 
+import com.handy.lib.InitApi;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.param.InventoryCheckParam;
 import org.bukkit.Material;
@@ -7,10 +8,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 点击进行处理工厂
@@ -30,22 +31,21 @@ public class HandyClickFactory {
     /**
      * 全部实现类
      */
-    private static List<IHandyClickEvent> HANDY_CLICK_EVENT_LIST = new ArrayList<>();
-
-    private static Plugin PLUGIN;
+    private static final Map<String, IHandyClickEvent> HANDY_CLICK_EVENT_MAP = new HashMap<>();
 
     /**
      * 初始化实现类
      *
      * @param handyClickEvents 点击处理事件
-     * @param plugin           插件
      */
-    public void init(List<IHandyClickEvent> handyClickEvents, Plugin plugin) {
-        if (CollUtil.isNotEmpty(handyClickEvents)) {
-            HANDY_CLICK_EVENT_LIST = handyClickEvents;
-            PLUGIN = plugin;
-            plugin.getServer().getPluginManager().registerEvents(new HandyInventoryListener(), plugin);
+    public void init(List<IHandyClickEvent> handyClickEvents) {
+        if (CollUtil.isEmpty(handyClickEvents)) {
+            return;
         }
+        for (IHandyClickEvent handyClickEvent : handyClickEvents) {
+            HANDY_CLICK_EVENT_MAP.put(handyClickEvent.guiType(), handyClickEvent);
+        }
+        InitApi.PLUGIN.getServer().getPluginManager().registerEvents(new HandyInventoryListener(), InitApi.PLUGIN);
     }
 
     /**
@@ -82,7 +82,7 @@ public class HandyClickFactory {
 
         HandyInventory handyInventory = (HandyInventory) holder;
         // 判断是否为对应插件
-        if (handyInventory.getPlugin() == null || PLUGIN == null || !PLUGIN.getName().equals(handyInventory.getPlugin().getName())) {
+        if (handyInventory.getPlugin() == null || InitApi.PLUGIN == null || !InitApi.PLUGIN.getName().equals(handyInventory.getPlugin().getName())) {
             return inventoryCheckParam;
         }
 
@@ -103,12 +103,11 @@ public class HandyClickFactory {
      * @param event          事件
      */
     public void rawSlotClick(HandyInventory handyInventory, InventoryClickEvent event) {
-        for (IHandyClickEvent handyClickEvent : HANDY_CLICK_EVENT_LIST) {
-            if (handyClickEvent.guiType().equals(handyInventory.getGuiType()) && handyClickEvent.rawSlotList().contains(event.getRawSlot())) {
-                handyClickEvent.rawSlotClick(handyInventory, event);
-                return;
-            }
+        IHandyClickEvent handyClickEvent = HANDY_CLICK_EVENT_MAP.get(handyInventory.getGuiType());
+        if (handyClickEvent == null || !handyClickEvent.rawSlotList().contains(event.getRawSlot())) {
+            return;
         }
+        handyClickEvent.rawSlotClick(handyInventory, event);
     }
 
 }

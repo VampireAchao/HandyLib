@@ -1,5 +1,6 @@
 package com.handy.lib.inventory;
 
+import com.handy.lib.inventory.HandyClickFactory;
 import com.handy.lib.param.InventoryCheckParam;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

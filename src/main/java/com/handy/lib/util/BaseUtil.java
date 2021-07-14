@@ -2,8 +2,6 @@ package com.handy.lib.util;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.handy.lib.api.ColorApi;
-import com.handy.lib.api.LangMsgApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.CollUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -109,7 +107,7 @@ public class BaseUtil {
         if (StringUtils.isBlank(str)) {
             return "";
         }
-        if (ColorApi.colorConfig == null) {
+        if (BaseConstants.COLOR_CONFIG == null) {
             return str;
         }
         Matcher matcher = BaseConstants.RPG_PATTERN.matcher(str);
@@ -121,7 +119,7 @@ public class BaseUtil {
             return str;
         }
         for (String value : matchStrList) {
-            String rpgStr = ColorApi.colorConfig.getString(stringFilter(value));
+            String rpgStr = BaseConstants.COLOR_CONFIG.getString(stringFilter(value));
             if (StringUtils.isBlank(rpgStr) || rpgStr.length() != 6) {
                 continue;
             }
@@ -241,7 +239,7 @@ public class BaseUtil {
      * @return 语言
      */
     public static String getLangMsg(String langMsg) {
-        FileConfiguration langConfig = LangMsgApi.LANG_CONFIG;
+        FileConfiguration langConfig = BaseConstants.LANG_CONFIG;
         if (langConfig == null) {
             return "§4加载语言文件出错,请重新加载!";
         }

@@ -1,5 +1,7 @@
 package com.handy.lib.constants;
 
+import org.bukkit.configuration.file.FileConfiguration;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -134,5 +136,20 @@ public abstract class BaseConstants {
      * gui初始化大小
      */
     public final static int GUI_SIZE_27 = 27;
+
+    /**
+     * 颜色RPG配置
+     */
+    public static FileConfiguration COLOR_CONFIG;
+
+    /**
+     * 语言文件配置
+     */
+    public static FileConfiguration LANG_CONFIG;
+
+    /**
+     * 存储配置
+     */
+    public static FileConfiguration STORAGE_CONFIG;
 
 }

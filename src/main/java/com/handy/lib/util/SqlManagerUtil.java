@@ -1,6 +1,5 @@
 package com.handy.lib.util;
 
-import com.handy.lib.api.StorageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -44,15 +43,15 @@ public class SqlManagerUtil {
     public void enableTable(Plugin plugin, String storageMethod) {
         if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
             HikariConfig hikariConfig = new HikariConfig();
-            String host = StorageApi.storageConfig.getString("MySQL.Host");
-            String database = StorageApi.storageConfig.getString("MySQL.Database");
-            int port = StorageApi.storageConfig.getInt("MySQL.Port");
-            String useSsl = StorageApi.storageConfig.getString("MySQL.UseSSL");
+            String host = BaseConstants.STORAGE_CONFIG.getString("MySQL.Host");
+            String database = BaseConstants.STORAGE_CONFIG.getString("MySQL.Database");
+            int port = BaseConstants.STORAGE_CONFIG.getInt("MySQL.Port");
+            String useSsl = BaseConstants.STORAGE_CONFIG.getString("MySQL.UseSSL");
             String jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=" + useSsl + "&useUnicode=true&characterEncoding=UTF-8";
             hikariConfig.setJdbcUrl(jdbcUrl);
             hikariConfig.setPoolName(plugin.getName() + "HikariPool");
-            hikariConfig.setUsername(StorageApi.storageConfig.getString("MySQL.User"));
-            hikariConfig.setPassword(StorageApi.storageConfig.getString("MySQL.Password"));
+            hikariConfig.setUsername(BaseConstants.STORAGE_CONFIG.getString("MySQL.User"));
+            hikariConfig.setPassword(BaseConstants.STORAGE_CONFIG.getString("MySQL.Password"));
             // 是否自定义配置，为true时下面两个参数才生效
             hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
             // 连接池大小默认25，官方推荐250-500
@@ -92,7 +91,7 @@ public class SqlManagerUtil {
      * @throws SQLException 异常
      */
     public Connection getConnection(Plugin plugin) throws SQLException {
-        return this.getConnection(plugin, StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD));
+        return this.getConnection(plugin, BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD));
     }
 
     /**
@@ -150,7 +149,7 @@ public class SqlManagerUtil {
      * @since 1.1.9
      */
     public String getStorageMethod() {
-        String storageMethod = StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD);
+        String storageMethod = BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD);
         if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
             return BaseConstants.MYSQL;
         }
