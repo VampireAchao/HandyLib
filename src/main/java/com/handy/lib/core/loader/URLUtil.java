@@ -1,8 +1,5 @@
 package com.handy.lib.core.loader;
 
-
-import com.sun.xml.internal.ws.util.UtilException;
-
 import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.URL;
@@ -31,9 +28,8 @@ public class URLUtil {
      * @param content URL
      * @param charset 编码
      * @return 解码后的URL
-     * @throws UtilException UnsupportedEncodingException
      */
-    protected static String decode(String content, String charset) throws UtilException {
+    protected static String decode(String content, String charset) {
         return decode(content, CharsetUtil.charset(charset));
     }
 
