@@ -1,6 +1,7 @@
 package com.handy.lib;
 
 import com.handy.lib.annotation.HandyListener;
+import com.handy.lib.api.CheckVersionApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.command.HandyCommandEventHandler;
 import com.handy.lib.command.HandyCommandFactory;
@@ -148,6 +149,19 @@ public class InitApi {
         BaseConstants.STORAGE_CONFIG = YamlConfiguration.loadConfiguration(langFile);
         // 初始化连接池
         SqlManagerUtil.getInstance().enableTable(PLUGIN);
+        return this;
+    }
+
+    /**
+     * 初始化版本更新提醒
+     *
+     * @param isVersion 是否提醒
+     * @param url       提醒url
+     */
+    public InitApi checkVersion(boolean isVersion, String url) {
+        if (isVersion) {
+            CheckVersionApi.checkVersion(PLUGIN, null, url);
+        }
         return this;
     }
 
