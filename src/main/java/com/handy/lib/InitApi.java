@@ -7,9 +7,12 @@ import com.handy.lib.command.IHandyCommandEvent;
 import com.handy.lib.core.ClassUtil;
 import com.handy.lib.inventory.HandyClickFactory;
 import com.handy.lib.inventory.IHandyClickEvent;
+import com.handy.lib.param.VerifySignParam;
 import com.handy.lib.util.ActionBarUtil;
-import com.handy.lib.util.MetricsUtil;
+import com.handy.lib.util.CStatsMetrics;
+import com.handy.lib.util.HandyHttpUtil;
 import lombok.SneakyThrows;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
@@ -125,7 +128,21 @@ public class InitApi {
      * @return this
      */
     public InitApi addMetrics(int pluginId) {
-        MetricsUtil.addMetrics(PLUGIN, pluginId);
+        // bStats进行插件使用数据统计
+        new Metrics(PLUGIN, pluginId);
+        // cStats进行插件使用数据统计
+        new CStatsMetrics(PLUGIN);
+        return this;
+    }
+
+    /**
+     * 进行验签
+     *
+     * @return this
+     */
+    public InitApi verifySign(VerifySignParam param) {
+        HandyHttpUtil.verifySign(param);
+        HandyHttpUtil.anewVerifySign(param);
         return this;
     }
 
