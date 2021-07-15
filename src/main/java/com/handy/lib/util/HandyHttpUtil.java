@@ -82,7 +82,7 @@ public class HandyHttpUtil {
                             MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(requestError));
                         }
                     }
-                    if (verifySignParam.getRetryNumber() == 0) {
+                    if (verifySignParam.getRetryNumber() < 1) {
                         this.cancel();
                     } else {
                         verifySignParam.setRetryNumber(verifySignParam.getRetryNumber() - 1);
@@ -112,7 +112,6 @@ public class HandyHttpUtil {
                     paramMap.put("secretKey", verifySignParam.getSecretKey());
                     String result = HttpUtil.get(VERIFY_SIGN, paramMap);
                     BaseConstants.VERIFY_SIGN = BaseConstants.TRUE.equals(result);
-                    this.cancel();
                 } catch (Exception e) {
                     BaseConstants.VERIFY_SIGN = false;
                 }
