@@ -43,9 +43,10 @@ public class InitApi {
      * 子命令处理器注入
      *
      * @param packageName 扫描的包名
+     * @return this
      */
     @SneakyThrows
-    public void initCommand(String packageName) {
+    public InitApi initCommand(String packageName) {
         List<Class<IHandyCommandEvent>> handyCommandEventList = CLASS_UTIL.forNameIsAssignableFrom(packageName, IHandyCommandEvent.class);
         if (handyCommandEventList.size() > 0) {
             List<IHandyCommandEvent> handyCommandEvents = new ArrayList<>();
@@ -54,30 +55,34 @@ public class InitApi {
             }
             HandyCommandFactory.getInstance().init(handyCommandEvents);
         }
+        return this;
     }
 
     /**
      * 监听器注入
      *
      * @param packageName 扫描的包名
+     * @return this
      */
     @SneakyThrows
-    public void initListener(String packageName) {
+    public InitApi initListener(String packageName) {
         List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyListener.class);
         if (listenerTypesAnnotatedWith.size() > 0) {
             for (Class<?> aClass : listenerTypesAnnotatedWith) {
                 PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
             }
         }
+        return this;
     }
 
     /**
      * 背包事件处理器注入
      *
      * @param packageName 扫描的包名
+     * @return this
      */
     @SneakyThrows
-    public void initClickEvent(String packageName) {
+    public InitApi initClickEvent(String packageName) {
         List<Class<IHandyClickEvent>> handyClickEventList = CLASS_UTIL.forNameIsAssignableFrom(packageName, IHandyClickEvent.class);
         if (handyClickEventList.size() > 0) {
             List<IHandyClickEvent> handyClickEvents = new ArrayList<>();
@@ -86,6 +91,7 @@ public class InitApi {
             }
             HandyClickFactory.getInstance().init(handyClickEvents);
         }
+        return this;
     }
 
     /**
