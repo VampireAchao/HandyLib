@@ -1,6 +1,7 @@
 package com.handy.lib.command;
 
 import com.handy.lib.core.CollUtil;
+import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.BaseUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -60,7 +61,7 @@ public class HandyCommandFactory {
         if (handyInventory == null) {
             return false;
         }
-        if (!sender.hasPermission(handyInventory.permission())) {
+        if (StrUtil.isNotEmpty(handyInventory.permission()) && !sender.hasPermission(handyInventory.permission())) {
             sender.sendMessage(BaseUtil.replaceChatColor(noPermission));
             return true;
         }
