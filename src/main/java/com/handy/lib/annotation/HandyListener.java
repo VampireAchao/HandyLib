@@ -12,10 +12,4 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HandyListener {
 
-    /**
-     * 是否开启
-     *
-     * @return true是
-     */
-    boolean isEnabled() default true;
 }

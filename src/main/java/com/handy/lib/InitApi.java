@@ -5,6 +5,7 @@ import com.handy.lib.api.CheckVersionApi;
 import com.handy.lib.command.HandyCommandFactory;
 import com.handy.lib.command.IHandyCommandEvent;
 import com.handy.lib.core.ClassUtil;
+import com.handy.lib.core.CollUtil;
 import com.handy.lib.inventory.HandyClickFactory;
 import com.handy.lib.inventory.IHandyClickEvent;
 import com.handy.lib.param.VerifySignParam;
@@ -72,8 +73,25 @@ public class InitApi {
         List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyListener.class);
         if (listenerTypesAnnotatedWith.size() > 0) {
             for (Class<?> aClass : listenerTypesAnnotatedWith) {
-                HandyListener annotation = aClass.getAnnotation(HandyListener.class);
-                if (!annotation.isEnabled()) {
+                PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
+            }
+        }
+        return this;
+    }
+
+    /**
+     * 监听器注入
+     *
+     * @param packageName 扫描的包名
+     * @param ignoreList  忽视的类
+     * @return this
+     */
+    @SneakyThrows
+    public InitApi initListener(String packageName, List<String> ignoreList) {
+        List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyListener.class);
+        if (listenerTypesAnnotatedWith.size() > 0) {
+            for (Class<?> aClass : listenerTypesAnnotatedWith) {
+                if (CollUtil.isNotEmpty(ignoreList) && ignoreList.contains(aClass.getName())) {
                     continue;
                 }
                 PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
