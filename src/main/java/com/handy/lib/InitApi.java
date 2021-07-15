@@ -2,12 +2,9 @@ package com.handy.lib;
 
 import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.api.CheckVersionApi;
-import com.handy.lib.api.MessageApi;
-import com.handy.lib.command.HandyCommandEventHandler;
 import com.handy.lib.command.HandyCommandFactory;
 import com.handy.lib.command.IHandyCommandEvent;
-import com.handy.lib.core.loader.ClassUtil;
-import com.handy.lib.inventory.HandyClickEventHandler;
+import com.handy.lib.core.ClassUtil;
 import com.handy.lib.inventory.HandyClickFactory;
 import com.handy.lib.inventory.IHandyClickEvent;
 import com.handy.lib.util.ActionBarUtil;
@@ -18,7 +15,6 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 初始化
@@ -28,6 +24,7 @@ import java.util.Set;
  */
 public class InitApi {
     public static Plugin PLUGIN;
+    private static ClassUtil CLASS_UTIL;
 
     private InitApi() {
     }
@@ -38,48 +35,57 @@ public class InitApi {
 
     public static InitApi getInstance(Plugin plugin) {
         PLUGIN = plugin;
+        CLASS_UTIL = new ClassUtil(PLUGIN);
         return InitApi.SingletonHolder.INSTANCE;
     }
 
     /**
-     * 初始化实现类
+     * 子命令处理器注入
      *
      * @param packageName 扫描的包名
-     * @return this
      */
     @SneakyThrows
-    public InitApi init(String packageName) {
-        long startTime = System.currentTimeMillis();
-
-        // 子命令处理器注入
-        Set<Class<?>> handyCommandEventList = ClassUtil.scanPackageBySuper(packageName, HandyCommandEventHandler.class);
+    public void initCommand(String packageName) {
+        List<Class<IHandyCommandEvent>> handyCommandEventList = CLASS_UTIL.forNameIsAssignableFrom(packageName, IHandyCommandEvent.class);
         if (handyCommandEventList.size() > 0) {
             List<IHandyCommandEvent> handyCommandEvents = new ArrayList<>();
             for (Class<?> aClass : handyCommandEventList) {
-                handyCommandEvents.add((HandyCommandEventHandler) aClass.newInstance());
+                handyCommandEvents.add((IHandyCommandEvent) aClass.newInstance());
             }
             HandyCommandFactory.getInstance().init(handyCommandEvents);
         }
+    }
 
-        // 监听器注入
-        Set<Class<?>> listenerTypesAnnotatedWith = ClassUtil.scanPackageByAnnotation(packageName, HandyListener.class);
+    /**
+     * 监听器注入
+     *
+     * @param packageName 扫描的包名
+     */
+    @SneakyThrows
+    public void initListener(String packageName) {
+        List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyListener.class);
         if (listenerTypesAnnotatedWith.size() > 0) {
             for (Class<?> aClass : listenerTypesAnnotatedWith) {
                 PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
             }
         }
-        // 背包事件处理器注入
-        Set<Class<?>> handyClickEventList = ClassUtil.scanPackageBySuper(packageName, HandyClickEventHandler.class);
+    }
+
+    /**
+     * 背包事件处理器注入
+     *
+     * @param packageName 扫描的包名
+     */
+    @SneakyThrows
+    public void initClickEvent(String packageName) {
+        List<Class<IHandyClickEvent>> handyClickEventList = CLASS_UTIL.forNameIsAssignableFrom(packageName, IHandyClickEvent.class);
         if (handyClickEventList.size() > 0) {
             List<IHandyClickEvent> handyClickEvents = new ArrayList<>();
             for (Class<?> aClass : handyClickEventList) {
-                handyClickEvents.add((HandyClickEventHandler) aClass.newInstance());
+                handyClickEvents.add((IHandyClickEvent) aClass.newInstance());
             }
             HandyClickFactory.getInstance().init(handyClickEvents);
         }
-
-        MessageApi.sendConsoleMessage(PLUGIN, "初始化加载耗时：" + (System.currentTimeMillis() - startTime) + "毫秒");
-        return this;
     }
 
     /**
