@@ -72,6 +72,10 @@ public class InitApi {
         List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyListener.class);
         if (listenerTypesAnnotatedWith.size() > 0) {
             for (Class<?> aClass : listenerTypesAnnotatedWith) {
+                HandyListener annotation = aClass.getAnnotation(HandyListener.class);
+                if (!annotation.isEnabled()) {
+                    continue;
+                }
                 PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
             }
         }
