@@ -4,6 +4,7 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.SqlEnum;
 import com.handy.lib.core.CollUtil;
+import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import org.bukkit.plugin.Plugin;
 
@@ -210,7 +211,11 @@ public class SqlService {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+            if (StrUtil.isNotEmpty(storageMethod)) {
+                conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+            } else {
+                conn = SqlManagerUtil.getInstance().getConnection(plugin);
+            }
             ps = conn.prepareStatement(sql);
             ps.setLong(1, id);
             return ps.executeUpdate() > 0;
