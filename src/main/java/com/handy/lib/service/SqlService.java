@@ -200,6 +200,19 @@ public class SqlService {
     /**
      * 根据id删除
      *
+     * @param plugin 插件
+     * @param sql    sql
+     * @param id     id
+     * @return true/成功
+     * @since 1.3.0
+     */
+    public boolean removeById(Plugin plugin, String sql, Long id) {
+        return this.removeById(plugin, null, sql, id);
+    }
+
+    /**
+     * 根据id删除
+     *
      * @param plugin        插件
      * @param storageMethod 存储方法
      * @param sql           sql
@@ -225,6 +238,18 @@ public class SqlService {
             SqlManagerUtil.getInstance().closeSql(conn, ps, null);
         }
         return false;
+    }
+
+    /**
+     * 执行普通sql
+     *
+     * @param plugin 插件
+     * @param sql    sql
+     * @return true/成功
+     * @since 1.3.0
+     */
+    public boolean executionSql(Plugin plugin, String sql) {
+        return this.executionSql(plugin, null, sql);
     }
 
     /**
