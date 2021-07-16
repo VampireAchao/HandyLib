@@ -241,6 +241,19 @@ public class SqlService {
     }
 
     /**
+     * 删除全部
+     *
+     * @param plugin    插件
+     * @param tableName 表名
+     * @return true/成功
+     * @since 1.3.0
+     */
+    public boolean removeAll(Plugin plugin, String tableName) {
+        String sql = SqlEnum.DELETE_ALL + "`" + tableName + "`";
+        return this.executionSql(plugin, sql);
+    }
+
+    /**
      * 执行普通sql
      *
      * @param plugin 插件

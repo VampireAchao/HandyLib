@@ -20,6 +20,9 @@ public enum SqlEnum {
     ),
     ADD_DATA(
             "INSERT INTO "
-    );
+    ),
+    DELETE_ALL(
+            "DELETE FROM "
+    ),;
     private final String command;
 }
