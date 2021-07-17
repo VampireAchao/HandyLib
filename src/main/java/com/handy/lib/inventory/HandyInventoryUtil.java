@@ -121,6 +121,7 @@ public class HandyInventoryUtil {
      *
      * @param inventory gui
      * @param paramList 入参
+     * @param map       入参
      * @since 1.2.0
      */
     public static void batchSetButton(Inventory inventory, List<InventoryWriteParam> paramList, Map<Integer, Long> map) {

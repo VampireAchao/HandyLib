@@ -160,6 +160,7 @@ public class InitApi {
     /**
      * 进行验签
      *
+     * @param param 入参
      * @return this
      */
     public InitApi verifySign(VerifySignParam param) {

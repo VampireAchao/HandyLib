@@ -75,6 +75,7 @@ public class ClassUtil {
      *
      * @param packageName 包名
      * @param clazz       父类
+     * @param <T>         泛型
      * @return 类集合
      */
     @SneakyThrows

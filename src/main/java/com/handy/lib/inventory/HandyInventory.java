@@ -87,7 +87,6 @@ public class HandyInventory implements InventoryHolder {
      * 创建gui
      *
      * @param guiType       类型
-     * @param title         标题
      * @param inventoryType 类型
      * @param plugin        插件
      */
