@@ -9,7 +9,6 @@ import com.handy.lib.core.CollUtil;
 import com.handy.lib.inventory.HandyClickFactory;
 import com.handy.lib.inventory.IHandyClickEvent;
 import com.handy.lib.param.VerifySignParam;
-import com.handy.lib.util.ActionBarUtil;
 import com.handy.lib.util.CStatsMetrics;
 import com.handy.lib.util.HandyHttpUtil;
 import lombok.SneakyThrows;
@@ -130,16 +129,6 @@ public class InitApi {
         if (isVersion) {
             CheckVersionApi.checkVersion(PLUGIN, null, url);
         }
-        return this;
-    }
-
-    /**
-     * 初始化ActionBar
-     *
-     * @return this
-     */
-    public InitApi initActionBar() {
-        ActionBarUtil.actionBarReflect();
         return this;
     }
 

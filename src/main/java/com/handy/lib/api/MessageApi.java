@@ -1,8 +1,9 @@
 package com.handy.lib.api;
 
 import com.handy.lib.constants.VersionCheckEnum;
-import com.handy.lib.util.ActionBarUtil;
 import com.handy.lib.util.BaseUtil;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -18,13 +19,6 @@ import static org.bukkit.Bukkit.getServer;
  */
 public class MessageApi {
     private MessageApi() {
-    }
-
-    /**
-     * 初始化ActionBar
-     */
-    public static void initActionBar() {
-        ActionBarUtil.actionBarReflect();
     }
 
     /**
@@ -147,11 +141,11 @@ public class MessageApi {
      * @param msg    消息
      */
     public static void sendActionbar(Player player, String msg) {
-        if (VersionCheckEnum.V_1_7.equals(VersionCheckEnum.getEnum())) {
+        if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_9.getVersionId()) {
             sendMessage(player, msg);
             return;
         }
-        ActionBarUtil.sendActionBar(player, BaseUtil.replaceChatColor(msg));
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(msg));
     }
 
     /**
@@ -160,12 +154,12 @@ public class MessageApi {
      * @param msg 消息
      */
     public static void sendAllActionbar(String msg) {
+        if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_9.getVersionId()) {
+            sendAllMessage(msg);
+            return;
+        }
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (VersionCheckEnum.V_1_7.equals(VersionCheckEnum.getEnum())) {
-                sendMessage(player, msg);
-                return;
-            }
-            ActionBarUtil.sendActionBar(player, BaseUtil.replaceChatColor(msg));
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(msg));
         }
     }
 
