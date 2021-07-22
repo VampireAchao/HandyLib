@@ -37,6 +37,7 @@ public class HandyHttpUtil {
     private final static String URL_1_14 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.14.json";
     private final static String URL_1_15 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.15.json";
     private final static String URL_1_16 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.16.json";
+    private final static String URL_1_17 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.17.json";
 
     private final static String IP_CHINA_URL = "http://mcadmin.ljxmc.top/api/public/getIp";
 
@@ -195,7 +196,13 @@ public class HandyHttpUtil {
                 url = URL_1_16;
                 getCloudZhCn(plugin, url);
                 break;
+            case V_1_17:
+                url = URL_1_17;
+                getCloudZhCn(plugin, url);
+                break;
             default:
+                url = URL_1_17;
+                getCloudZhCn(plugin, url);
                 break;
         }
     }
