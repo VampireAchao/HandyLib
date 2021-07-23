@@ -67,6 +67,9 @@ public class HandyCommandFactory {
      */
     @SneakyThrows
     public boolean onSubCommand(String command, CommandSender sender, Command cmd, String label, String[] args, String noPermission) {
+        if (args.length == 0) {
+            return false;
+        }
         Map<String, HandySubCommandParam> subCommandParamMap = SUB_COMMAND_MAP.get(command.toLowerCase());
         if (subCommandParamMap == null) {
             return false;
@@ -94,6 +97,9 @@ public class HandyCommandFactory {
      * @return true/正常执行，false需要发送提醒
      */
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args, String noPermission) {
+        if (args.length == 0) {
+            return false;
+        }
         IHandyCommandEvent handyInventory = HANDY_COMMAND_EVENT_MAP.get(args[0].toLowerCase());
         if (handyInventory == null) {
             return false;
