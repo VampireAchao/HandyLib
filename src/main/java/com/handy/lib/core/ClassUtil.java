@@ -6,6 +6,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 类加载器
@@ -44,7 +47,7 @@ public class ClassUtil {
      * @return 类集合
      */
     @SneakyThrows
-    public List<Class<?>> forNameIsAnnotationPresent(String packageName, Class<? extends Annotation> annotation) {
+    public List<Class<?>> getClassByAnnotation(String packageName, Class<? extends Annotation> annotation) {
         List<Class<?>> classList = new ArrayList<>();
         URL jar = FILE.toURI().toURL();
         URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{jar}, CLASS_LOADER);
@@ -71,6 +74,41 @@ public class ClassUtil {
     }
 
     /**
+     * 扫描注解下的方法
+     *
+     * @param packageName 包名
+     * @param annotation  注解
+     * @return 类集合
+     */
+    @SneakyThrows
+    public List<Method> getMethodByAnnotation(String packageName, Class<? extends Annotation> annotation) {
+        List<Method> methods = new ArrayList<>();
+        URL jar = FILE.toURI().toURL();
+        URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{jar}, CLASS_LOADER);
+        JarInputStream jarInputStream = new JarInputStream(jar.openStream());
+        while (true) {
+            JarEntry nextJarEntry = jarInputStream.getNextJarEntry();
+            if (nextJarEntry == null) {
+                break;
+            }
+            String name = getName(nextJarEntry);
+            if (name == null) {
+                continue;
+            }
+            if (name.startsWith(packageName)) {
+                String cname = name.substring(0, name.lastIndexOf(CLASS));
+                Class<?> loadClass = urlClassLoader.loadClass(cname);
+                Method[] declaredMethods = loadClass.getDeclaredMethods();
+                List<Method> subCommandMethods = Stream.of(declaredMethods).filter(method -> method.isAnnotationPresent(annotation)).collect(Collectors.toList());
+                if (CollUtil.isNotEmpty(subCommandMethods)) {
+                    methods.addAll(subCommandMethods);
+                }
+            }
+        }
+        return methods;
+    }
+
+    /**
      * 扫描对应包名下接口或者父类的子类
      *
      * @param packageName 包名
@@ -80,7 +118,7 @@ public class ClassUtil {
      */
     @SneakyThrows
     @SuppressWarnings(value = {"unchecked", "rawtypes"})
-    public <T> List<Class<T>> forNameIsAssignableFrom(String packageName, Class<? extends T> clazz) {
+    public <T> List<Class<T>> getClassByIsAssignableFrom(String packageName, Class<? extends T> clazz) {
         List<Class<T>> classList = new ArrayList<>();
         URL jar = FILE.toURI().toURL();
         URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{jar}, CLASS_LOADER);

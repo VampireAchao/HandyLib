@@ -31,7 +31,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * 初始化
@@ -65,7 +64,7 @@ public class InitApi {
     @SneakyThrows
     public InitApi initCommand(String packageName) {
         // 主命令
-        List<Class<?>> commandList = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyCommand.class);
+        List<Class<?>> commandList = CLASS_UTIL.getClassByAnnotation(packageName, HandyCommand.class);
         if (CollUtil.isEmpty(commandList)) {
             return this;
         }
@@ -90,19 +89,7 @@ public class InitApi {
             }
         }
         // 子命令
-        List<Class<?>> subCommandList = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandySubCommand.class);
-        if (CollUtil.isEmpty(subCommandList)) {
-            return this;
-        }
-        List<Method> methods = new ArrayList<>();
-        for (Class<?> subCommandClass : subCommandList) {
-            Method[] declaredMethods = subCommandClass.getDeclaredMethods();
-            List<Method> subCommandMethods = Stream.of(declaredMethods).filter(method -> method.isAnnotationPresent(HandySubCommand.class)).collect(Collectors.toList());
-            if (CollUtil.isEmpty(subCommandMethods)) {
-                continue;
-            }
-            methods.addAll(subCommandMethods);
-        }
+        List<Method> methods = CLASS_UTIL.getMethodByAnnotation(packageName, HandySubCommand.class);
         if (CollUtil.isEmpty(methods)) {
             return this;
         }
@@ -129,7 +116,7 @@ public class InitApi {
      */
     @SneakyThrows
     public InitApi initSubCommand(String packageName) {
-        List<Class<IHandyCommandEvent>> handyCommandEventList = CLASS_UTIL.forNameIsAssignableFrom(packageName, IHandyCommandEvent.class);
+        List<Class<IHandyCommandEvent>> handyCommandEventList = CLASS_UTIL.getClassByIsAssignableFrom(packageName, IHandyCommandEvent.class);
         if (CollUtil.isEmpty(handyCommandEventList)) {
             return this;
         }
@@ -149,7 +136,7 @@ public class InitApi {
      */
     @SneakyThrows
     public InitApi initListener(String packageName) {
-        List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyListener.class);
+        List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.getClassByAnnotation(packageName, HandyListener.class);
         if (CollUtil.isEmpty(listenerTypesAnnotatedWith)) {
             return this;
         }
@@ -168,7 +155,7 @@ public class InitApi {
      */
     @SneakyThrows
     public InitApi initListener(String packageName, List<String> ignoreList) {
-        List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyListener.class);
+        List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.getClassByAnnotation(packageName, HandyListener.class);
         if (CollUtil.isEmpty(listenerTypesAnnotatedWith)) {
             return this;
         }
@@ -189,7 +176,7 @@ public class InitApi {
      */
     @SneakyThrows
     public InitApi initClickEvent(String packageName) {
-        List<Class<IHandyClickEvent>> handyClickEventList = CLASS_UTIL.forNameIsAssignableFrom(packageName, IHandyClickEvent.class);
+        List<Class<IHandyClickEvent>> handyClickEventList = CLASS_UTIL.getClassByIsAssignableFrom(packageName, IHandyClickEvent.class);
         if (CollUtil.isEmpty(handyClickEventList)) {
             return this;
         }
