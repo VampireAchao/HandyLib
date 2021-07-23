@@ -1,11 +1,13 @@
 package com.handy.lib;
 
+import com.handy.lib.annotation.HandyCommand;
 import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.api.CheckVersionApi;
 import com.handy.lib.command.HandyCommandFactory;
 import com.handy.lib.command.IHandyCommandEvent;
 import com.handy.lib.core.ClassUtil;
 import com.handy.lib.core.CollUtil;
+import com.handy.lib.core.StrUtil;
 import com.handy.lib.inventory.HandyClickFactory;
 import com.handy.lib.inventory.IHandyClickEvent;
 import com.handy.lib.param.VerifySignParam;
@@ -13,10 +15,16 @@ import com.handy.lib.util.CStatsMetrics;
 import com.handy.lib.util.HandyHttpUtil;
 import lombok.SneakyThrows;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.permissions.DefaultPermissions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,21 +51,57 @@ public class InitApi {
     }
 
     /**
-     * 子命令处理器注入
+     * 命令注入器
      *
      * @param packageName 扫描的包名
      * @return this
      */
     @SneakyThrows
     public InitApi initCommand(String packageName) {
-        List<Class<IHandyCommandEvent>> handyCommandEventList = CLASS_UTIL.forNameIsAssignableFrom(packageName, IHandyCommandEvent.class);
-        if (handyCommandEventList.size() > 0) {
-            List<IHandyCommandEvent> handyCommandEvents = new ArrayList<>();
-            for (Class<?> aClass : handyCommandEventList) {
-                handyCommandEvents.add((IHandyCommandEvent) aClass.newInstance());
-            }
-            HandyCommandFactory.getInstance().init(handyCommandEvents);
+        List<Class<?>> commandAnnotationList = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyCommand.class);
+        if (CollUtil.isEmpty(commandAnnotationList)) {
+            return this;
         }
+        for (Class<?> aClass : commandAnnotationList) {
+            HandyCommand handyCommand = aClass.getAnnotation(HandyCommand.class);
+            PluginCommand pluginCommand = Bukkit.getPluginCommand(handyCommand.name());
+            if (pluginCommand != null) {
+                if (aClass.newInstance() instanceof CommandExecutor) {
+                    pluginCommand.setExecutor((CommandExecutor) aClass.newInstance());
+                }
+                if (aClass.newInstance() instanceof TabExecutor) {
+                    pluginCommand.setTabCompleter((TabExecutor) aClass.newInstance());
+                }
+                pluginCommand.setAliases(Arrays.asList(handyCommand.aliases()));
+                pluginCommand.setDescription(handyCommand.description());
+                pluginCommand.setUsage(handyCommand.usage());
+                pluginCommand.setPermissionMessage(handyCommand.permissionMessage());
+                if (StrUtil.isNotEmpty(handyCommand.permission())) {
+                    pluginCommand.setPermission(handyCommand.permission());
+                    DefaultPermissions.registerPermission(handyCommand.permission(), null, handyCommand.PERMISSION_DEFAULT());
+                }
+            }
+        }
+        return this;
+    }
+
+    /**
+     * 子命令处理器注入
+     *
+     * @param packageName 扫描的包名
+     * @return this
+     */
+    @SneakyThrows
+    public InitApi initSubCommand(String packageName) {
+        List<Class<IHandyCommandEvent>> handyCommandEventList = CLASS_UTIL.forNameIsAssignableFrom(packageName, IHandyCommandEvent.class);
+        if (CollUtil.isEmpty(handyCommandEventList)) {
+            return this;
+        }
+        List<IHandyCommandEvent> handyCommandEvents = new ArrayList<>();
+        for (Class<?> aClass : handyCommandEventList) {
+            handyCommandEvents.add((IHandyCommandEvent) aClass.newInstance());
+        }
+        HandyCommandFactory.getInstance().init(handyCommandEvents);
         return this;
     }
 
@@ -70,10 +114,11 @@ public class InitApi {
     @SneakyThrows
     public InitApi initListener(String packageName) {
         List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyListener.class);
-        if (listenerTypesAnnotatedWith.size() > 0) {
-            for (Class<?> aClass : listenerTypesAnnotatedWith) {
-                PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
-            }
+        if (CollUtil.isEmpty(listenerTypesAnnotatedWith)) {
+            return this;
+        }
+        for (Class<?> aClass : listenerTypesAnnotatedWith) {
+            PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
         }
         return this;
     }
@@ -88,13 +133,14 @@ public class InitApi {
     @SneakyThrows
     public InitApi initListener(String packageName, List<String> ignoreList) {
         List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyListener.class);
-        if (listenerTypesAnnotatedWith.size() > 0) {
-            for (Class<?> aClass : listenerTypesAnnotatedWith) {
-                if (CollUtil.isNotEmpty(ignoreList) && ignoreList.contains(aClass.getName())) {
-                    continue;
-                }
-                PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
+        if (CollUtil.isEmpty(listenerTypesAnnotatedWith)) {
+            return this;
+        }
+        for (Class<?> aClass : listenerTypesAnnotatedWith) {
+            if (CollUtil.isNotEmpty(ignoreList) && ignoreList.contains(aClass.getName())) {
+                continue;
             }
+            PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
         }
         return this;
     }
@@ -108,13 +154,14 @@ public class InitApi {
     @SneakyThrows
     public InitApi initClickEvent(String packageName) {
         List<Class<IHandyClickEvent>> handyClickEventList = CLASS_UTIL.forNameIsAssignableFrom(packageName, IHandyClickEvent.class);
-        if (handyClickEventList.size() > 0) {
-            List<IHandyClickEvent> handyClickEvents = new ArrayList<>();
-            for (Class<?> aClass : handyClickEventList) {
-                handyClickEvents.add((IHandyClickEvent) aClass.newInstance());
-            }
-            HandyClickFactory.getInstance().init(handyClickEvents);
+        if (CollUtil.isEmpty(handyClickEventList)) {
+            return this;
         }
+        List<IHandyClickEvent> handyClickEvents = new ArrayList<>();
+        for (Class<?> aClass : handyClickEventList) {
+            handyClickEvents.add((IHandyClickEvent) aClass.newInstance());
+        }
+        HandyClickFactory.getInstance().init(handyClickEvents);
         return this;
     }
 
