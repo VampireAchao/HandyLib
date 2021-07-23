@@ -2,8 +2,10 @@ package com.handy.lib;
 
 import com.handy.lib.annotation.HandyCommand;
 import com.handy.lib.annotation.HandyListener;
+import com.handy.lib.annotation.HandySubCommand;
 import com.handy.lib.api.CheckVersionApi;
 import com.handy.lib.command.HandyCommandFactory;
+import com.handy.lib.command.HandySubCommandParam;
 import com.handy.lib.command.IHandyCommandEvent;
 import com.handy.lib.core.ClassUtil;
 import com.handy.lib.core.CollUtil;
@@ -23,9 +25,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.permissions.DefaultPermissions;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 初始化
@@ -58,11 +64,12 @@ public class InitApi {
      */
     @SneakyThrows
     public InitApi initCommand(String packageName) {
-        List<Class<?>> commandAnnotationList = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyCommand.class);
-        if (CollUtil.isEmpty(commandAnnotationList)) {
+        // 主命令
+        List<Class<?>> commandList = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandyCommand.class);
+        if (CollUtil.isEmpty(commandList)) {
             return this;
         }
-        for (Class<?> aClass : commandAnnotationList) {
+        for (Class<?> aClass : commandList) {
             HandyCommand handyCommand = aClass.getAnnotation(HandyCommand.class);
             PluginCommand pluginCommand = Bukkit.getPluginCommand(handyCommand.name());
             if (pluginCommand != null) {
@@ -82,6 +89,35 @@ public class InitApi {
                 }
             }
         }
+        // 子命令
+        List<Class<?>> subCommandList = CLASS_UTIL.forNameIsAnnotationPresent(packageName, HandySubCommand.class);
+        if (CollUtil.isEmpty(subCommandList)) {
+            return this;
+        }
+        List<Method> methods = new ArrayList<>();
+        for (Class<?> subCommandClass : subCommandList) {
+            Method[] declaredMethods = subCommandClass.getDeclaredMethods();
+            List<Method> subCommandMethods = Stream.of(declaredMethods).filter(method -> method.isAnnotationPresent(HandySubCommand.class)).collect(Collectors.toList());
+            if (CollUtil.isEmpty(subCommandMethods)) {
+                continue;
+            }
+            methods.addAll(subCommandMethods);
+        }
+        if (CollUtil.isEmpty(methods)) {
+            return this;
+        }
+        List<HandySubCommandParam> subCommandParamList = new ArrayList<>();
+        for (Method method : methods) {
+            HandySubCommand handySubCommand = method.getAnnotation(HandySubCommand.class);
+            HandySubCommandParam param = new HandySubCommandParam();
+            param.setCommand(handySubCommand.mainCommand().toLowerCase().trim());
+            param.setSubCommand(handySubCommand.subCommand().toLowerCase().trim());
+            param.setPermission(handySubCommand.permission().trim());
+            param.setMethod(method);
+            subCommandParamList.add(param);
+        }
+        Map<String, Map<String, HandySubCommandParam>> subCommandMap = subCommandParamList.stream().collect(Collectors.groupingBy(HandySubCommandParam::getCommand, Collectors.groupingBy(HandySubCommandParam::getSubCommand, Collectors.collectingAndThen(Collectors.toList(), value -> value.get(0)))));
+        HandyCommandFactory.getInstance().initSubCommand(subCommandMap);
         return this;
     }
 
