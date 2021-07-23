@@ -79,7 +79,7 @@ public class HandyCommandFactory {
             sender.sendMessage(BaseUtil.replaceChatColor(noPermission));
             return true;
         }
-        param.getMethod().invoke(sender, cmd, label, args);
+        param.getMethod().invoke(param.getAClass().newInstance(), sender, cmd, label, args);
         return true;
     }
 

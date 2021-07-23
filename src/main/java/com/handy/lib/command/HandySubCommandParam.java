@@ -25,6 +25,10 @@ public class HandySubCommandParam implements Serializable {
      */
     private String permission;
     /**
+     * 类
+     */
+    private Class<?> aClass;
+    /**
      * 具体方法
      */
     private Method method;

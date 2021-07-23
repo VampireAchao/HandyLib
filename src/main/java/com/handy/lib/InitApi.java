@@ -89,19 +89,22 @@ public class InitApi {
             }
         }
         // 子命令
-        List<Method> methods = CLASS_UTIL.getMethodByAnnotation(packageName, HandySubCommand.class);
-        if (CollUtil.isEmpty(methods)) {
+        Map<Class<?>, List<Method>> methodsMap = CLASS_UTIL.getMethodByAnnotation(packageName, HandySubCommand.class);
+        if (methodsMap.isEmpty()) {
             return this;
         }
         List<HandySubCommandParam> subCommandParamList = new ArrayList<>();
-        for (Method method : methods) {
-            HandySubCommand handySubCommand = method.getAnnotation(HandySubCommand.class);
-            HandySubCommandParam param = new HandySubCommandParam();
-            param.setCommand(handySubCommand.mainCommand().toLowerCase().trim());
-            param.setSubCommand(handySubCommand.subCommand().toLowerCase().trim());
-            param.setPermission(handySubCommand.permission().trim());
-            param.setMethod(method);
-            subCommandParamList.add(param);
+        for (Class<?> aClass : methodsMap.keySet()) {
+            for (Method method : methodsMap.get(aClass)) {
+                HandySubCommand handySubCommand = method.getAnnotation(HandySubCommand.class);
+                HandySubCommandParam param = new HandySubCommandParam();
+                param.setCommand(handySubCommand.mainCommand().toLowerCase().trim());
+                param.setSubCommand(handySubCommand.subCommand().toLowerCase().trim());
+                param.setPermission(handySubCommand.permission().trim());
+                param.setAClass(aClass);
+                param.setMethod(method);
+                subCommandParamList.add(param);
+            }
         }
         Map<String, Map<String, HandySubCommandParam>> subCommandMap = subCommandParamList.stream().collect(Collectors.groupingBy(HandySubCommandParam::getCommand, Collectors.groupingBy(HandySubCommandParam::getSubCommand, Collectors.collectingAndThen(Collectors.toList(), value -> value.get(0)))));
         HandyCommandFactory.getInstance().initSubCommand(subCommandMap);

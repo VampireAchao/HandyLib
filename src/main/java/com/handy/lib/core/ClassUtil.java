@@ -12,7 +12,9 @@ import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.stream.Collectors;
@@ -81,8 +83,8 @@ public class ClassUtil {
      * @return 类集合
      */
     @SneakyThrows
-    public List<Method> getMethodByAnnotation(String packageName, Class<? extends Annotation> annotation) {
-        List<Method> methods = new ArrayList<>();
+    public Map<Class<?>, List<Method>> getMethodByAnnotation(String packageName, Class<? extends Annotation> annotation) {
+        Map<Class<?>, List<Method>> map = new HashMap<>();
         URL jar = FILE.toURI().toURL();
         URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{jar}, CLASS_LOADER);
         JarInputStream jarInputStream = new JarInputStream(jar.openStream());
@@ -96,6 +98,7 @@ public class ClassUtil {
                 continue;
             }
             if (name.startsWith(packageName)) {
+                List<Method> methods = new ArrayList<>();
                 String cname = name.substring(0, name.lastIndexOf(CLASS));
                 Class<?> loadClass = urlClassLoader.loadClass(cname);
                 Method[] declaredMethods = loadClass.getDeclaredMethods();
@@ -103,9 +106,10 @@ public class ClassUtil {
                 if (CollUtil.isNotEmpty(subCommandMethods)) {
                     methods.addAll(subCommandMethods);
                 }
+                map.put(loadClass, methods);
             }
         }
-        return methods;
+        return map;
     }
 
     /**
