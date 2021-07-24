@@ -352,23 +352,23 @@ public class BaseUtil {
     }
 
     /**
-     * 玩家时间是否为夜晚
+     * 玩家世界是否为地狱
      *
      * @param player 玩家
      * @return true 是
      */
-    public static boolean playerTimeIsNether(Player player) {
+    public static boolean playerWorldIsNether(Player player) {
         return World.Environment.NETHER.equals(player.getWorld().getEnvironment());
     }
 
     /**
-     * 玩家时间是否不为夜晚
+     * 玩家世界是否bu为地狱
      *
      * @param player 玩家
      * @return true 是
      */
-    public static boolean playerTimeIsNotNether(Player player) {
-        return !playerTimeIsNether(player);
+    public static boolean playerWorldIsNotNether(Player player) {
+        return !playerWorldIsNether(player);
     }
 
     /**
