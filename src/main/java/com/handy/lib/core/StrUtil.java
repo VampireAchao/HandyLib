@@ -109,7 +109,7 @@ public class StrUtil {
      * @return 数字
      * @since 1.3.8
      */
-    private static int strReverseToInt(String str) {
+    public static int strReverseToInt(String str) {
         MessageApi.sendConsoleDebugMessage(InitApi.PLUGIN, "&a 方法 StrUtil.strReverseToInt 入参: " + str);
         StringBuilder reverse = new StringBuilder(str.replace(".", "")).reverse();
         MessageApi.sendConsoleDebugMessage(InitApi.PLUGIN, "&a 方法 StrUtil.strReverseToInt 出参: " + reverse);
