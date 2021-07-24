@@ -1,5 +1,7 @@
 package com.handy.lib.core;
 
+import com.handy.lib.InitApi;
+import com.handy.lib.api.MessageApi;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -98,6 +100,20 @@ public class StrUtil {
             return list;
         }
         return Arrays.stream(str.split(",")).map(s -> Integer.valueOf(s.trim())).collect(Collectors.toList());
+    }
+
+    /**
+     * 字符串反转成int
+     *
+     * @param str 字符串
+     * @return 数字
+     * @since 1.3.8
+     */
+    private static int strReverseToInt(String str) {
+        MessageApi.sendConsoleDebugMessage(InitApi.PLUGIN, "&a 方法 StrUtil.strReverseToInt 入参: " + str);
+        StringBuilder reverse = new StringBuilder(str.replace(".", "")).reverse();
+        MessageApi.sendConsoleDebugMessage(InitApi.PLUGIN, "&a 方法 StrUtil.strReverseToInt 出参: " + reverse);
+        return Integer.parseInt(reverse.toString());
     }
 
 }
