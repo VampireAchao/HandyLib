@@ -40,7 +40,7 @@ public class MessageApi {
      */
     public static void sendDebugMessage(Player player, String msg) {
         if (BaseConstants.DEBUG) {
-            player.sendMessage(BaseUtil.replaceChatColor(msg));
+            sendMessage(player, msg);
         }
     }
 
@@ -52,6 +52,18 @@ public class MessageApi {
      */
     public static void sendMessage(Player player, TextComponent msg) {
         player.spigot().sendMessage(ChatMessageType.CHAT, msg);
+    }
+
+    /**
+     * 发送消息
+     *
+     * @param player 玩家
+     * @param msg    消息
+     */
+    public static void sendDebugMessage(Player player, TextComponent msg) {
+        if (BaseConstants.DEBUG) {
+            sendMessage(player, msg);
+        }
     }
 
     /**
@@ -91,7 +103,7 @@ public class MessageApi {
      */
     public static void sendConsoleDebugMessage(Plugin plugin, String msg) {
         if (BaseConstants.DEBUG) {
-            getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "[" + plugin.getName() + "] " + BaseUtil.replaceChatColor(msg));
+            sendConsoleMessage(plugin, msg);
         }
     }
 
