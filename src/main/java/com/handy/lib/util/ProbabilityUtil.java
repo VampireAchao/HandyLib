@@ -33,6 +33,9 @@ public class ProbabilityUtil {
      * @since 1.4.0
      */
     public boolean pickIndex(double num) {
+        if (num == 0) {
+            return false;
+        }
         BigDecimal rate = BigDecimal.ONE.divide(new BigDecimal(num + ""), 0);
         return pickIndex(1, rate.intValue());
     }
