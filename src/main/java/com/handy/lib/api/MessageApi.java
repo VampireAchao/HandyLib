@@ -1,5 +1,6 @@
 package com.handy.lib.api;
 
+import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import net.md_5.bungee.api.ChatMessageType;
@@ -57,6 +58,19 @@ public class MessageApi {
      * @param msg    消息
      */
     public static void sendConsoleMessage(Plugin plugin, String msg) {
+        getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "[" + plugin.getName() + "] " + BaseUtil.replaceChatColor(msg));
+    }
+
+    /**
+     * 发送 Console debug消息
+     *
+     * @param plugin 插件
+     * @param msg    消息
+     */
+    public static void sendConsoleDebugMessage(Plugin plugin, String msg) {
+        if (!BaseConstants.DEBUG) {
+            return;
+        }
         getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "[" + plugin.getName() + "] " + BaseUtil.replaceChatColor(msg));
     }
 

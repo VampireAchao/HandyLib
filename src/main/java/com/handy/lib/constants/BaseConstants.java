@@ -152,4 +152,9 @@ public abstract class BaseConstants {
      */
     public static FileConfiguration STORAGE_CONFIG;
 
+    /**
+     * 是否开启debug
+     */
+    public static boolean DEBUG = false;
+
 }
