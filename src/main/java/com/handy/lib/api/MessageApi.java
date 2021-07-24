@@ -35,6 +35,28 @@ public class MessageApi {
     /**
      * 发送消息
      *
+     * @param player 玩家
+     * @param msg    消息
+     */
+    public static void sendDebugMessage(Player player, String msg) {
+        if (BaseConstants.DEBUG) {
+            player.sendMessage(BaseUtil.replaceChatColor(msg));
+        }
+    }
+
+    /**
+     * 发送消息
+     *
+     * @param player 玩家
+     * @param msg    消息
+     */
+    public static void sendMessage(Player player, TextComponent msg) {
+        player.spigot().sendMessage(ChatMessageType.CHAT, msg);
+    }
+
+    /**
+     * 发送消息
+     *
      * @param sender 玩家
      * @param msg    消息
      */
@@ -68,10 +90,9 @@ public class MessageApi {
      * @param msg    消息
      */
     public static void sendConsoleDebugMessage(Plugin plugin, String msg) {
-        if (!BaseConstants.DEBUG) {
-            return;
+        if (BaseConstants.DEBUG) {
+            getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "[" + plugin.getName() + "] " + BaseUtil.replaceChatColor(msg));
         }
-        getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "[" + plugin.getName() + "] " + BaseUtil.replaceChatColor(msg));
     }
 
     /**
