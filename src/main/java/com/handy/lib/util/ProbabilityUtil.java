@@ -1,5 +1,6 @@
 package com.handy.lib.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,6 +28,18 @@ public class ProbabilityUtil {
     /**
      * 不加锁进行概率抽取
      *
+     * @param num 概率数字
+     * @return true 抽到
+     * @since 1.4.0
+     */
+    public boolean pickIndex(double num) {
+        BigDecimal rate = BigDecimal.ONE.divide(new BigDecimal(num + ""), 0);
+        return pickIndex(1, rate.intValue());
+    }
+
+    /**
+     * 不加锁进行概率抽取
+     *
      * @param num    概率数字
      * @param maxNum 总概率
      * @return true 抽到
@@ -42,16 +55,23 @@ public class ProbabilityUtil {
     /**
      * 加锁进行概率抽取
      *
+     * @param num 概率数字
+     * @return true 抽到
+     * @since 1.4.0
+     */
+    public synchronized boolean pickSyncIndex(double num) {
+        return pickIndex(num);
+    }
+
+    /**
+     * 加锁进行概率抽取
+     *
      * @param num    概率数字
      * @param maxNum 总概率
      * @return true 抽到
      */
     public synchronized boolean pickSyncIndex(int num, int maxNum) {
-        if (num >= maxNum) {
-            num = maxNum;
-        }
-        int[] nums = {num, maxNum - num};
-        return randomIndex(nums) == 0;
+        return pickIndex(num, maxNum);
     }
 
     /**
