@@ -78,7 +78,9 @@ public class InitApi {
                 if (aClass.newInstance() instanceof TabExecutor) {
                     pluginCommand.setTabCompleter((TabExecutor) aClass.newInstance());
                 }
-                pluginCommand.setAliases(Arrays.asList(handyCommand.aliases()));
+                if (handyCommand.aliases().length > 1) {
+                    pluginCommand.setAliases(Arrays.asList(handyCommand.aliases()));
+                }
                 pluginCommand.setDescription(handyCommand.description());
                 pluginCommand.setUsage(handyCommand.usage());
                 pluginCommand.setPermissionMessage(handyCommand.permissionMessage());
