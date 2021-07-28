@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spigot-api.vesion>1.17-R0.1-SNAPSHOT</spigot-api.vesion>
+        <spigot-api.vesion>1.17.1-R0.1-SNAPSHOT</spigot-api.vesion>
         <bstats.version>1.7</bstats.version>
         <lombok.version>1.18.18</lombok.version>
         <mysql.version>8.0.23</mysql.version>
@@ -24,13 +24,6 @@
         <SXAttribute.version>2.0.3</SXAttribute.version>
         <MythicMobs.version>4.3.2</MythicMobs.version>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>minecraft</id>
-            <url>http://23.224.140.154:18208/repository/minecraft/</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
