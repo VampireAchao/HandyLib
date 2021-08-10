@@ -63,6 +63,12 @@ public class HandyCommandFactory {
     /**
      * 子命令处理
      *
+     * @param command      命令
+     * @param sender       执行者
+     * @param cmd          命令
+     * @param label        别名
+     * @param args         入参
+     * @param noPermission 没有权限提醒
      * @return true/正常执行，false需要发送提醒
      */
     @SneakyThrows
