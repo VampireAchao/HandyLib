@@ -60,6 +60,17 @@ public class MythicMobOldUtil {
     }
 
     /**
+     * 获取单个怪物名称
+     *
+     * @param mythicMob 怪物
+     * @return 怪物名称
+     * @since 1.4.3
+     */
+    public String getMythicMobName(MythicMob mythicMob) {
+        return mythicMob != null ? mythicMob.getDisplayName() : "";
+    }
+
+    /**
      * 获取mm怪物数量
      *
      * @return 怪物数量
