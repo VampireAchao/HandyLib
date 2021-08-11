@@ -7,7 +7,7 @@
     <groupId>com.handy.lib</groupId>
     <artifactId>HandyLib</artifactId>
     <name>HandyLib</name>
-    <version>1.4.5</version>
+    <version>1.4.6</version>
     <description>handy的基础插件</description>
 
     <properties>
@@ -34,6 +34,11 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
+            <version>${bstats.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.iroselle</groupId>
+            <artifactId>cstats-bukkit</artifactId>
             <version>${bstats.version}</version>
         </dependency>
         <dependency>
@@ -94,6 +99,7 @@
                             <include>com.zaxxer:*:*:*</include>
                             <include>org.slf4j:*:*:*</include>
                             <include>org.bstats:*:*:*</include>
+                            <include>com.iroselle:*:*:*</include>
                         </includes>
                     </artifactSet>
                     <relocations>
@@ -108,6 +114,10 @@
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>com.handy.lib.bstats</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.iroselle</pattern>
+                            <shadedPattern>com.handy.lib.cstats</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
