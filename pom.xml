@@ -7,7 +7,7 @@
     <groupId>com.handy.lib</groupId>
     <artifactId>HandyLib</artifactId>
     <name>HandyLib</name>
-    <version>1.4.1</version>
+    <version>1.4.2</version>
     <description>handy的基础插件</description>
 
     <properties>
@@ -30,6 +30,7 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${spigot-api.vesion}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
@@ -66,11 +67,13 @@
             <groupId>github.saukiya.sxattribute</groupId>
             <artifactId>SXAttribute</artifactId>
             <version>${SXAttribute.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.lumine.xikage</groupId>
             <artifactId>MythicMobs</artifactId>
             <version>${MythicMobs.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
