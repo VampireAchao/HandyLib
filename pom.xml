@@ -16,7 +16,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spigot-api.vesion>1.17.1-R0.1-SNAPSHOT</spigot-api.vesion>
         <bstats.version>1.7</bstats.version>
-        <lombok.version>1.18.18</lombok.version>
+        <lombok.version>1.18.20</lombok.version>
         <mysql.version>8.0.23</mysql.version>
         <sqlite.version>3.34.0</sqlite.version>
         <HikariCP.version>3.4.5</HikariCP.version>
