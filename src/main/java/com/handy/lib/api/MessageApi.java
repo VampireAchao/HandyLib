@@ -1,5 +1,6 @@
 package com.handy.lib.api;
 
+import com.handy.lib.InitApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
@@ -104,6 +105,18 @@ public class MessageApi {
     public static void sendConsoleDebugMessage(Plugin plugin, String msg) {
         if (BaseConstants.DEBUG) {
             sendConsoleMessage(plugin, msg);
+        }
+    }
+
+    /**
+     * 发送 Console debug消息
+     *
+     * @param msg 消息
+     * @since 1.4.7
+     */
+    public static void sendConsoleDebugMessage(String msg) {
+        if (BaseConstants.DEBUG) {
+            sendConsoleMessage(InitApi.PLUGIN, msg);
         }
     }
 
