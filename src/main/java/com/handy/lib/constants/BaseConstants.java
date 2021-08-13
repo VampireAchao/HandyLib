@@ -43,6 +43,16 @@ public abstract class BaseConstants {
     public final static Pattern INTENSIFY_LEVEL_PATTERN = Pattern.compile("\\++[0-9]+§f\\]");
 
     /**
+     * 下划线转驼峰正则
+     */
+    public final static Pattern LINE_PATTERN = Pattern.compile("_(\\w)");
+
+    /**
+     * 驼峰转下划线正则
+     */
+    public final static Pattern HUMP_PATTERN = Pattern.compile("[A-Z]");
+
+    /**
      * 物品汉化map
      */
     public static Map<String, String> jsonCacheMap = new HashMap<>();

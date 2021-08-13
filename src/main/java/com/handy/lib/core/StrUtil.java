@@ -1,10 +1,12 @@
 package com.handy.lib.core;
 
+import com.handy.lib.constants.BaseConstants;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 /**
@@ -98,6 +100,41 @@ public class StrUtil {
             return list;
         }
         return Arrays.stream(str.split(",")).map(s -> Integer.valueOf(s.trim())).collect(Collectors.toList());
+    }
+
+    /**
+     * 下划线转驼峰
+     *
+     * @param str 字符
+     * @return 结果
+     * @since 1.4.8
+     */
+    public static String lineToHump(String str) {
+        str = str.toLowerCase();
+        Matcher matcher = BaseConstants.LINE_PATTERN.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
+    /**
+     * 驼峰转下划线
+     *
+     * @param str 字符
+     * @return 结果
+     * @since 1.4.8
+     */
+    public static String humpToLine(String str) {
+        Matcher matcher = BaseConstants.HUMP_PATTERN.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 
 }
