@@ -45,7 +45,7 @@ public class FireworkEffectUtil {
     /**
      * 位置放个随机烟花
      *
-     * @param player 玩家
+     * @param location 位置
      * @since 1.4.7
      */
     public static void spawnFireworkToLocation(Location location) {
