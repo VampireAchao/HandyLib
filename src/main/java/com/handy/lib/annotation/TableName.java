@@ -17,11 +17,4 @@ public @interface TableName {
      * @return 表名
      */
     String value();
-
-    /**
-     * 别名
-     *
-     * @return 别名
-     */
-    String alias() default "";
 }

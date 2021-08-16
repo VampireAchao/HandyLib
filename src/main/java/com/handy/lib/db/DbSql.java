@@ -1,9 +1,10 @@
 package com.handy.lib.db;
 
-import lombok.Data;
-import org.apache.commons.lang.StringUtils;
+import com.handy.lib.core.StrUtil;
+import lombok.Builder;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 
 /**
  * dbSql处理器
@@ -11,13 +12,18 @@ import java.io.Serializable;
  * @author handy
  * @since 1.4.8
  */
-@Data
+@Builder
 public class DbSql implements Serializable {
 
     /**
      * select sql
      */
     private String select;
+
+    /**
+     * insert sql
+     */
+    private String insert;
 
     /**
      * count sql
@@ -54,13 +60,60 @@ public class DbSql implements Serializable {
      */
     private String order;
 
+    /**
+     * where data
+     */
+    private LinkedHashMap<String, Object> whereData;
 
-    public String pageCountSql() {
+    /**
+     * filed index
+     */
+    private LinkedHashMap<String, Integer> filedIndexMap;
+
+    public String selectCountSql() {
         return assemblySql(this.select, this.count, this.from, this.join, this.where);
     }
 
-    public String pageDataSql() {
+    public String selectDataSql() {
         return assemblySql(this.select, this.filed, this.from, this.join, this.where, this.order, this.limit);
+    }
+
+    public String insertDataSql() {
+        return assemblySql(this.insert, this.filed, this.from, this.join, this.where, this.order, this.limit);
+    }
+
+    /**
+     * 普通查询条件
+     *
+     * @param condition  是否执行
+     * @param fieldName  属性
+     * @param sqlKeyword SQL 关键词
+     * @param val        条件值
+     */
+    protected void addCondition(boolean condition, String fieldName, String sqlKeyword, Object val) {
+        if (!condition) {
+            return;
+        }
+        this.where += DbConstant.AND + DbConstant.POINT + fieldName + DbConstant.POINT + sqlKeyword + DbConstant.QUESTION_MARK;
+        whereData.put(fieldName, val);
+    }
+
+    /**
+     * 获取条件
+     *
+     * @return 条件
+     */
+    public LinkedHashMap<String, Object> getWhereData() {
+        return this.whereData;
+    }
+
+    /**
+     * 获取条件
+     *
+     * @return 条件
+     */
+    public LinkedHashMap<String, Integer> getFiledIndexMap() {
+        return this.filedIndexMap;
     }
 
     /**
@@ -71,11 +124,11 @@ public class DbSql implements Serializable {
      */
     private static String assemblySql(String... sqlColl) {
         StringBuilder sb = new StringBuilder();
-        for (String s : sqlColl) {
-            if (StringUtils.isBlank(s)) {
+        for (String sql : sqlColl) {
+            if (StrUtil.isEmpty(sql)) {
                 continue;
             }
-            sb.append(s);
+            sb.append(sql);
         }
         return sb.toString();
     }

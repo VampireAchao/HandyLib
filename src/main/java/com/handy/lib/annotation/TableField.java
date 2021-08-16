@@ -18,5 +18,5 @@ public @interface TableField {
      *
      * @return 字段名
      */
-    String value() default "";
+    String value();
 }

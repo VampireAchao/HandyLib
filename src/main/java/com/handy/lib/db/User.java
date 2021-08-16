@@ -1,32 +1,27 @@
 package com.handy.lib.db;
 
 import com.handy.lib.annotation.TableField;
+import com.handy.lib.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * 用户实体类。测试用
  */
+@Data
+@TableName(value = "user")
 public class User implements Serializable {
 
+    @TableField("login_name")
     private String loginName;
 
-    @TableField("nick")
+    @TableField("nick_name")
     private String nickName;
 
-    public String getLoginName() {
-        return loginName;
-    }
+    @TableField("a")
+    private int a;
 
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
+    @TableField("a1")
+    private Integer a1;
 }

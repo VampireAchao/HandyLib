@@ -29,7 +29,6 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${spigot-api.vesion}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>

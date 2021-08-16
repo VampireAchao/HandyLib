@@ -1,37 +1,68 @@
 package com.handy.lib.db;
 
+import com.handy.lib.annotation.TableField;
 import com.handy.lib.annotation.TableName;
+import com.handy.lib.core.CollUtil;
+import com.handy.lib.core.StrUtil;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 处理器
  *
  * @author handy
+ * @since 1.4.8
  */
-public class Db extends Compare {
+public class Db<T> extends AbstractWrapper<T> {
+
     /**
-     * 测试用
+     * 构造
+     *
+     * @param clazz 类
      */
-    public static void main(String[] args) {
-        System.out.println("字段名：" + DbColumnUtil.getName(User::getLoginName));
-        System.out.println("字段名：" + DbColumnUtil.getName(User::getNickName));
+    public Db(Class<?> clazz) {
+        super.clazz = clazz;
     }
 
-    public Db build(Class<?> clazz) {
-        TableName tableName = clazz.getAnnotation(TableName.class);
+    /**
+     * 构建基础条件
+     *
+     * @return 查询条件
+     */
+    public Compare builder() {
+        TableName tableName = super.clazz.getAnnotation(TableName.class);
         if (tableName == null) {
-            return null;
+            throw new RuntimeException("tableName 为空");
         }
-        DbSql.Builder builder = new DbSql.Builder()
-                .setSelect(DbConstant.SELECT)
-                .setc(DbConstant.COUNT)
-                .set(buildFromSql(tableName.value(), tableName.alias()))
-                .where(DbConstant.DEFAULT_WHERE);
-        super.builder = builder;
-        return this;
-    }
+        Field[] fields = super.clazz.getDeclaredFields();
+        List<String> fieldList = new ArrayList<>();
+        LinkedHashMap<String, Integer> filedIndexMap = new LinkedHashMap<>();
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            TableField tableField = field.getAnnotation(TableField.class);
+            if (tableField != null && StrUtil.isNotEmpty(tableField.value())) {
+                fieldList.add(tableField.value());
+                filedIndexMap.put(tableField.value(), i + 1);
+            }
+        }
 
-    private static String buildFromSql(String tablaCode, String tableAlias) {
-        return String.format(DbConstant.FORM, tablaCode, tableAlias);
+        if (CollUtil.isEmpty(fieldList)) {
+            throw new RuntimeException("fieldList 为空");
+        }
+        super.dbSql = DbSql.builder()
+                .select(DbConstant.SELECT)
+                .insert(DbConstant.INSERT)
+                .count(DbConstant.COUNT)
+                .filed(CollUtil.listToStr(fieldList))
+                .filedIndexMap(filedIndexMap)
+                .from(DbConstant.FORM + tableName.value())
+                .where(DbConstant.DEFAULT_WHERE)
+                .whereData(new LinkedHashMap<>())
+                .build();
+        return this;
     }
 
 }

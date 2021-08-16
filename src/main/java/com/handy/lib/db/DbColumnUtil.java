@@ -1,6 +1,7 @@
 package com.handy.lib.db;
 
 import com.handy.lib.annotation.TableField;
+import com.handy.lib.core.StrUtil;
 
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
@@ -8,11 +9,21 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
+ * 获取字段
+ *
  * @author handy
+ * @since 1.4.8
  */
 public class DbColumnUtil {
 
-    public static <T> String getName(DbFunction<T, ?> fn) {
+    /**
+     * 从注解上获取字段
+     *
+     * @param fn  表达式
+     * @param <T> 类
+     * @return 字段
+     */
+    public static <T> String getFieldName(DbFunction<T, ?> fn) {
         // 从function取出序列化方法
         Method writeReplaceMethod;
         try {
@@ -41,13 +52,12 @@ public class DbColumnUtil {
         } catch (ClassNotFoundException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
-
-        // 从field取出字段名，可以根据实际情况调整
+        // 从field取出字段名
         TableField tableField = field.getAnnotation(TableField.class);
-        if (tableField != null && tableField.value().length() > 0) {
-            return tableField.value();
-        } else {
-            return fieldName.replaceAll("[A-Z]", "_$0").toLowerCase();
+        if (tableField == null || StrUtil.isEmpty(tableField.value())) {
+            throw new RuntimeException("TableField 为空");
         }
+        return tableField.value();
     }
+
 }
