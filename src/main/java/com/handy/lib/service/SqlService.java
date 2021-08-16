@@ -275,18 +275,7 @@ public class SqlService {
      * @since 1.2.3
      */
     public boolean executionSql(Plugin plugin, String storageMethod, String sql) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
-            ps = conn.prepareStatement(sql);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
-        }
-        return false;
+        return this.executionSql(plugin, storageMethod, sql, false);
     }
 
     /**
