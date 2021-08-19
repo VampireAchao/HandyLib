@@ -335,7 +335,7 @@ public class DbExecution<T> implements BaseMapper<T> {
      * 批量id查询
      *
      * @param ids ids
-     * @return List<T>
+     * @return List
      */
     @Override
     public List<T> selectBatchIds(List<Object> ids) {

@@ -24,6 +24,7 @@ public class Compare<T> implements Serializable {
      *
      * @param fn  字段
      * @param val 值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> eq(DbFunction<R, ?> fn, Object val) {
@@ -36,6 +37,7 @@ public class Compare<T> implements Serializable {
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> eq(boolean condition, DbFunction<R, ?> fn, Object val) {
@@ -44,10 +46,11 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 不等于 <>
+     * 不等于
      *
      * @param fn  字段
      * @param val 值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> ne(DbFunction<R, ?> fn, Object val) {
@@ -55,11 +58,12 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 不等于 <>
+     * 不等于
      *
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> ne(boolean condition, DbFunction<R, ?> fn, Object val) {
@@ -68,10 +72,11 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 大于 >
+     * 大于
      *
      * @param fn  字段
      * @param val 值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> gt(DbFunction<R, ?> fn, Object val) {
@@ -79,11 +84,12 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 大于 >
+     * 大于
      *
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> gt(boolean condition, DbFunction<R, ?> fn, Object val) {
@@ -92,10 +98,11 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 小于 <
+     * 小于
      *
      * @param fn  字段
      * @param val 值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> lt(DbFunction<R, ?> fn, Object val) {
@@ -103,11 +110,12 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 小于 <
+     * 小于
      *
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> lt(boolean condition, DbFunction<R, ?> fn, Object val) {
@@ -116,10 +124,11 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 大于等于 >=
+     * 大于等于
      *
      * @param fn  字段
      * @param val 值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> ge(DbFunction<R, ?> fn, Object val) {
@@ -127,11 +136,12 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 大于等于 >=
+     * 大于等于
      *
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> ge(boolean condition, DbFunction<R, ?> fn, Object val) {
@@ -140,10 +150,11 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 小于等于 <=
+     * 小于等于
      *
      * @param fn  字段
      * @param val 值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> le(DbFunction<R, ?> fn, Object val) {
@@ -151,11 +162,12 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 小于等于 <=
+     * 小于等于
      *
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> le(boolean condition, DbFunction<R, ?> fn, Object val) {
@@ -168,6 +180,7 @@ public class Compare<T> implements Serializable {
      *
      * @param fn  字段
      * @param val 值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> like(DbFunction<R, ?> fn, Object val) {
@@ -180,6 +193,7 @@ public class Compare<T> implements Serializable {
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> like(boolean condition, DbFunction<R, ?> fn, Object val) {
@@ -192,6 +206,7 @@ public class Compare<T> implements Serializable {
      *
      * @param fn  字段
      * @param val 值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> notLike(DbFunction<R, ?> fn, Object val) {
@@ -204,6 +219,7 @@ public class Compare<T> implements Serializable {
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> notLike(boolean condition, DbFunction<R, ?> fn, Object val) {
@@ -216,6 +232,7 @@ public class Compare<T> implements Serializable {
      *
      * @param fn  字段
      * @param val 值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> likeLeft(DbFunction<R, ?> fn, Object val) {
@@ -228,6 +245,7 @@ public class Compare<T> implements Serializable {
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> likeLeft(boolean condition, DbFunction<R, ?> fn, Object val) {
@@ -240,6 +258,7 @@ public class Compare<T> implements Serializable {
      *
      * @param fn  字段
      * @param val 值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> likeRight(DbFunction<R, ?> fn, Object val) {
@@ -252,6 +271,7 @@ public class Compare<T> implements Serializable {
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> likeRight(boolean condition, DbFunction<R, ?> fn, Object val) {
@@ -262,8 +282,9 @@ public class Compare<T> implements Serializable {
     /**
      * 字段 IN
      *
-     * @param fn 字段
-     * @param in 值
+     * @param fn  字段
+     * @param in  值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> in(DbFunction<R, ?> fn, List<Object> in) {
@@ -276,6 +297,7 @@ public class Compare<T> implements Serializable {
      * @param condition 执行条件
      * @param fn        字段
      * @param in        值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> in(boolean condition, DbFunction<R, ?> fn, List<Object> in) {
@@ -286,8 +308,9 @@ public class Compare<T> implements Serializable {
     /**
      * 字段 NOT IN
      *
-     * @param fn 字段
-     * @param in 值
+     * @param fn  字段
+     * @param in  值
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> notIn(DbFunction<R, ?> fn, List<Object> in) {
@@ -300,6 +323,7 @@ public class Compare<T> implements Serializable {
      * @param condition 执行条件
      * @param fn        字段
      * @param in        值
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> notIn(boolean condition, DbFunction<R, ?> fn, List<Object> in) {
@@ -310,7 +334,8 @@ public class Compare<T> implements Serializable {
     /**
      * 排序：ORDER BY 字段 ASC
      *
-     * @param fn 字段
+     * @param fn  字段
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> orderByAsc(DbFunction<R, ?> fn) {
@@ -322,6 +347,7 @@ public class Compare<T> implements Serializable {
      *
      * @param condition 执行条件
      * @param fn        字段
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> orderByAsc(boolean condition, DbFunction<R, ?> fn) {
@@ -332,8 +358,8 @@ public class Compare<T> implements Serializable {
     /**
      * 排序：ORDER BY 字段 DESC
      *
-     * @param condition 执行条件
-     * @param fn        字段
+     * @param fn  字段
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> orderByDesc(DbFunction<R, ?> fn) {
@@ -345,6 +371,7 @@ public class Compare<T> implements Serializable {
      *
      * @param condition 执行条件
      * @param fn        字段
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> orderByDesc(boolean condition, DbFunction<R, ?> fn) {
@@ -355,7 +382,8 @@ public class Compare<T> implements Serializable {
     /**
      * 分组：GROUP BY 字段
      *
-     * @param fn 字段
+     * @param fn  字段
+     * @param <R> 类型
      * @return this
      */
     public <R> Compare<T> groupBy(DbFunction<R, ?> fn) {
@@ -367,6 +395,7 @@ public class Compare<T> implements Serializable {
      *
      * @param condition 执行条件
      * @param fn        字段
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> groupBy(boolean condition, DbFunction<R, ?> fn) {
@@ -379,6 +408,7 @@ public class Compare<T> implements Serializable {
      *
      * @param pageNo   当前页
      * @param pageSize 每页显示条数
+     * @param <R>      类型
      * @return this
      */
     public <R> Compare<T> limit(int pageNo, int pageSize) {
@@ -391,6 +421,7 @@ public class Compare<T> implements Serializable {
      * @param condition 执行条件
      * @param pageNo    当前页
      * @param pageSize  每页显示条数
+     * @param <R>       类型
      * @return this
      */
     public <R> Compare<T> limit(boolean condition, int pageNo, int pageSize) {

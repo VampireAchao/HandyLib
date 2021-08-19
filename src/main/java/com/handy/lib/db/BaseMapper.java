@@ -79,7 +79,7 @@ public interface BaseMapper<T> extends Serializable {
      * 批量id查询
      *
      * @param ids ids
-     * @return List<T>
+     * @return List
      */
     List<T> selectBatchIds(List<Object> ids);
 

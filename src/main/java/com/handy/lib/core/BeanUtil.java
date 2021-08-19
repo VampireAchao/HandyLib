@@ -50,7 +50,8 @@ public class BeanUtil implements Serializable {
     /**
      * map转bean
      *
-     * @param map map
+     * @param type beanType
+     * @param map  map
      * @return bean
      */
     public static Object mapToBean(Class<?> type, Map<?, ?> map) {

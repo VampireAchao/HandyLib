@@ -20,6 +20,7 @@ public class UpdateCondition<T> implements Serializable {
      *
      * @param fn  字段
      * @param val 值
+     * @param <R> 类型
      * @return this
      */
     public <R> UpdateCondition<T> set(DbFunction<R, ?> fn, Object val) {
@@ -32,6 +33,7 @@ public class UpdateCondition<T> implements Serializable {
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
+     * @param <R>       类型
      * @return this
      */
     public <R> UpdateCondition<T> set(boolean condition, DbFunction<R, ?> fn, Object val) {
