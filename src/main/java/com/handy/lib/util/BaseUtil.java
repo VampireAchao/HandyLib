@@ -244,7 +244,23 @@ public class BaseUtil {
             return "§4加载语言文件出错,请重新加载!";
         }
         String msg = langConfig.getString(langMsg);
-        return msg != null ? replaceChatColor(msg) : "§4语言文件中未找到该配置项:" + langMsg;
+        return msg != null ? replaceChatColor(msg) : "§4语言文件中未找到该配置项:" + langMsg + "§a,请删除现在语言文件让重新生成";
+    }
+
+    /**
+     * 获取语言文件中的配置
+     *
+     * @param langMsg    配置项
+     * @param defaultMsg 默认语言
+     * @return 语言
+     */
+    public static String getLangMsg(String langMsg, String defaultMsg) {
+        FileConfiguration langConfig = BaseConstants.LANG_CONFIG;
+        if (langConfig == null) {
+            return "§4加载语言文件出错,请重新加载!";
+        }
+        String msg = langConfig.getString(langMsg);
+        return msg != null ? replaceChatColor(msg) : defaultMsg;
     }
 
     /**

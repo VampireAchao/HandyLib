@@ -3,13 +3,16 @@ package com.handy.lib;
 import com.handy.lib.annotation.HandyCommand;
 import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.annotation.HandySubCommand;
+import com.handy.lib.annotation.TableName;
 import com.handy.lib.api.CheckVersionApi;
+import com.handy.lib.api.StorageApi;
 import com.handy.lib.command.HandyCommandFactory;
 import com.handy.lib.command.HandySubCommandParam;
 import com.handy.lib.command.IHandyCommandEvent;
 import com.handy.lib.core.ClassUtil;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
+import com.handy.lib.db.Db;
 import com.handy.lib.inventory.HandyClickFactory;
 import com.handy.lib.inventory.IHandyClickEvent;
 import com.handy.lib.param.VerifySignParam;
@@ -229,6 +232,24 @@ public class InitApi {
     public InitApi verifySign(VerifySignParam param) {
         HandyHttpUtil.verifySign(param);
         HandyHttpUtil.anewVerifySign(param);
+        return this;
+    }
+
+    /**
+     * 存储初始化
+     *
+     * @param packageName 扫描的包名
+     * @return this
+     * @since 1.4.8
+     */
+    public InitApi enableSql(String packageName) {
+        // 初始化链接池
+        StorageApi.enableSql(InitApi.PLUGIN);
+        // 实体类
+        List<Class<?>> tableList = CLASS_UTIL.getClassByAnnotation(packageName, TableName.class);
+        for (Class<?> aClass : tableList) {
+            Db.use(aClass).execution().create();
+        }
         return this;
     }
 

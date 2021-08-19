@@ -1,5 +1,6 @@
 package com.handy.lib.service;
 
+import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.SqlEnum;
@@ -256,6 +257,17 @@ public class SqlService {
     /**
      * 执行普通sql
      *
+     * @param sql sql
+     * @return true/成功
+     * @since 1.4.8
+     */
+    public boolean executionSql(String sql) {
+        return this.executionSql(InitApi.PLUGIN, null, sql);
+    }
+
+    /**
+     * 执行普通sql
+     *
      * @param plugin 插件
      * @param sql    sql
      * @return true/成功
@@ -292,7 +304,11 @@ public class SqlService {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+            if (StrUtil.isNotEmpty(storageMethod)) {
+                conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+            } else {
+                conn = SqlManagerUtil.getInstance().getConnection(plugin);
+            }
             ps = conn.prepareStatement(sql);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -303,6 +319,59 @@ public class SqlService {
             SqlManagerUtil.getInstance().closeSql(conn, ps, null);
         }
         return false;
+    }
+
+    /**
+     * 查询总数
+     *
+     * @param sql sql
+     * @return 总数
+     */
+    public Integer count(String sql) {
+        return this.count(InitApi.PLUGIN, sql);
+    }
+
+    /**
+     * 查询总数
+     *
+     * @param plugin 插件
+     * @param sql    sql
+     * @return 总数
+     */
+    public int count(Plugin plugin, String sql) {
+        return this.count(plugin, null, sql);
+    }
+
+    /**
+     * 查询总数
+     *
+     * @param plugin        插件
+     * @param storageMethod 存储方法
+     * @param sql           sql
+     * @return 总数
+     */
+    public int count(Plugin plugin, String storageMethod, String sql) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rst = null;
+        int count = 0;
+        try {
+            if (StrUtil.isNotEmpty(storageMethod)) {
+                conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+            } else {
+                conn = SqlManagerUtil.getInstance().getConnection(plugin);
+            }
+            ps = conn.prepareStatement(sql);
+            rst = ps.executeQuery();
+            while (rst.next()) {
+                count = rst.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
+        }
+        return count;
     }
 
     /**

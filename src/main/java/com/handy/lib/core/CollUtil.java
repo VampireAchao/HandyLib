@@ -19,7 +19,7 @@ public class CollUtil {
      * @param list 集合
      * @return 字符串
      */
-    public static String listToStr(List list) {
+    public static String listToStr(List<?> list) {
         return StringUtils.join(list.toArray(), ",");
     }
 

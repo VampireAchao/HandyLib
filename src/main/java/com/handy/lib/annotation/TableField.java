@@ -19,4 +19,18 @@ public @interface TableField {
      * @return 字段名
      */
     String value();
+
+    /**
+     * 注释
+     *
+     * @return 注释
+     */
+    String comment() default "";
+
+    /**
+     * 长度
+     *
+     * @return 长度
+     */
+    int length() default 0;
 }

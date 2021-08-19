@@ -4,6 +4,8 @@ import com.handy.lib.annotation.TableField;
 import com.handy.lib.annotation.TableName;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
+import com.handy.lib.db.param.FiledInfoParam;
+import com.handy.lib.db.param.TableInfoParam;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -16,53 +18,105 @@ import java.util.List;
  * @author handy
  * @since 1.4.8
  */
-public class Db<T> extends AbstractWrapper<T> {
+public class Db<T> {
+
+    /**
+     * 类
+     */
+    private final Class<T> clazz;
+    /**
+     * DbSql
+     */
+    private DbSql dbSql;
 
     /**
      * 构造
      *
      * @param clazz 类
      */
-    public Db(Class<?> clazz) {
-        super.clazz = clazz;
+    public Db(Class<T> clazz) {
+        this.clazz = clazz;
+        init();
+    }
+
+    /**
+     * 初始化使用
+     *
+     * @param clazz 类
+     * @param <T>   T
+     * @return T
+     */
+    public static <T> Db<T> use(Class<T> clazz) {
+        return new Db<>(clazz);
+    }
+
+    /**
+     * 条件构造器
+     *
+     * @return 条件构造器
+     */
+    public Compare<T> where() {
+        return new Compare<T>(dbSql);
+    }
+
+    /**
+     * 更新构造器
+     *
+     * @return 更新构造器
+     */
+    public UpdateCondition<T> update() {
+        return new UpdateCondition<T>(dbSql);
+    }
+
+    /**
+     * 执行器
+     *
+     * @return 执行器
+     */
+    public DbExecution<T> execution() {
+        return new DbExecution<T>(dbSql, clazz);
     }
 
     /**
      * 构建基础条件
-     *
-     * @return 查询条件
      */
-    public Compare builder() {
-        TableName tableName = super.clazz.getAnnotation(TableName.class);
+    private void init() {
+        TableName tableName = this.clazz.getAnnotation(TableName.class);
         if (tableName == null) {
             throw new RuntimeException("tableName 为空");
         }
-        Field[] fields = super.clazz.getDeclaredFields();
+        // 表信息
+        TableInfoParam tableInfoParam = TableInfoParam.builder().tableName(tableName.value()).tableComment(tableName.comment()).build();
+        Field[] fields = this.clazz.getDeclaredFields();
         List<String> fieldList = new ArrayList<>();
-        LinkedHashMap<String, Integer> filedIndexMap = new LinkedHashMap<>();
+        LinkedHashMap<String, FiledInfoParam> filedInfoMap = new LinkedHashMap<>();
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
             TableField tableField = field.getAnnotation(TableField.class);
             if (tableField != null && StrUtil.isNotEmpty(tableField.value())) {
-                fieldList.add(tableField.value());
-                filedIndexMap.put(tableField.value(), i + 1);
+                fieldList.add(DbConstant.POINT + tableField.value() + DbConstant.POINT);
+                FiledInfoParam build = FiledInfoParam.builder()
+                        .filedName(tableField.value())
+                        .fieldRealName(field.getName())
+                        .filedType(field.getGenericType().getTypeName())
+                        .filedComment(tableField.comment())
+                        .filedIndex(i + 1)
+                        .build();
+                filedInfoMap.put(tableField.value(), build);
             }
         }
-
         if (CollUtil.isEmpty(fieldList)) {
             throw new RuntimeException("fieldList 为空");
         }
-        super.dbSql = DbSql.builder()
-                .select(DbConstant.SELECT)
-                .insert(DbConstant.INSERT)
-                .count(DbConstant.COUNT)
+        this.dbSql = DbSql.builder()
+                .tableName(DbConstant.POINT + tableName.value() + DbConstant.POINT)
+                .tableInfoParam(tableInfoParam)
                 .filed(CollUtil.listToStr(fieldList))
-                .filedIndexMap(filedIndexMap)
-                .from(DbConstant.FORM + tableName.value())
+                .filedInfoMap(filedInfoMap)
                 .where(DbConstant.DEFAULT_WHERE)
-                .whereData(new LinkedHashMap<>())
+                .updateFiledList(new ArrayList<>())
+                .updateFiledMap(new LinkedHashMap<>())
                 .build();
-        return this;
     }
 
 }

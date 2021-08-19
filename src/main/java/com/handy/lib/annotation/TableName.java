@@ -17,4 +17,11 @@ public @interface TableName {
      * @return 表名
      */
     String value();
+
+    /**
+     * 注释
+     *
+     * @return 注释
+     */
+    String comment() default "";
 }
