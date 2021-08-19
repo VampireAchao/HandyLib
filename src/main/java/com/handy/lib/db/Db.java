@@ -78,6 +78,16 @@ public class Db<T> {
     }
 
     /**
+     * 执行器
+     *
+     * @param storageMethod 存储方式
+     * @return 执行器
+     */
+    public DbExecution<T> execution(String storageMethod) {
+        return new DbExecution<T>(dbSql, clazz, storageMethod);
+    }
+
+    /**
      * 构建基础条件
      */
     private void init() {

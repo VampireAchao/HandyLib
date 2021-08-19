@@ -15,20 +15,17 @@ public enum FieldTypeEnum {
     /**
      * 查询全部数据sql
      */
-    STRING("java.lang.String", "VARCHAR", "text", 64, "ALTER TABLE `%s` ADD `%s` %s(%d);", "ALTER TABLE `%s` MODIFY `%s` %s(%d) COMMENT '%s';"),
-    INTEGER("java.lang.Integer", "INT", "INTEGER", 11, "ALTER TABLE `%s` ADD `%s` %s(%d);", "ALTER TABLE `%s` MODIFY `%s` %s(%d) COMMENT '%s';"),
-    BASIC_INT("int", "INT", "INTEGER", 11, "ALTER TABLE `%s` ADD `%s` %s(%d);", "ALTER TABLE `%s` MODIFY `%s` %s(%d) COMMENT '%s';"),
-    BOOLEAN("java.lang.Boolean", "INT", "INTEGER", 11, "ALTER TABLE `%s` ADD `%s` %s(%d);", "ALTER TABLE `%s` MODIFY `%s` %s(%d) COMMENT '%s';"),
-    BASIC_BOOLEAN("boolean", "INT", "INTEGER", 11, "ALTER TABLE `%s` ADD `%s` %s(%d);", "ALTER TABLE `%s` MODIFY `%s` %s(%d) COMMENT '%s';"),
-    DATE("java.util.Date", "DATETIME", "INTEGER", 0, "ALTER TABLE `%s` ADD `%s` %s(%d);", "ALTER TABLE `%s` MODIFY `%s` %s(%d) COMMENT '%s';"),
+    STRING("java.lang.String", "VARCHAR", 64),
+    INTEGER("java.lang.Integer", "INT", 11),
+    BASIC_INT("int", "INT", 11),
+    BOOLEAN("java.lang.Boolean", "INT", 11),
+    BASIC_BOOLEAN("boolean", "INT", 11),
+    DATE("java.util.Date", "DATETIME", 0),
     ;
 
     private final String javaType;
     private final String mysqlType;
-    private final String sqliteType;
     private final Integer length;
-    private final String addSql;
-    private final String commentSql;
 
     /**
      * 获取枚举

@@ -2,6 +2,7 @@ package com.handy.lib.db;
 
 import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
+import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.BeanUtil;
 import com.handy.lib.db.enter.Page;
 import com.handy.lib.db.enums.FieldTypeEnum;
@@ -15,10 +16,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -31,43 +30,62 @@ public class DbExecution<T> implements BaseMapper<T> {
 
     private final Class<T> clazz;
     private final DbSql dbSql;
+    private final String storageMethod;
+    private final boolean isMysql;
 
     protected DbExecution(DbSql dbSql, Class<T> clazz) {
         this.dbSql = dbSql;
         this.clazz = clazz;
+        this.storageMethod = BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD);
+        isMysql = BaseConstants.MYSQL.equalsIgnoreCase(storageMethod);
+    }
+
+    protected DbExecution(DbSql dbSql, Class<T> clazz, String storageMethod) {
+        this.dbSql = dbSql;
+        this.clazz = clazz;
+        this.storageMethod = storageMethod;
+        isMysql = BaseConstants.MYSQL.equalsIgnoreCase(storageMethod);
     }
 
     @Override
     public void create() {
         // 新增表
         TableInfoParam tableInfoParam = dbSql.getTableInfoParam();
-        String createTableSql = String.format(DbConstant.CREATE_TABLE, tableInfoParam.getTableName());
+        String createTable = isMysql ? DbConstant.CREATE_TABLE : DbConstant.SQLITE_CREATE_TABLE;
+        String createTableSql = String.format(createTable, tableInfoParam.getTableName());
         MessageApi.sendConsoleDebugMessage("新增表sql: " + createTableSql);
         SqlService.getInstance().executionSql(createTableSql);
         // 新增表注释
-        String tableCommentSql = String.format(DbConstant.TABLE_COMMENT, tableInfoParam.getTableName(), tableInfoParam.getTableComment());
-        MessageApi.sendConsoleDebugMessage("新增表注释: " + tableCommentSql);
-        SqlService.getInstance().executionSql(tableCommentSql);
+        if (isMysql) {
+            String tableCommentSql = String.format(DbConstant.TABLE_COMMENT, tableInfoParam.getTableName(), tableInfoParam.getTableComment());
+            MessageApi.sendConsoleDebugMessage("新增表注释: " + tableCommentSql);
+            SqlService.getInstance().executionSql(tableCommentSql);
+        }
         // 新增字段
         LinkedHashMap<String, FiledInfoParam> filedInfoMap = dbSql.getFiledInfoMap();
         for (String filedName : filedInfoMap.keySet()) {
             // 是否有字段
-            String columnsIfNotExists = String.format(DbConstant.COLUMNS_IF_NOT_EXISTS, tableInfoParam.getTableName(), filedName);
-            MessageApi.sendConsoleDebugMessage("是否有字段: " + columnsIfNotExists);
-            Integer count = SqlService.getInstance().count(columnsIfNotExists);
+            String columnsIfNotExists = isMysql ? DbConstant.COLUMNS_IF_NOT_EXISTS : DbConstant.SQLITE_COLUMNS_IF_NOT_EXISTS;
+            String columnsIfNotExistsSql = String.format(columnsIfNotExists, tableInfoParam.getTableName(), filedName);
+            MessageApi.sendConsoleDebugMessage("是否有字段: " + columnsIfNotExistsSql);
+            Integer count = SqlService.getInstance().count(columnsIfNotExistsSql);
             if (count == null || count > 0) {
                 continue;
             }
             // 新增字段
             FiledInfoParam filedInfoParam = filedInfoMap.get(filedName);
             FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam.getFiledType());
-            String createFieldSql = String.format(fieldTypeEnum.getAddSql(), tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), fieldTypeEnum.getLength());
+
+            String addColumn = isMysql ? DbConstant.ADD_COLUMN : DbConstant.SQLITE_ADD_COLUMN;
+            String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), fieldTypeEnum.getLength());
             MessageApi.sendConsoleDebugMessage("新增字段: " + createFieldSql);
             SqlService.getInstance().executionSql(createFieldSql);
             // 新增字段注释
-            String fieldCommentSql = String.format(fieldTypeEnum.getCommentSql(), tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), fieldTypeEnum.getLength(), filedInfoParam.getFiledComment());
-            MessageApi.sendConsoleDebugMessage("新增字段注释: " + fieldCommentSql);
-            SqlService.getInstance().executionSql(fieldCommentSql);
+            if (isMysql) {
+                String fieldCommentSql = String.format(DbConstant.ADD_COLUMN_COMMENT, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), fieldTypeEnum.getLength(), filedInfoParam.getFiledComment());
+                MessageApi.sendConsoleDebugMessage("新增字段注释: " + fieldCommentSql);
+                SqlService.getInstance().executionSql(fieldCommentSql);
+            }
         }
     }
 
@@ -89,6 +107,9 @@ public class DbExecution<T> implements BaseMapper<T> {
                 FiledInfoParam filedInfoParam = filedInfoParamMap.get(key);
                 if (filedInfoParam == null) {
                     continue;
+                }
+                if (FieldTypeEnum.DATE.getJavaType().equals(filedInfoParam.getFiledType()) && !isMysql) {
+
                 }
                 ps.setObject(filedInfoParam.getFiledIndex(), paramMap.get(key));
             }
@@ -132,6 +153,11 @@ public class DbExecution<T> implements BaseMapper<T> {
                     Object obj = rst.getObject(filedInfoParam.getFiledName());
                     if (obj == null) {
                         continue;
+                    }
+                    // date处理
+                    if (FieldTypeEnum.DATE.getJavaType().equals(filedInfoParam.getFiledType()) && !isMysql) {
+                        String str = obj.toString();
+                        obj = new Date(Long.parseLong(str));
                     }
                     Field field = clazz.getDeclaredField(filedInfoParam.getFieldRealName());
                     field.setAccessible(true);
@@ -206,6 +232,11 @@ public class DbExecution<T> implements BaseMapper<T> {
                     Object obj = rst.getObject(filedInfoParam.getFiledName());
                     if (obj == null) {
                         continue;
+                    }
+                    // date处理
+                    if (FieldTypeEnum.DATE.getJavaType().equals(filedInfoParam.getFiledType()) && !isMysql) {
+                        String str = obj.toString();
+                        obj = new Date(Long.parseLong(str));
                     }
                     Field field = clazz.getDeclaredField(filedInfoParam.getFieldRealName());
                     field.setAccessible(true);
