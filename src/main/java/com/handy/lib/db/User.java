@@ -19,7 +19,7 @@ public class User implements Serializable {
     @TableField(value = "id", comment = "ID")
     private Integer id;
 
-    @TableField(value = "login_name", comment = "登录名")
+    @TableField(value = "login_name", comment = "登录名", notNull = true)
     private String loginName;
 
     @TableField(value = "nick_name", comment = "昵称")

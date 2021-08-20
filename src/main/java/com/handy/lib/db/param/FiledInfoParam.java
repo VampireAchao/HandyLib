@@ -36,6 +36,11 @@ public class FiledInfoParam implements Serializable {
     private String filedComment;
 
     /**
+     * 字段是否可为null
+     */
+    private Boolean filedNotNull;
+
+    /**
      * 字段坐标
      */
     private Integer filedIndex;

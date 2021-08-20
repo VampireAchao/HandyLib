@@ -77,7 +77,7 @@ public class DbExecution<T> implements BaseMapper<T> {
             FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam.getFiledType());
 
             String addColumn = isMysql ? DbConstant.ADD_COLUMN : DbConstant.SQLITE_ADD_COLUMN;
-            String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), fieldTypeEnum.getLength());
+            String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), fieldTypeEnum.getLength(), filedInfoParam.getFiledNotNull() ? DbConstant.NOT_NULL : "");
             MessageApi.sendConsoleDebugMessage("新增字段: " + createFieldSql);
             SqlService.getInstance().executionSql(createFieldSql);
             // 新增字段注释

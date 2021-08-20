@@ -33,4 +33,13 @@ public @interface TableField {
      * @return 长度
      */
     int length() default 0;
+
+    /**
+     * 是否可为null
+     * true可以为null，false不能为null
+     * 默认为null
+     *
+     * @return 是否可为null
+     */
+    boolean notNull() default false;
 }

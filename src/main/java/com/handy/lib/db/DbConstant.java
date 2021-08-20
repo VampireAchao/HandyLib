@@ -13,6 +13,7 @@ public class DbConstant implements Serializable {
     public static final String INSERT = "INSERT INTO ";
     public static final String UPDATE = "UPDATE ";
     public static final String DELETE = "DELETE FROM ";
+    public static final String NOT_NULL = "NOT NULL";
 
     public static final String SET = " SET ";
     public static final String FORM = " FROM ";
@@ -29,7 +30,6 @@ public class DbConstant implements Serializable {
     public static final String COUNT = "COUNT(*)";
     public static final String DEFAULT_WHERE = " where 1 = 1";
 
-
     /**
      * 新增表
      */
@@ -45,7 +45,7 @@ public class DbConstant implements Serializable {
     /**
      * 新增字段
      */
-    public static final String ADD_COLUMN = "ALTER TABLE `%s` ADD `%s` %s(%d);";
+    public static final String ADD_COLUMN = "ALTER TABLE `%s` ADD `%s` %s(%d) %s;";
     /**
      * 新增字段注释
      */
@@ -62,6 +62,6 @@ public class DbConstant implements Serializable {
     /**
      * SQLITE 新增字段
      */
-    public static final String SQLITE_ADD_COLUMN = "ALTER TABLE '%s' ADD '%s' %s(%d);";
+    public static final String SQLITE_ADD_COLUMN = "ALTER TABLE '%s' ADD '%s' %s(%d)  %s;";
 
 }

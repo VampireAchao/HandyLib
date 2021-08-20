@@ -110,6 +110,7 @@ public class Db<T> {
                         .fieldRealName(field.getName())
                         .filedType(field.getGenericType().getTypeName())
                         .filedComment(tableField.comment())
+                        .filedNotNull(tableField.notNull())
                         .filedIndex(i + 1)
                         .build();
                 filedInfoMap.put(tableField.value(), build);
