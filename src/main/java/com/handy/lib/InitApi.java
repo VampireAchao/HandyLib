@@ -5,6 +5,7 @@ import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.annotation.HandySubCommand;
 import com.handy.lib.annotation.TableName;
 import com.handy.lib.api.CheckVersionApi;
+import com.handy.lib.api.MessageApi;
 import com.handy.lib.api.StorageApi;
 import com.handy.lib.command.HandyCommandFactory;
 import com.handy.lib.command.HandySubCommandParam;
@@ -65,9 +66,10 @@ public class InitApi {
      * @return this
      */
     public static InitApi getInstance(Plugin plugin, boolean isInit) {
-        String packageName = plugin.getClass().getPackage().getName();
         InitApi instance = getInstance(plugin);
         if (isInit) {
+            String packageName = plugin.getClass().getPackage().getName();
+            MessageApi.sendConsoleDebugMessage("初始化包名: " + packageName);
             instance.initCommand(packageName)
                     .initSubCommand(packageName)
                     .initListener(packageName)
