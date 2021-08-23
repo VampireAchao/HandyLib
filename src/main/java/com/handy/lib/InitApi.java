@@ -58,6 +58,26 @@ public class InitApi {
     }
 
     /**
+     * 直接扫描当前包的类
+     *
+     * @param plugin 插件
+     * @param isInit 是否初始化
+     * @return this
+     */
+    public static InitApi getInstance(Plugin plugin, boolean isInit) {
+        String packageName = plugin.getClass().getPackage().getName();
+        InitApi instance = getInstance(plugin);
+        if (isInit) {
+            instance.initCommand(packageName)
+                    .initSubCommand(packageName)
+                    .initListener(packageName)
+                    .initClickEvent(packageName)
+                    .enableSql(packageName);
+        }
+        return instance;
+    }
+
+    /**
      * 命令注入器
      *
      * @param packageName 扫描的包名
