@@ -151,4 +151,32 @@ public class HandyInventoryUtil {
         return null;
     }
 
+    /**
+     * 分页设置
+     *
+     * @param inventory gui
+     * @param pageNum   当前页
+     * @param pageCount 总页
+     * @since 1.5.1
+     */
+    public static void setPage(Inventory inventory, Integer pageNum, Integer pageCount) {
+        if (pageCount == 0) {
+            pageCount = 1;
+        }
+        String currentPage = BaseUtil.getLangMsg("currentPage", "&a当前页:");
+        String totalPages = BaseUtil.getLangMsg("totalPages", "&a总页数:");
+        String previousPageMsg = BaseUtil.getLangMsg("previousPage", "&a点击前往上一页");
+        String nextPageMsg = BaseUtil.getLangMsg("nextPage", "&a点击前往下一页");
+        // 上一页
+        List<String> previousPage = new ArrayList<>();
+        previousPage.add(currentPage + (pageNum + 1));
+        previousPage.add(totalPages + pageCount);
+        inventory.setItem(48, ItemStackUtil.getItemStack(Material.PAPER, previousPageMsg, previousPage));
+        // 下一页
+        List<String> nextPage = new ArrayList<>();
+        nextPage.add(currentPage + (pageNum + 1));
+        nextPage.add(totalPages + pageCount);
+        inventory.setItem(50, ItemStackUtil.getItemStack(Material.PAPER, nextPageMsg, nextPage));
+    }
+
 }
