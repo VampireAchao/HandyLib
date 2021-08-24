@@ -291,6 +291,44 @@ public class SqlService {
     }
 
     /**
+     * 查询表字段新
+     *
+     * @param storageMethod 存储方法
+     * @param sql           sql
+     * @return true/成功
+     * @since 1.2.3
+     */
+    public List<String> getTableInfo(String storageMethod, String sql) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rst = null;
+        List<String> filedNameList = new ArrayList<>();
+        try {
+            if (StrUtil.isNotEmpty(storageMethod)) {
+                conn = SqlManagerUtil.getInstance().getConnection(InitApi.PLUGIN, storageMethod);
+            } else {
+                conn = SqlManagerUtil.getInstance().getConnection(InitApi.PLUGIN);
+            }
+            ps = conn.prepareStatement(sql);
+            rst = ps.executeQuery();
+            while (rst.next()) {
+                String fieId = "";
+                if (BaseConstants.MYSQL.equals(storageMethod)) {
+                    fieId = rst.getString("FieId");
+                } else {
+                    fieId = rst.getString("name");
+                }
+                filedNameList.add(fieId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
+        }
+        return filedNameList;
+    }
+
+    /**
      * 执行普通sql
      *
      * @param plugin        插件

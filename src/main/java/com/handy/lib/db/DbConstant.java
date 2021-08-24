@@ -14,6 +14,7 @@ public class DbConstant implements Serializable {
     public static final String UPDATE = "UPDATE ";
     public static final String DELETE = "DELETE FROM ";
     public static final String NOT_NULL = "NOT NULL";
+    public static final String DEFAULT = "DEFAULT ''";
 
     public static final String SET = " SET ";
     public static final String FORM = " FROM ";
@@ -43,6 +44,11 @@ public class DbConstant implements Serializable {
      */
     public static final String COLUMNS_IF_NOT_EXISTS = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name='%s' AND COLUMN_NAME='%s';";
     /**
+     * 表信息
+     */
+    public static final String TABLE_INFO = "DESC %s";
+
+    /**
      * 新增字段
      */
     public static final String ADD_COLUMN = "ALTER TABLE `%s` ADD `%s` %s(%d) %s;";
@@ -59,9 +65,14 @@ public class DbConstant implements Serializable {
      * SQLITE 字段是否存在
      */
     public static final String SQLITE_COLUMNS_IF_NOT_EXISTS = "SELECT COUNT(*) FROM sqlite_master WHERE tbl_name='%s' AND sql LIKE '%%%s%%';";
+
+    /**
+     * SQLITE 表信息
+     */
+    public static final String SQLITE_TABLE_INFO = "PRAGMA table_info ( %s )";
     /**
      * SQLITE 新增字段
      */
-    public static final String SQLITE_ADD_COLUMN = "ALTER TABLE '%s' ADD '%s' %s(%d)  %s;";
+    public static final String SQLITE_ADD_COLUMN = "ALTER TABLE '%s' ADD '%s' %s(%d) %s;";
 
 }

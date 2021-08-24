@@ -61,23 +61,25 @@ public class DbExecution<T> implements BaseMapper<T> {
             MessageApi.sendConsoleDebugMessage("新增表注释: " + tableCommentSql);
             SqlService.getInstance().executionSql(tableCommentSql);
         }
-        // 新增字段
+        // 现有字段
         LinkedHashMap<String, FiledInfoParam> filedInfoMap = dbSql.getFiledInfoMap();
+        String sql = isMysql ? DbConstant.TABLE_INFO : DbConstant.SQLITE_TABLE_INFO;
+        MessageApi.sendConsoleDebugMessage("查询字段sql: " + sql);
+        List<String> filedNameList = SqlService.getInstance().getTableInfo(BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD), sql);
+        // 新增字段
         for (String filedName : filedInfoMap.keySet()) {
-            // 是否有字段
-            String columnsIfNotExists = isMysql ? DbConstant.COLUMNS_IF_NOT_EXISTS : DbConstant.SQLITE_COLUMNS_IF_NOT_EXISTS;
-            String columnsIfNotExistsSql = String.format(columnsIfNotExists, tableInfoParam.getTableName(), filedName);
-            MessageApi.sendConsoleDebugMessage("是否有字段: " + columnsIfNotExistsSql);
-            Integer count = SqlService.getInstance().count(columnsIfNotExistsSql);
-            if (count == null || count > 0) {
+            if (filedNameList.contains(filedName)) {
                 continue;
             }
             // 新增字段
             FiledInfoParam filedInfoParam = filedInfoMap.get(filedName);
             FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam.getFiledType());
-
             String addColumn = isMysql ? DbConstant.ADD_COLUMN : DbConstant.SQLITE_ADD_COLUMN;
-            String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), fieldTypeEnum.getLength(), filedInfoParam.getFiledNotNull() ? DbConstant.NOT_NULL : "");
+            String notNullSql = filedInfoParam.getFiledNotNull() ? DbConstant.NOT_NULL : "";
+            if (!isMysql && filedInfoParam.getFiledNotNull()) {
+                notNullSql += DbConstant.DEFAULT;
+            }
+            String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), fieldTypeEnum.getLength(), notNullSql);
             MessageApi.sendConsoleDebugMessage("新增字段: " + createFieldSql);
             SqlService.getInstance().executionSql(createFieldSql);
             // 新增字段注释
