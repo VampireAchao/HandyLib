@@ -64,6 +64,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         // 现有字段
         LinkedHashMap<String, FiledInfoParam> filedInfoMap = dbSql.getFiledInfoMap();
         String sql = isMysql ? DbConstant.TABLE_INFO : DbConstant.SQLITE_TABLE_INFO;
+        sql = String.format(sql, tableInfoParam.getTableName());
         MessageApi.sendConsoleDebugMessage("查询字段sql: " + sql);
         List<String> filedNameList = SqlService.getInstance().getTableInfo(BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD), sql);
         // 新增字段
