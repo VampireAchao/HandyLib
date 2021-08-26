@@ -70,7 +70,7 @@ public abstract class BaseConstants {
     /**
      * 是否通过签名验证
      */
-    public static Boolean VERIFY_SIGN = false;
+    public static Boolean SIGN_VERIFY = false;
 
     /**
      * true

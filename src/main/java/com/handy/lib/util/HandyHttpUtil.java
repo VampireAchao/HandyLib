@@ -61,14 +61,14 @@ public class HandyHttpUtil {
                     paramMap.put("secretKey", verifySignParam.getSecretKey());
                     String result = HttpUtil.get(VERIFY_SIGN, paramMap);
                     if (BaseConstants.TRUE.equals(result)) {
-                        BaseConstants.VERIFY_SIGN = true;
+                        BaseConstants.SIGN_VERIFY = true;
                         if (CollUtil.isNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
                             for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
                                 MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(verifySignSucceedMsg));
                             }
                         }
                     } else {
-                        BaseConstants.VERIFY_SIGN = false;
+                        BaseConstants.SIGN_VERIFY = false;
                         if (CollUtil.isNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
                             for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
                                 MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(verifySignFailureMsg));
@@ -77,7 +77,7 @@ public class HandyHttpUtil {
                     }
                     this.cancel();
                 } catch (Exception e) {
-                    BaseConstants.VERIFY_SIGN = false;
+                    BaseConstants.SIGN_VERIFY = false;
                     if (CollUtil.isNotEmpty(verifySignParam.getRequestError())) {
                         for (String requestError : verifySignParam.getRequestError()) {
                             MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(requestError));
@@ -112,9 +112,9 @@ public class HandyHttpUtil {
                     paramMap.put("pluginName", verifySignParam.getPluginName());
                     paramMap.put("secretKey", verifySignParam.getSecretKey());
                     String result = HttpUtil.get(VERIFY_SIGN, paramMap);
-                    BaseConstants.VERIFY_SIGN = BaseConstants.TRUE.equals(result);
+                    BaseConstants.SIGN_VERIFY = BaseConstants.TRUE.equals(result);
                 } catch (Exception e) {
-                    BaseConstants.VERIFY_SIGN = false;
+                    BaseConstants.SIGN_VERIFY = false;
                 }
             }
         }.runTaskTimerAsynchronously(plugin, 20 * 60 * 60, 20 * 60 * 60);
