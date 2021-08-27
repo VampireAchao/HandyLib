@@ -27,8 +27,6 @@ public class SqlManagerUtil {
 
     /**
      * 初始化连接
-     *
-     * @param plugin 插件
      */
     public void enableTable() {
         this.enableTable(this.getStorageMethod());
@@ -37,7 +35,6 @@ public class SqlManagerUtil {
     /**
      * 初始化连接
      *
-     * @param plugin        插件
      * @param storageMethod 连接方式
      */
     public void enableTable(String storageMethod) {
