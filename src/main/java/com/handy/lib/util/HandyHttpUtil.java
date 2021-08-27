@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
@@ -12,7 +13,6 @@ import com.handy.lib.param.VerifySignParam;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
@@ -47,8 +47,7 @@ public class HandyHttpUtil {
      * @param verifySignParam 参数
      */
     public static void verifySign(VerifySignParam verifySignParam) {
-        Plugin plugin = verifySignParam.getPlugin();
-        int port = plugin.getServer().getPort();
+        int port = InitApi.PLUGIN.getServer().getPort();
         // 进行校验
         new BukkitRunnable() {
             @Override
@@ -64,14 +63,14 @@ public class HandyHttpUtil {
                         BaseConstants.SIGN_VERIFY = true;
                         if (CollUtil.isNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
                             for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
-                                MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(verifySignSucceedMsg));
+                                MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignSucceedMsg));
                             }
                         }
                     } else {
                         BaseConstants.SIGN_VERIFY = false;
                         if (CollUtil.isNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
                             for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
-                                MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(verifySignFailureMsg));
+                                MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignFailureMsg));
                             }
                         }
                     }
@@ -80,7 +79,7 @@ public class HandyHttpUtil {
                     BaseConstants.SIGN_VERIFY = false;
                     if (CollUtil.isNotEmpty(verifySignParam.getRequestError())) {
                         for (String requestError : verifySignParam.getRequestError()) {
-                            MessageApi.sendConsoleMessage(plugin, BaseUtil.replaceChatColor(requestError));
+                            MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(requestError));
                         }
                     }
                     if (verifySignParam.getRetryNumber() < 1) {
@@ -90,7 +89,7 @@ public class HandyHttpUtil {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(plugin, 0, 20 * 60);
+        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 0, 20 * 60);
     }
 
     /**
@@ -99,8 +98,7 @@ public class HandyHttpUtil {
      * @param verifySignParam 参数
      */
     public static void anewVerifySign(VerifySignParam verifySignParam) {
-        Plugin plugin = verifySignParam.getPlugin();
-        int port = plugin.getServer().getPort();
+        int port = InitApi.PLUGIN.getServer().getPort();
         // 进行校验
         new BukkitRunnable() {
             @Override
@@ -117,17 +115,16 @@ public class HandyHttpUtil {
                     BaseConstants.SIGN_VERIFY = false;
                 }
             }
-        }.runTaskTimerAsynchronously(plugin, 20 * 60 * 60, 20 * 60 * 60);
+        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 20 * 60 * 60, 20 * 60 * 60);
     }
 
     /**
      * 版本检测
      *
-     * @param plugin 插件
      * @param player 玩家
      * @param url    路径
      */
-    public static void checkVersion(Plugin plugin, Player player, String url) {
+    public static void checkVersion(Player player, String url) {
         if (player != null && !player.isOp()) {
             return;
         }
@@ -141,7 +138,7 @@ public class HandyHttpUtil {
                     if (StringUtils.isNotBlank(result)) {
                         JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
                         // 当前版本
-                        String version = plugin.getDescription().getVersion();
+                        String version = InitApi.PLUGIN.getDescription().getVersion();
                         // 获取到的信息
                         String tagName = jsonObject.get("tag_name").getAsString();
                         String body = jsonObject.get("body").getAsString();
@@ -151,7 +148,7 @@ public class HandyHttpUtil {
                         }
                         String message = ChatColor.GREEN + "检测到最新版本:" + tagName + "更新内容:" + body;
                         if (player == null) {
-                            MessageApi.sendConsoleMessage(plugin, message);
+                            MessageApi.sendConsoleMessage(message);
                         } else {
                             player.sendMessage(message);
                         }
@@ -159,15 +156,13 @@ public class HandyHttpUtil {
                 } catch (Exception ignored) {
                 }
             }
-        }.runTaskAsynchronously(plugin);
+        }.runTaskAsynchronously(InitApi.PLUGIN);
     }
 
     /**
      * 云汉化系统
-     *
-     * @param plugin 插件
      */
-    public static void getZhCn(Plugin plugin) {
+    public static void getZhCn() {
         // 获取版本
         String url;
         VersionCheckEnum versionCheckEnum = VersionCheckEnum.getEnum();
@@ -178,31 +173,31 @@ public class HandyHttpUtil {
             case V_1_10:
             case V_1_11:
             case V_1_12:
-                setCloudItemJsonCacheMap(plugin, versionCheckEnum.getVersion());
+                setCloudItemJsonCacheMap(versionCheckEnum.getVersion());
                 break;
             case V_1_13:
                 url = URL_1_13;
-                getCloudZhCn(plugin, url);
+                getCloudZhCn(url);
                 break;
             case V_1_14:
                 url = URL_1_14;
-                getCloudZhCn(plugin, url);
+                getCloudZhCn(url);
                 break;
             case V_1_15:
                 url = URL_1_15;
-                getCloudZhCn(plugin, url);
+                getCloudZhCn(url);
                 break;
             case V_1_16:
                 url = URL_1_16;
-                getCloudZhCn(plugin, url);
+                getCloudZhCn(url);
                 break;
             case V_1_17:
                 url = URL_1_17;
-                getCloudZhCn(plugin, url);
+                getCloudZhCn(url);
                 break;
             default:
                 url = URL_1_17;
-                getCloudZhCn(plugin, url);
+                getCloudZhCn(url);
                 break;
         }
     }
@@ -210,21 +205,20 @@ public class HandyHttpUtil {
     /**
      * 下载云汉化文件
      *
-     * @param plugin 插件
-     * @param url    下载路径
+     * @param url 下载路径
      */
-    private static void getCloudZhCn(Plugin plugin, String url) {
+    private static void getCloudZhCn(String url) {
         final int[] retryNumber = {6};
         new BukkitRunnable() {
             @Override
             public void run() {
                 try {
                     // 下载文件保存到目录
-                    HttpUtil.downloadFile(url, plugin.getDataFolder(), "zh_cn.json");
-                    File zhChFile = new File(plugin.getDataFolder(), "zh_cn.json");
+                    HttpUtil.downloadFile(url, InitApi.PLUGIN.getDataFolder(), "zh_cn.json");
+                    File zhChFile = new File(InitApi.PLUGIN.getDataFolder(), "zh_cn.json");
                     if (zhChFile.exists()) {
                         BaseUtil.readJsonFileToJsonCacheMap(zhChFile);
-                        MessageApi.sendConsoleMessage(plugin, ChatColor.GREEN + "获取云汉化数据成功...");
+                        MessageApi.sendConsoleMessage(ChatColor.GREEN + "获取云汉化数据成功...");
                     }
                     this.cancel();
                 } catch (Exception ignored) {
@@ -235,16 +229,15 @@ public class HandyHttpUtil {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(plugin, 0, 20 * 60);
+        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 0, 20 * 60);
     }
 
     /**
      * 获取云汉化数据
      *
-     * @param plugin  插件
      * @param version 版本
      */
-    public static void setCloudItemJsonCacheMap(Plugin plugin, String version) {
+    public static void setCloudItemJsonCacheMap(String version) {
         final int[] retryNumber = {6};
         new BukkitRunnable() {
             @Override
@@ -256,7 +249,7 @@ public class HandyHttpUtil {
                     if (StringUtils.isNotBlank(result)) {
                         BaseConstants.cloudItemJsonCacheMap = new Gson().fromJson(result, new TypeToken<Map<String, String>>() {
                         }.getType());
-                        MessageApi.sendConsoleMessage(plugin, ChatColor.GREEN + "获取云汉化数据成功...");
+                        MessageApi.sendConsoleMessage(ChatColor.GREEN + "获取云汉化数据成功...");
                     }
                     this.cancel();
                 } catch (Exception ignored) {
@@ -267,15 +260,13 @@ public class HandyHttpUtil {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(plugin, 0, 20 * 60);
+        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 0, 20 * 60);
     }
 
     /**
      * 同步自定义汉化数据
-     *
-     * @param plugin 插件
      */
-    public static void setItemName(Plugin plugin) {
+    public static void setItemName() {
         // 异步处理
         new BukkitRunnable() {
             @Override
@@ -291,7 +282,7 @@ public class HandyHttpUtil {
                 } catch (Exception ignored) {
                 }
             }
-        }.runTaskAsynchronously(plugin);
+        }.runTaskAsynchronously(InitApi.PLUGIN);
     }
 
     /**

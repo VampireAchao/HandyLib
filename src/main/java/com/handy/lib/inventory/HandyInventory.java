@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,10 +22,6 @@ public class HandyInventory implements InventoryHolder {
      * 背包
      */
     private Inventory inventory;
-    /**
-     * 插件
-     */
-    private Plugin plugin;
     /**
      * 数据map
      */
@@ -59,13 +54,11 @@ public class HandyInventory implements InventoryHolder {
      * @param guiType 类型
      * @param title   标题
      * @param size    大小
-     * @param plugin  插件
      */
-    public HandyInventory(Map<Integer, Long> map, String guiType, String title, int size, Plugin plugin) {
+    public HandyInventory(Map<Integer, Long> map, String guiType, String title, int size) {
         this.map = map;
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
-        this.plugin = plugin;
     }
 
     /**
@@ -74,13 +67,11 @@ public class HandyInventory implements InventoryHolder {
      * @param guiType 类型
      * @param title   标题
      * @param size    大小
-     * @param plugin  插件
      */
-    public HandyInventory(String guiType, String title, int size, Plugin plugin) {
+    public HandyInventory(String guiType, String title, int size) {
         this.map = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
-        this.plugin = plugin;
     }
 
     /**
@@ -88,13 +79,11 @@ public class HandyInventory implements InventoryHolder {
      *
      * @param guiType       类型
      * @param inventoryType 类型
-     * @param plugin        插件
      */
-    public HandyInventory(String guiType, InventoryType inventoryType, Plugin plugin) {
+    public HandyInventory(String guiType, InventoryType inventoryType) {
         this.map = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType);
-        this.plugin = plugin;
     }
 
     /**
@@ -103,13 +92,11 @@ public class HandyInventory implements InventoryHolder {
      * @param guiType       类型
      * @param title         标题
      * @param inventoryType 类型
-     * @param plugin        插件
      */
-    public HandyInventory(String guiType, String title, InventoryType inventoryType, Plugin plugin) {
+    public HandyInventory(String guiType, String title, InventoryType inventoryType) {
         this.map = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType, title);
-        this.plugin = plugin;
     }
 
     /**
@@ -117,13 +104,11 @@ public class HandyInventory implements InventoryHolder {
      *
      * @param guiType 类型
      * @param title   标题
-     * @param plugin  插件
      */
-    public HandyInventory(String guiType, String title, Plugin plugin) {
+    public HandyInventory(String guiType, String title) {
         this.map = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, BaseConstants.GUI_SIZE_54, title);
-        this.plugin = plugin;
     }
 
 }

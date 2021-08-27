@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -89,34 +88,20 @@ public class MessageApi {
     /**
      * 发送Console消息
      *
-     * @param plugin 插件
-     * @param msg    消息
+     * @param msg 消息
      */
-    public static void sendConsoleMessage(Plugin plugin, String msg) {
-        getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "[" + plugin.getName() + "] " + BaseUtil.replaceChatColor(msg));
-    }
-
-    /**
-     * 发送 Console debug消息
-     *
-     * @param plugin 插件
-     * @param msg    消息
-     */
-    public static void sendConsoleDebugMessage(Plugin plugin, String msg) {
-        if (BaseConstants.DEBUG) {
-            sendConsoleMessage(plugin, msg);
-        }
+    public static void sendConsoleMessage(String msg) {
+        getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "[" + InitApi.PLUGIN.getName() + "] " + BaseUtil.replaceChatColor(msg));
     }
 
     /**
      * 发送 Console debug消息
      *
      * @param msg 消息
-     * @since 1.4.7
      */
     public static void sendConsoleDebugMessage(String msg) {
         if (BaseConstants.DEBUG) {
-            sendConsoleMessage(InitApi.PLUGIN, msg);
+            sendConsoleMessage(msg);
         }
     }
 

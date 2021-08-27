@@ -1,9 +1,9 @@
 package com.handy.lib.util;
 
+import com.handy.lib.InitApi;
 import com.handy.lib.constants.BaseConstants;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.bukkit.plugin.Plugin;
 
 import java.sql.*;
 import java.util.Date;
@@ -30,8 +30,8 @@ public class SqlManagerUtil {
      *
      * @param plugin 插件
      */
-    public void enableTable(Plugin plugin) {
-        this.enableTable(plugin, this.getStorageMethod());
+    public void enableTable() {
+        this.enableTable(this.getStorageMethod());
     }
 
     /**
@@ -40,7 +40,7 @@ public class SqlManagerUtil {
      * @param plugin        插件
      * @param storageMethod 连接方式
      */
-    public void enableTable(Plugin plugin, String storageMethod) {
+    public void enableTable(String storageMethod) {
         if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
             HikariConfig hikariConfig = new HikariConfig();
             String host = BaseConstants.STORAGE_CONFIG.getString("MySQL.Host");
@@ -49,7 +49,7 @@ public class SqlManagerUtil {
             String useSsl = BaseConstants.STORAGE_CONFIG.getString("MySQL.UseSSL");
             String jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=" + useSsl + "&useUnicode=true&characterEncoding=UTF-8";
             hikariConfig.setJdbcUrl(jdbcUrl);
-            hikariConfig.setPoolName(plugin.getName() + "HikariPool");
+            hikariConfig.setPoolName(InitApi.PLUGIN.getName() + "HikariPool");
             hikariConfig.setUsername(BaseConstants.STORAGE_CONFIG.getString("MySQL.User"));
             hikariConfig.setPassword(BaseConstants.STORAGE_CONFIG.getString("MySQL.Password"));
             // 是否自定义配置，为true时下面两个参数才生效
@@ -71,27 +71,25 @@ public class SqlManagerUtil {
     /**
      * 获取连接
      *
-     * @param plugin        插件
      * @param storageMethod 连接方式
      * @return conn
      * @throws SQLException 异常
      */
-    public Connection getConnection(Plugin plugin, String storageMethod) throws SQLException {
+    public Connection getConnection(String storageMethod) throws SQLException {
         if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
             return ds.getConnection();
         }
-        return DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().getAbsolutePath() + "/" + plugin.getName() + ".db");
+        return DriverManager.getConnection("jdbc:sqlite:" + InitApi.PLUGIN.getDataFolder().getAbsolutePath() + "/" + InitApi.PLUGIN.getName() + ".db");
     }
 
     /**
      * 获取连接
      *
-     * @param plugin 插件
      * @return conn
      * @throws SQLException 异常
      */
-    public Connection getConnection(Plugin plugin) throws SQLException {
-        return this.getConnection(plugin, BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD));
+    public Connection getConnection() throws SQLException {
+        return this.getConnection(BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD));
     }
 
     /**

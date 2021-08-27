@@ -1,13 +1,11 @@
 package com.handy.lib.service;
 
-import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.SqlEnum;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.SqlManagerUtil;
-import org.bukkit.plugin.Plugin;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -56,21 +54,20 @@ public class SqlService {
     /**
      * 查询全部
      *
-     * @param plugin        插件
      * @param storageMethod 连接方式
      * @param tableName     表名
      * @return 全部
      */
-    public List<Map<String, Object>> findAll(Plugin plugin, String storageMethod, String tableName) {
+    public List<Map<String, Object>> findAll(String storageMethod, String tableName) {
         // 重构连接
-        this.refreshStorage(plugin, storageMethod);
+        this.refreshStorage(storageMethod);
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rst = null;
         List<Map<String, Object>> allResult = new ArrayList<>();
         try {
             String selectStr = SqlEnum.SELECT_ALL.getCommand() + tableName;
-            conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             ps = conn.prepareStatement(selectStr);
             rst = ps.executeQuery();
             // 获得列的结果
@@ -107,33 +104,32 @@ public class SqlService {
         } finally {
             SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
         }
-        MessageApi.sendConsoleMessage(plugin, "&a数据表 &e" + tableName + " &a需要转换的数据总条数: &e" + allResult.size());
+        MessageApi.sendConsoleMessage("&a数据表 &e" + tableName + " &a需要转换的数据总条数: &e" + allResult.size());
         return allResult;
     }
 
     /**
      * 批量新增数据
      *
-     * @param plugin        插件
      * @param storageMethod 连接方式
      * @param tableName     表名
      * @param allResult     数据
      */
-    public void addDate(Plugin plugin, String storageMethod, String tableName, List<Map<String, Object>> allResult) {
+    public void addDate(String storageMethod, String tableName, List<Map<String, Object>> allResult) {
         int successNum = 0;
         int failNum = 0;
         if (CollUtil.isEmpty(allResult)) {
             return;
         }
         // 重构连接
-        this.refreshStorage(plugin, storageMethod);
+        this.refreshStorage(storageMethod);
         // 获取新增sql
         String sql = this.getSql(allResult.get(0), tableName);
         for (Map<String, Object> stringObjectMap : allResult) {
             Connection conn = null;
             PreparedStatement ps = null;
             try {
-                conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+                conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
                 ps = conn.prepareStatement(sql);
                 // 赋值
                 int i = 1;
@@ -153,38 +149,36 @@ public class SqlService {
                 SqlManagerUtil.getInstance().closeSql(conn, ps, null);
             }
         }
-        MessageApi.sendConsoleMessage(plugin, "&a 数据表 &e" + tableName + " &a转换结束，成功条数: &e" + successNum + " &a失败条数: &e" + failNum);
+        MessageApi.sendConsoleMessage("&a 数据表 &e" + tableName + " &a转换结束，成功条数: &e" + successNum + " &a失败条数: &e" + failNum);
     }
 
     /**
      * 重构连接
      *
-     * @param plugin        插件
      * @param storageMethod 存储方法
      */
-    public void refreshStorage(Plugin plugin, String storageMethod) {
+    public void refreshStorage(String storageMethod) {
         // 关闭现有连接
         SqlManagerUtil.getInstance().close();
         // 创建新连接
-        SqlManagerUtil.getInstance().enableTable(plugin, storageMethod);
+        SqlManagerUtil.getInstance().enableTable(storageMethod);
     }
 
     /**
      * 创建表
      *
-     * @param plugin        插件
      * @param storageMethod 存储方法
      * @param mysqlSql      mysqlSql
      * @param sqliteSql     sqliteSql
      * @return true/成功
      * @since 1.2.3
      */
-    public boolean createTable(Plugin plugin, String storageMethod, String mysqlSql, String sqliteSql) {
+    public boolean createTable(String storageMethod, String mysqlSql, String sqliteSql) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             String sql = sqliteSql;
-            conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
                 sql = mysqlSql;
             }
@@ -201,34 +195,32 @@ public class SqlService {
     /**
      * 根据id删除
      *
-     * @param plugin 插件
-     * @param sql    sql
-     * @param id     id
+     * @param sql sql
+     * @param id  id
      * @return true/成功
      * @since 1.3.0
      */
-    public boolean removeById(Plugin plugin, String sql, Long id) {
-        return this.removeById(plugin, null, sql, id);
+    public boolean removeById(String sql, Long id) {
+        return this.removeById(null, sql, id);
     }
 
     /**
      * 根据id删除
      *
-     * @param plugin        插件
      * @param storageMethod 存储方法
      * @param sql           sql
      * @param id            id
      * @return true/成功
      * @since 1.2.3
      */
-    public boolean removeById(Plugin plugin, String storageMethod, String sql, Long id) {
+    public boolean removeById(String storageMethod, String sql, Long id) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             if (StrUtil.isNotEmpty(storageMethod)) {
-                conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+                conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             } else {
-                conn = SqlManagerUtil.getInstance().getConnection(plugin);
+                conn = SqlManagerUtil.getInstance().getConnection();
             }
             ps = conn.prepareStatement(sql);
             ps.setLong(1, id);
@@ -244,14 +236,13 @@ public class SqlService {
     /**
      * 删除全部
      *
-     * @param plugin    插件
      * @param tableName 表名
      * @return true/成功
      * @since 1.3.0
      */
-    public boolean removeAll(Plugin plugin, String tableName) {
+    public boolean removeAll(String tableName) {
         String sql = SqlEnum.DELETE_ALL + "`" + tableName + "`";
-        return this.executionSql(plugin, sql);
+        return this.executionSql(sql);
     }
 
     /**
@@ -259,35 +250,22 @@ public class SqlService {
      *
      * @param sql sql
      * @return true/成功
-     * @since 1.4.8
-     */
-    public boolean executionSql(String sql) {
-        return this.executionSql(InitApi.PLUGIN, null, sql);
-    }
-
-    /**
-     * 执行普通sql
-     *
-     * @param plugin 插件
-     * @param sql    sql
-     * @return true/成功
      * @since 1.3.0
      */
-    public boolean executionSql(Plugin plugin, String sql) {
-        return this.executionSql(plugin, null, sql);
+    public boolean executionSql(String sql) {
+        return this.executionSql(null, sql);
     }
 
     /**
      * 执行普通sql
      *
-     * @param plugin        插件
      * @param storageMethod 存储方法
      * @param sql           sql
      * @return true/成功
      * @since 1.2.3
      */
-    public boolean executionSql(Plugin plugin, String storageMethod, String sql) {
-        return this.executionSql(plugin, storageMethod, sql, false);
+    public boolean executionSql(String storageMethod, String sql) {
+        return this.executionSql(storageMethod, sql, false);
     }
 
     /**
@@ -305,9 +283,9 @@ public class SqlService {
         List<String> filedNameList = new ArrayList<>();
         try {
             if (StrUtil.isNotEmpty(storageMethod)) {
-                conn = SqlManagerUtil.getInstance().getConnection(InitApi.PLUGIN, storageMethod);
+                conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             } else {
-                conn = SqlManagerUtil.getInstance().getConnection(InitApi.PLUGIN);
+                conn = SqlManagerUtil.getInstance().getConnection();
             }
             ps = conn.prepareStatement(sql);
             rst = ps.executeQuery();
@@ -331,21 +309,20 @@ public class SqlService {
     /**
      * 执行普通sql
      *
-     * @param plugin        插件
      * @param storageMethod 存储方法
      * @param sql           sql
      * @param ignored       是否忽视异常
      * @return true/成功
      * @since 1.2.3
      */
-    public boolean executionSql(Plugin plugin, String storageMethod, String sql, boolean ignored) {
+    public boolean executionSql(String storageMethod, String sql, boolean ignored) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             if (StrUtil.isNotEmpty(storageMethod)) {
-                conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+                conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             } else {
-                conn = SqlManagerUtil.getInstance().getConnection(plugin);
+                conn = SqlManagerUtil.getInstance().getConnection();
             }
             ps = conn.prepareStatement(sql);
             return ps.executeUpdate() > 0;
@@ -366,38 +343,26 @@ public class SqlService {
      * @return 总数
      */
     public Integer count(String sql) {
-        return this.count(InitApi.PLUGIN, sql);
+        return this.count(null, sql);
     }
 
     /**
      * 查询总数
      *
-     * @param plugin 插件
-     * @param sql    sql
-     * @return 总数
-     */
-    public int count(Plugin plugin, String sql) {
-        return this.count(plugin, null, sql);
-    }
-
-    /**
-     * 查询总数
-     *
-     * @param plugin        插件
      * @param storageMethod 存储方法
      * @param sql           sql
      * @return 总数
      */
-    public int count(Plugin plugin, String storageMethod, String sql) {
+    public int count(String storageMethod, String sql) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rst = null;
         int count = 0;
         try {
             if (StrUtil.isNotEmpty(storageMethod)) {
-                conn = SqlManagerUtil.getInstance().getConnection(plugin, storageMethod);
+                conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             } else {
-                conn = SqlManagerUtil.getInstance().getConnection(plugin);
+                conn = SqlManagerUtil.getInstance().getConnection();
             }
             ps = conn.prepareStatement(sql);
             rst = ps.executeQuery();

@@ -1,7 +1,6 @@
 package com.handy.lib.param;
 
 import lombok.Data;
-import org.bukkit.plugin.Plugin;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -14,10 +13,6 @@ import java.util.List;
  */
 @Data
 public class VerifySignParam implements Serializable {
-    /**
-     * 插件
-     */
-    private Plugin plugin;
     /**
      * 插件名
      */

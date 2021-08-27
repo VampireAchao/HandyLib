@@ -1,7 +1,7 @@
 package com.handy.lib.core;
 
+import com.handy.lib.InitApi;
 import lombok.SneakyThrows;
-import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -32,10 +32,10 @@ public class ClassUtil {
     private final File FILE;
     private final ClassLoader CLASS_LOADER;
 
-    public ClassUtil(Plugin plugin) {
-        this.CLASS_LOADER = plugin.getClass().getClassLoader();
+    public ClassUtil() {
+        this.CLASS_LOADER = InitApi.PLUGIN.getClass().getClassLoader();
         try {
-            FILE = new File(URLDecoder.decode(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().getPath(), StandardCharsets.UTF_8.toString()));
+            FILE = new File(URLDecoder.decode(InitApi.PLUGIN.getClass().getProtectionDomain().getCodeSource().getLocation().getPath(), StandardCharsets.UTF_8.toString()));
         } catch (UnsupportedEncodingException ignored) {
             throw new NullPointerException("加载异常...");
         }

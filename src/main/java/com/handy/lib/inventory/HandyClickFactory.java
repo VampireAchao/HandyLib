@@ -81,10 +81,6 @@ public class HandyClickFactory {
         }
 
         HandyInventory handyInventory = (HandyInventory) holder;
-        // 判断是否为对应插件
-        if (handyInventory.getPlugin() == null || InitApi.PLUGIN == null || !InitApi.PLUGIN.getName().equals(handyInventory.getPlugin().getName())) {
-            return inventoryCheckParam;
-        }
 
         // 事件是否被取消
         if (event.isCancelled()) {

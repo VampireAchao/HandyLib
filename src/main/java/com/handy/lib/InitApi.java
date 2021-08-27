@@ -5,7 +5,6 @@ import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.annotation.HandySubCommand;
 import com.handy.lib.annotation.TableName;
 import com.handy.lib.api.CheckVersionApi;
-import com.handy.lib.api.MessageApi;
 import com.handy.lib.api.StorageApi;
 import com.handy.lib.command.HandyCommandFactory;
 import com.handy.lib.command.HandySubCommandParam;
@@ -16,6 +15,7 @@ import com.handy.lib.core.StrUtil;
 import com.handy.lib.db.Db;
 import com.handy.lib.inventory.HandyClickFactory;
 import com.handy.lib.inventory.IHandyClickEvent;
+import com.handy.lib.metrics.VersionCallable;
 import com.handy.lib.param.VerifySignParam;
 import com.handy.lib.util.HandyHttpUtil;
 import lombok.SneakyThrows;
@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 public class InitApi {
     public static Plugin PLUGIN;
     private static ClassUtil CLASS_UTIL;
+    private final static String VERSION = "1.5.7";
 
     private InitApi() {
     }
@@ -54,31 +55,12 @@ public class InitApi {
 
     public static InitApi getInstance(Plugin plugin) {
         PLUGIN = plugin;
-        CLASS_UTIL = new ClassUtil(PLUGIN);
+        CLASS_UTIL = new ClassUtil();
         // bStats进行插件使用数据统计
-        new Metrics(PLUGIN, 12612);
+        Metrics metrics = new Metrics(PLUGIN, 12612);
+        Metrics.CustomChart chart = new Metrics.SimplePie("version", new VersionCallable(VERSION));
+        metrics.addCustomChart(chart);
         return InitApi.SingletonHolder.INSTANCE;
-    }
-
-    /**
-     * 直接扫描当前包的类
-     *
-     * @param plugin 插件
-     * @param isInit 是否初始化
-     * @return this
-     */
-    public static InitApi getInstance(Plugin plugin, boolean isInit) {
-        InitApi instance = getInstance(plugin);
-        if (isInit) {
-            String packageName = plugin.getClass().getPackage().getName();
-            MessageApi.sendConsoleDebugMessage("初始化包名: " + packageName);
-            instance.initCommand(packageName)
-                    .initSubCommand(packageName)
-                    .initListener(packageName)
-                    .initClickEvent(packageName)
-                    .enableSql(packageName);
-        }
-        return instance;
     }
 
     /**
@@ -228,7 +210,7 @@ public class InitApi {
      */
     public InitApi checkVersion(boolean isVersion, String url) {
         if (isVersion) {
-            CheckVersionApi.checkVersion(PLUGIN, null, url);
+            CheckVersionApi.checkVersion(null, url);
         }
         return this;
     }
@@ -268,7 +250,7 @@ public class InitApi {
      */
     public InitApi enableSql(String packageName) {
         // 初始化链接池
-        StorageApi.enableSql(InitApi.PLUGIN);
+        StorageApi.enableSql();
         // 实体类
         List<Class<?>> tableList = CLASS_UTIL.getClassByAnnotation(packageName, TableName.class);
         for (Class<?> aClass : tableList) {

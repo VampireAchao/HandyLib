@@ -2,7 +2,6 @@ package com.handy.lib.api;
 
 import com.handy.lib.util.HandyHttpUtil;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 /**
  * 版本检测
@@ -16,12 +15,11 @@ public class CheckVersionApi {
     /**
      * 版本检测
      *
-     * @param plugin 插件
-     * @param player 玩家
+     * @param player 玩家l
      * @param url    路径
      */
-    public static void checkVersion(Plugin plugin, Player player, String url) {
-        HandyHttpUtil.checkVersion(plugin, player, url);
+    public static void checkVersion(Player player, String url) {
+        HandyHttpUtil.checkVersion(player, url);
     }
 
 }

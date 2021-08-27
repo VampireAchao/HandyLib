@@ -2,6 +2,7 @@ package com.handy.lib.util;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.handy.lib.InitApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.CollUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -15,7 +16,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -502,12 +502,11 @@ public class BaseUtil {
     /**
      * 获取版本第一位
      *
-     * @param plugin 插件
      * @return 版本
      * @since 1.1.5
      */
-    public static int getFirstPluginVersion(Plugin plugin) {
-        String version = plugin.getDescription().getVersion();
+    public static int getFirstPluginVersion() {
+        String version = InitApi.PLUGIN.getDescription().getVersion();
         String[] split = version.split("\\.");
         return Integer.parseInt(split[0]);
     }

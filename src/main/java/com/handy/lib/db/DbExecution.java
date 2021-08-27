@@ -1,6 +1,5 @@
 package com.handy.lib.db;
 
-import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.BeanUtil;
@@ -98,7 +97,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         PreparedStatement ps = null;
         ResultSet rst = null;
         try {
-            conn = SqlManagerUtil.getInstance().getConnection(InitApi.PLUGIN);
+            conn = SqlManagerUtil.getInstance().getConnection();
             String sql = dbSql.insertDataSql();
             MessageApi.sendConsoleDebugMessage("insert: " + sql);
             ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -110,9 +109,6 @@ public class DbExecution<T> implements BaseMapper<T> {
                 FiledInfoParam filedInfoParam = filedInfoParamMap.get(key);
                 if (filedInfoParam == null) {
                     continue;
-                }
-                if (FieldTypeEnum.DATE.getJavaType().equals(filedInfoParam.getFiledType()) && !isMysql) {
-
                 }
                 ps.setObject(filedInfoParam.getFiledIndex(), paramMap.get(key));
             }
@@ -138,7 +134,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         PreparedStatement ps = null;
         ResultSet rst = null;
         try {
-            conn = SqlManagerUtil.getInstance().getConnection(InitApi.PLUGIN);
+            conn = SqlManagerUtil.getInstance().getConnection();
             String sql = dbSql.selectDataSql();
             MessageApi.sendConsoleDebugMessage("selectOne: " + sql);
             ps = conn.prepareStatement(sql);
@@ -188,7 +184,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         ResultSet rst = null;
         int count = 0;
         try {
-            conn = SqlManagerUtil.getInstance().getConnection(InitApi.PLUGIN);
+            conn = SqlManagerUtil.getInstance().getConnection();
             String sql = dbSql.selectCountSql();
             MessageApi.sendConsoleDebugMessage("count: " + sql);
             ps = conn.prepareStatement(sql);
@@ -216,7 +212,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         ResultSet rst = null;
         List<T> list = new ArrayList<>();
         try {
-            conn = SqlManagerUtil.getInstance().getConnection(InitApi.PLUGIN);
+            conn = SqlManagerUtil.getInstance().getConnection();
             String sql = dbSql.selectDataSql();
             MessageApi.sendConsoleDebugMessage("list: " + sql);
             ps = conn.prepareStatement(sql);
@@ -281,7 +277,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            conn = SqlManagerUtil.getInstance().getConnection(InitApi.PLUGIN);
+            conn = SqlManagerUtil.getInstance().getConnection();
             String sql = dbSql.deleteDataSql();
             MessageApi.sendConsoleDebugMessage("delete: " + sql);
             ps = conn.prepareStatement(sql);
@@ -304,7 +300,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            conn = SqlManagerUtil.getInstance().getConnection(InitApi.PLUGIN);
+            conn = SqlManagerUtil.getInstance().getConnection();
             String sql = dbSql.updateDataSql();
             MessageApi.sendConsoleDebugMessage("update: " + sql);
             ps = conn.prepareStatement(sql);
