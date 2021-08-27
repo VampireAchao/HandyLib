@@ -55,6 +55,8 @@ public class InitApi {
     public static InitApi getInstance(Plugin plugin) {
         PLUGIN = plugin;
         CLASS_UTIL = new ClassUtil(PLUGIN);
+        // bStats进行插件使用数据统计
+        new Metrics(PLUGIN, 12612);
         return InitApi.SingletonHolder.INSTANCE;
     }
 
