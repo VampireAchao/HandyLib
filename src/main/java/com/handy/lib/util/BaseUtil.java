@@ -19,9 +19,10 @@ import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 
 /**
@@ -358,16 +359,6 @@ public class BaseUtil {
     }
 
     /**
-     * 通过时间秒毫秒数判断两个时间的间隔
-     *
-     * @param dateTime 时间
-     * @return 时间间隔
-     */
-    public static int getDifferDay(Long dateTime) {
-        return (int) ((System.currentTimeMillis() - dateTime) / (1000 * 3600 * 24));
-    }
-
-    /**
      * 玩家世界是否为地狱
      *
      * @param player 玩家
@@ -456,47 +447,6 @@ public class BaseUtil {
      */
     public static boolean isNotUnderRoof(Player player) {
         return !isUnderRoof(player);
-    }
-
-    /**
-     * 时间增加
-     *
-     * @param day 增加天数
-     * @return 时间
-     */
-    public static Date getDate(Integer day) {
-        Date date = new Date();
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
-        //把日期往后增加一天.整数往后推,负数往前移动
-        calendar.add(Calendar.DATE, day);
-        return calendar.getTime();
-    }
-
-    /**
-     * 判断传入的时间是否大于2120-01-01 00:00:00
-     *
-     * @param date 日期
-     * @return true 是
-     */
-    public static boolean isPerpetual(Date date) {
-        return date.getTime() > 4733481600000L;
-    }
-
-    /**
-     * 获取今日日期
-     *
-     * @return 今日日期
-     */
-    public static Date getToday() {
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            date = sdf.parse(sdf.format(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
     }
 
     /**
