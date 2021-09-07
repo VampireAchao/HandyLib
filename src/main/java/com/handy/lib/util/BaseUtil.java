@@ -16,6 +16,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -452,11 +453,12 @@ public class BaseUtil {
     /**
      * 获取版本第一位
      *
+     * @param plugin 插件
      * @return 版本
      * @since 1.1.5
      */
-    public static int getFirstPluginVersion() {
-        String version = InitApi.PLUGIN.getDescription().getVersion();
+    public static int getFirstPluginVersion(Plugin plugin) {
+        String version = plugin.getDescription().getVersion();
         String[] split = version.split("\\.");
         return Integer.parseInt(split[0]);
     }
