@@ -7,7 +7,7 @@
     <groupId>com.handy.lib</groupId>
     <artifactId>HandyLib</artifactId>
     <name>HandyLib</name>
-    <version>1.5.9</version>
+    <version>1.6.0</version>
     <description>handy的基础插件</description>
 
     <properties>

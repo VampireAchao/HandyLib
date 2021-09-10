@@ -258,4 +258,18 @@ public class ItemStackUtil {
         return material;
     }
 
+    /**
+     * 正确获取主手物品
+     *
+     * @param playerInventory 玩家背包
+     * @return ItemStack
+     * @since 1.6.0
+     */
+    public static ItemStack getItemInMainHand(PlayerInventory playerInventory) {
+        if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_9.getVersionId()) {
+            return playerInventory.getItemInHand();
+        }
+        return playerInventory.getItemInMainHand();
+    }
+
 }

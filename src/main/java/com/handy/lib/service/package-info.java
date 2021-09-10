@@ -4,5 +4,4 @@
  *
  * @author handy
  */
-@Deprecated
 package com.handy.lib.service;

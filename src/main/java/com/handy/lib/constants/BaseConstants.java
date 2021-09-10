@@ -78,6 +78,11 @@ public abstract class BaseConstants {
     public final static String TRUE = "true";
 
     /**
+     * false
+     */
+    public final static String FALSE = "false";
+
+    /**
      * 高度
      */
     public final static Double HEIGHT_254 = 254.0D;
