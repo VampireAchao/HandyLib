@@ -15,6 +15,7 @@ import com.handy.lib.core.StrUtil;
 import com.handy.lib.db.Db;
 import com.handy.lib.inventory.HandyClickFactory;
 import com.handy.lib.inventory.IHandyClickEvent;
+import com.handy.lib.metrics.PluginNameCallable;
 import com.handy.lib.metrics.VersionCallable;
 import com.handy.lib.param.VerifySignParam;
 import com.handy.lib.util.HandyHttpUtil;
@@ -58,8 +59,10 @@ public class InitApi {
         CLASS_UTIL = new ClassUtil();
         // bStats进行插件使用数据统计
         Metrics metrics = new Metrics(PLUGIN, 12612);
-        Metrics.CustomChart chart = new Metrics.SimplePie("version", new VersionCallable(VERSION));
-        metrics.addCustomChart(chart);
+        Metrics.CustomChart versionChart = new Metrics.SimplePie("version", new VersionCallable(VERSION));
+        metrics.addCustomChart(versionChart);
+        Metrics.CustomChart pluginNameChart = new Metrics.SimplePie("pluginName", new PluginNameCallable(VERSION));
+        metrics.addCustomChart(pluginNameChart);
         return InitApi.SingletonHolder.INSTANCE;
     }
 
