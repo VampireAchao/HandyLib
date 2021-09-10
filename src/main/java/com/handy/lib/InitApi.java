@@ -61,7 +61,7 @@ public class InitApi {
         Metrics metrics = new Metrics(PLUGIN, 12612);
         Metrics.CustomChart versionChart = new Metrics.SimplePie("version", new VersionCallable(VERSION));
         metrics.addCustomChart(versionChart);
-        Metrics.CustomChart pluginNameChart = new Metrics.SimplePie("pluginName", new PluginNameCallable(VERSION));
+        Metrics.CustomChart pluginNameChart = new Metrics.SimplePie("pluginName", new PluginNameCallable(plugin.getName()));
         metrics.addCustomChart(pluginNameChart);
         return InitApi.SingletonHolder.INSTANCE;
     }
