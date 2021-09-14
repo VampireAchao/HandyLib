@@ -178,6 +178,22 @@ public class HandyInventoryUtil {
      * @since 1.5.1
      */
     public static void setPage(Inventory inventory, Integer pageNum, Integer pageCount) {
+        setPage(inventory, pageNum, pageCount, Material.PAPER.name(), Material.PAPER.name(), 0, 0);
+    }
+
+    /**
+     * 分页设置
+     *
+     * @param inventory                     gui
+     * @param pageNum                       当前页
+     * @param pageCount                     总页
+     * @param previousPageMaterial          上一页材质
+     * @param nextPageMaterial              下一页材质
+     * @param nextPageCustomModelDataId     上一页模型id
+     * @param previousPageCustomModelDataId 下一页模型id
+     * @since 1.6.6
+     */
+    public static void setPage(Inventory inventory, Integer pageNum, Integer pageCount, String previousPageMaterial, String nextPageMaterial, int previousPageCustomModelDataId, int nextPageCustomModelDataId) {
         if (pageCount == 0) {
             pageCount = 1;
         }
@@ -189,12 +205,16 @@ public class HandyInventoryUtil {
         List<String> previousPage = new ArrayList<>();
         previousPage.add(currentPage + (pageNum + 1));
         previousPage.add(totalPages + pageCount);
-        inventory.setItem(48, ItemStackUtil.getItemStack(Material.PAPER, previousPageMsg, previousPage));
+        ItemStack previousPageItemStack = ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(previousPageMaterial, Material.PAPER), previousPageMsg, previousPage);
+        previousPageItemStack.setItemMeta(ItemStackUtil.setCustomModelData(previousPageItemStack.getItemMeta(), previousPageCustomModelDataId));
+        inventory.setItem(48, previousPageItemStack);
         // 下一页
         List<String> nextPage = new ArrayList<>();
         nextPage.add(currentPage + (pageNum + 1));
         nextPage.add(totalPages + pageCount);
-        inventory.setItem(50, ItemStackUtil.getItemStack(Material.PAPER, nextPageMsg, nextPage));
+        ItemStack nextPageItemStack = ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(nextPageMaterial, Material.PAPER), nextPageMsg, nextPage);
+        nextPageItemStack.setItemMeta(ItemStackUtil.setCustomModelData(nextPageItemStack.getItemMeta(), nextPageCustomModelDataId));
+        inventory.setItem(50, nextPageItemStack);
     }
 
 }
