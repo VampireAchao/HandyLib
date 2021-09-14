@@ -281,7 +281,7 @@ public class ItemStackUtil {
      * @since 1.6.4
      */
     public static ItemMeta setCustomModelData(ItemMeta itemMeta, int id) {
-        if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_14.getVersionId()) {
+        if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_14.getVersionId() || id == 0) {
             return itemMeta;
         }
         itemMeta.setCustomModelData(id);

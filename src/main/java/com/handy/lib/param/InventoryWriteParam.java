@@ -45,4 +45,9 @@ public class InventoryWriteParam implements Serializable {
      */
     private Long indexValue;
 
+    /**
+     * 自定义模型id 1.14+
+     */
+    private int customModelDataId;
+
 }

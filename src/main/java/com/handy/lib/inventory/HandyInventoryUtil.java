@@ -73,7 +73,24 @@ public class HandyInventoryUtil {
      * @since 1.2.0
      */
     public static void setButton(Inventory inventory, Integer index, Material material, String name, List<String> loreList) {
-        inventory.setItem(index, ItemStackUtil.getItemStack(material, BaseUtil.replaceChatColor(name), BaseUtil.replaceChatColor(loreList, true)));
+        setButton(inventory, index, material, name, loreList, 0);
+    }
+
+    /**
+     * 设置指定按钮
+     *
+     * @param inventory         gui
+     * @param index             下标
+     * @param material          材质
+     * @param name              名称
+     * @param loreList          loreList
+     * @param customModelDataId 自定义模型id
+     * @since 1.6.5
+     */
+    public static void setButton(Inventory inventory, Integer index, Material material, String name, List<String> loreList, int customModelDataId) {
+        ItemStack itemStack = ItemStackUtil.getItemStack(material, BaseUtil.replaceChatColor(name), BaseUtil.replaceChatColor(loreList, true));
+        itemStack.setItemMeta(ItemStackUtil.setCustomModelData(itemStack.getItemMeta(), customModelDataId));
+        inventory.setItem(index, itemStack);
     }
 
     /**
@@ -109,7 +126,8 @@ public class HandyInventoryUtil {
                 String material = subMemorySection.getString("material");
                 String name = subMemorySection.getString("name");
                 List<String> loreList = subMemorySection.getStringList("lore");
-                InventoryWriteParam inventoryWriteParam = new InventoryWriteParam(isUse, index, material, name, loreList, indexValue);
+                int customModelDataId = subMemorySection.getInt("custom-model-data");
+                InventoryWriteParam inventoryWriteParam = new InventoryWriteParam(isUse, index, material, name, loreList, indexValue, customModelDataId);
                 paramList.add(inventoryWriteParam);
             }
         }
@@ -132,7 +150,7 @@ public class HandyInventoryUtil {
             if (!param.getIsUse()) {
                 continue;
             }
-            setButton(inventory, param.getIndex(), ItemStackUtil.getMaterial(param.getMaterial()), param.getName(), param.getLoreList());
+            setButton(inventory, param.getIndex(), ItemStackUtil.getMaterial(param.getMaterial()), param.getName(), param.getLoreList(), param.getCustomModelDataId());
             map.put(param.getIndex(), param.getIndexValue());
         }
     }
