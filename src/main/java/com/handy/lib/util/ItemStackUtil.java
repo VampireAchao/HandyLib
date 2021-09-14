@@ -272,4 +272,20 @@ public class ItemStackUtil {
         return playerInventory.getItemInMainHand();
     }
 
+    /**
+     * 设置物品的自定义模型数据.
+     *
+     * @param itemMeta itemMeta
+     * @param id       模型id
+     * @return itemMeta
+     * @since 1.6.4
+     */
+    public static ItemMeta setCustomModelData(ItemMeta itemMeta, int id) {
+        if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_14.getVersionId()) {
+            return itemMeta;
+        }
+        itemMeta.setCustomModelData(id);
+        return itemMeta;
+    }
+
 }
