@@ -28,18 +28,16 @@ import java.util.Map;
  * @author handy
  */
 public class HandyHttpUtil {
-    private final static String VERIFY_SIGN = "http://mcadmin.ljxmc.top/api/public/verifySign";
-
-    private final static String CLOUD_GET_URL = "http://mcadmin.ljxmc.top/api/public/getItemName";
-    private final static String CLOUD_SET_URL = "http://mcadmin.ljxmc.top/api/public/setItemName";
+    private final static String VERIFY_SIGN = BaseConstants.IP + "/api/public/verifySign";
+    private final static String CLOUD_GET_URL = BaseConstants.IP + "/api/public/getItemName";
+    private final static String CLOUD_SET_URL = BaseConstants.IP + "/api/public/setItemName";
+    private final static String IP_CHINA_URL = BaseConstants.IP + "/api/public/getIp";
 
     private final static String URL_1_13 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.13.json";
     private final static String URL_1_14 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.14.json";
     private final static String URL_1_15 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.15.json";
     private final static String URL_1_16 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.16.json";
     private final static String URL_1_17 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.17.json";
-
-    private final static String IP_CHINA_URL = "http://mcadmin.ljxmc.top/api/public/getIp";
 
     /**
      * 进行验签

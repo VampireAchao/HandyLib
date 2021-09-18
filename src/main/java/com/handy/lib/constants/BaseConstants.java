@@ -172,4 +172,9 @@ public abstract class BaseConstants {
      */
     public static boolean DEBUG = false;
 
+    /**
+     * IP
+     */
+    public final static String IP = "http://116.62.51.78:9020";
+
 }
