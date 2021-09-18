@@ -175,6 +175,6 @@ public abstract class BaseConstants {
     /**
      * IP
      */
-    public final static String IP = "http://116.62.51.78:9020";
+    public static String IP = "http://116.62.51.78:9020";
 
 }
