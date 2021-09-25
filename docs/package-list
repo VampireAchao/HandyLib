@@ -1,0 +1,15 @@
+com.handy.lib
+com.handy.lib.annotation
+com.handy.lib.api
+com.handy.lib.command
+com.handy.lib.constants
+com.handy.lib.core
+com.handy.lib.db
+com.handy.lib.db.enter
+com.handy.lib.db.enums
+com.handy.lib.db.param
+com.handy.lib.inventory
+com.handy.lib.metrics
+com.handy.lib.param
+com.handy.lib.service
+com.handy.lib.util
