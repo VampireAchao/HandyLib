@@ -9,6 +9,7 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.CollUtil;
+import com.handy.lib.core.StrUtil;
 import com.handy.lib.param.VerifySignParam;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -121,8 +122,9 @@ public class HandyHttpUtil {
      *
      * @param player 玩家
      * @param url    路径
+     * @param msg    更新提醒 ${version} 版本变量 ${body} 更新内容变量
      */
-    public static void checkVersion(Player player, String url) {
+    public static void checkVersion(Player player, String url, String msg) {
         if (player != null && !player.isOp()) {
             return;
         }
@@ -137,6 +139,7 @@ public class HandyHttpUtil {
                         JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
                         // 当前版本
                         String version = InitApi.PLUGIN.getDescription().getVersion();
+                        version = version.replace("-permission", "");
                         // 获取到的信息
                         String tagName = jsonObject.get("tag_name").getAsString();
                         String body = jsonObject.get("body").getAsString();
@@ -145,6 +148,9 @@ public class HandyHttpUtil {
                             return;
                         }
                         String message = ChatColor.GREEN + "检测到最新版本:" + tagName + "更新内容:" + body;
+                        if (StrUtil.isNotEmpty(msg)) {
+                            message = msg.replace("${version}", tagName).replace("${body}", body);
+                        }
                         if (player == null) {
                             MessageApi.sendConsoleMessage(message);
                         } else {
