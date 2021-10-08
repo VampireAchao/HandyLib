@@ -22,6 +22,7 @@ import java.util.List;
 @Builder
 public class DbSql implements Serializable {
 
+    private static final long serialVersionUID = 8696707404811115903L;
     /**
      * 表名称
      */

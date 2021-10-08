@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Data
 public class InventoryCheckParam implements Serializable {
 
+    private static final long serialVersionUID = 1923067195869748007L;
     /**
      * 校验结果
      */

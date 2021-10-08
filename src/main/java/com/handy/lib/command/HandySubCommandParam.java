@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
  */
 @Data
 public class HandySubCommandParam implements Serializable {
+    private static final long serialVersionUID = 1785490670379846671L;
     /**
      * 父命令
      */

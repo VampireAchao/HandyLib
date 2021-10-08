@@ -15,6 +15,7 @@ import java.io.Serializable;
 @Builder
 public class FiledInfoParam implements Serializable {
 
+    private static final long serialVersionUID = -674837862935503141L;
     /**
      * 数据库字段名
      */

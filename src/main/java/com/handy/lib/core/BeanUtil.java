@@ -16,6 +16,7 @@ import java.util.Map;
  */
 public class BeanUtil implements Serializable {
     private final static String CLASS = "class";
+    private static final long serialVersionUID = 3067984628879647415L;
 
     /**
      * bean转map

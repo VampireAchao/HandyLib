@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 public class UpdateCondition<T> implements Serializable {
 
+    private static final long serialVersionUID = 1019927794965371697L;
     private final DbSql dbSql;
 
     protected UpdateCondition(DbSql dbSql) {

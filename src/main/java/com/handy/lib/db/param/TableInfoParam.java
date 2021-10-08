@@ -15,6 +15,7 @@ import java.io.Serializable;
 @Builder
 public class TableInfoParam implements Serializable {
 
+    private static final long serialVersionUID = -7950670716229015037L;
     /**
      * 表名
      */

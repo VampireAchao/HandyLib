@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Page<T> implements Serializable {
 
+    private static final long serialVersionUID = 5217376869439682264L;
     /**
      * 总数
      */

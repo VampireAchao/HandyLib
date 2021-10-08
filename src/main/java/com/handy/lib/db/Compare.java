@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class Compare<T> implements Serializable {
 
+    private static final long serialVersionUID = 3795742407169621870L;
     private final DbSql dbSql;
 
     protected Compare(DbSql dbSql) {

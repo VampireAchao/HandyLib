@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class InventoryWriteParam implements Serializable {
 
+    private static final long serialVersionUID = -3271824563389644704L;
     /**
      * 是否使用
      */

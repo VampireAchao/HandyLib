@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Data
 public class VerifySignParam implements Serializable {
+    private static final long serialVersionUID = 4515557663680173392L;
     /**
      * 插件名
      */

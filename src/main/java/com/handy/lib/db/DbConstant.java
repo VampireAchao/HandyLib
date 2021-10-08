@@ -75,4 +75,5 @@ public class DbConstant implements Serializable {
      */
     public static final String SQLITE_ADD_COLUMN = "ALTER TABLE '%s' ADD '%s' %s(%d) %s;";
 
+    private static final long serialVersionUID = -5121546824758656412L;
 }

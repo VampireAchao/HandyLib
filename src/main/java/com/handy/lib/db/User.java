@@ -16,6 +16,8 @@ import java.util.Date;
 @TableName(value = "user", comment = "备注")
 public class User implements Serializable {
 
+    private static final long serialVersionUID = -5329631778462768336L;
+
     @TableField(value = "id", comment = "ID")
     private Integer id;
 
