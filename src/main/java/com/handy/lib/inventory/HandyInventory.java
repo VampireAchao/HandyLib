@@ -69,6 +69,7 @@ public class HandyInventory implements InventoryHolder {
      */
     public HandyInventory(Map<Integer, Long> map, String guiType, String title, int size) {
         this.map = map;
+        this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
     }
@@ -82,6 +83,7 @@ public class HandyInventory implements InventoryHolder {
      */
     public HandyInventory(String guiType, String title, int size) {
         this.map = new HashMap<>();
+        this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
     }
@@ -94,6 +96,7 @@ public class HandyInventory implements InventoryHolder {
      */
     public HandyInventory(String guiType, InventoryType inventoryType) {
         this.map = new HashMap<>();
+        this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType);
     }
@@ -107,6 +110,7 @@ public class HandyInventory implements InventoryHolder {
      */
     public HandyInventory(String guiType, String title, InventoryType inventoryType) {
         this.map = new HashMap<>();
+        this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType, title);
     }
@@ -119,6 +123,7 @@ public class HandyInventory implements InventoryHolder {
      */
     public HandyInventory(String guiType, String title) {
         this.map = new HashMap<>();
+        this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, BaseConstants.GUI_SIZE_54, title);
     }
