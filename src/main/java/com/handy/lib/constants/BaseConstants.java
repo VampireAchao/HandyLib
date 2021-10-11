@@ -153,6 +153,11 @@ public abstract class BaseConstants {
     public final static int GUI_SIZE_27 = 27;
 
     /**
+     * 44
+     */
+    public final static int GUI_SIZE_44 = 44;
+
+    /**
      * 48
      */
     public final static int GUI_SIZE_48 = 48;
