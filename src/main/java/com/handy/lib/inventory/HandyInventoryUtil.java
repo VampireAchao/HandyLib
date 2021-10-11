@@ -31,9 +31,7 @@ public class HandyInventoryUtil {
      * @param inventory gui
      */
     public static void refreshInventory(Inventory inventory) {
-        for (int i = 0; i < BaseConstants.GUI_SIZE_54; i++) {
-            inventory.setItem(i, new ItemStack(Material.AIR));
-        }
+        refreshInventory(inventory, BaseConstants.GUI_SIZE_54);
     }
 
     /**
@@ -59,7 +57,7 @@ public class HandyInventoryUtil {
      * @since 1.2.0
      */
     public static void setButton(Inventory inventory, Integer index, Material material, String name) {
-        inventory.setItem(index, ItemStackUtil.getItemStack(material, BaseUtil.replaceChatColor(name), null));
+        setButton(inventory, index, material, name, null);
     }
 
     /**
@@ -207,14 +205,14 @@ public class HandyInventoryUtil {
         previousPage.add(totalPages + pageCount);
         ItemStack previousPageItemStack = ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(previousPageMaterial, Material.PAPER), previousPageMsg, previousPage);
         previousPageItemStack.setItemMeta(ItemStackUtil.setCustomModelData(previousPageItemStack.getItemMeta(), previousPageCustomModelDataId));
-        inventory.setItem(48, previousPageItemStack);
+        inventory.setItem(BaseConstants.GUI_SIZE_48, previousPageItemStack);
         // 下一页
         List<String> nextPage = new ArrayList<>();
         nextPage.add(currentPage + (pageNum + 1));
         nextPage.add(totalPages + pageCount);
         ItemStack nextPageItemStack = ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(nextPageMaterial, Material.PAPER), nextPageMsg, nextPage);
         nextPageItemStack.setItemMeta(ItemStackUtil.setCustomModelData(nextPageItemStack.getItemMeta(), nextPageCustomModelDataId));
-        inventory.setItem(50, nextPageItemStack);
+        inventory.setItem(BaseConstants.GUI_SIZE_50, nextPageItemStack);
     }
 
     /**

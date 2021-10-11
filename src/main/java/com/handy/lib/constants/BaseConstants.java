@@ -153,6 +153,21 @@ public abstract class BaseConstants {
     public final static int GUI_SIZE_27 = 27;
 
     /**
+     * 48
+     */
+    public final static int GUI_SIZE_48 = 48;
+
+    /**
+     * 49
+     */
+    public final static int GUI_SIZE_49 = 49;
+
+    /**
+     * 50
+     */
+    public final static int GUI_SIZE_50 = 50;
+
+    /**
      * 颜色RPG配置
      */
     public static FileConfiguration COLOR_CONFIG;

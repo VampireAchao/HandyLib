@@ -2,8 +2,6 @@ package com.handy.lib.inventory;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.util.List;
-
 /**
  * 点击事件接口
  *
@@ -17,13 +15,6 @@ public interface IHandyClickEvent {
      * @return gui类型
      */
     String guiType();
-
-    /**
-     * 生效的格子
-     *
-     * @return 格子列表
-     */
-    List<Integer> rawSlotList();
 
     /**
      * 点击格子进行处理

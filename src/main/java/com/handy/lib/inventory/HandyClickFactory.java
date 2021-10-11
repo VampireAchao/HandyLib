@@ -57,10 +57,15 @@ public class HandyClickFactory {
     public InventoryCheckParam inventoryCheck(InventoryClickEvent event) {
         InventoryCheckParam inventoryCheckParam = new InventoryCheckParam();
         inventoryCheckParam.setCheck(false);
-
         // 判断是否是对应gui
         InventoryHolder holder = event.getInventory().getHolder();
         if (!(holder instanceof HandyInventory)) {
+            return inventoryCheckParam;
+        }
+        HandyInventory handyInventory = (HandyInventory) holder;
+        // 如果操作对象不是玩家则返回
+        Player player = HandyInventoryUtil.getPlayer(event);
+        if (player == null) {
             return inventoryCheckParam;
         }
         // 禁止数字键和shift键
@@ -69,19 +74,13 @@ public class HandyClickFactory {
             event.setCancelled(true);
             return inventoryCheckParam;
         }
-        // 如果操作对象不是玩家则返回
-        Player player = HandyInventoryUtil.getPlayer(event);
-        if (player == null) {
-            return inventoryCheckParam;
-        }
         // 点击为空返回
         ItemStack currentItem = event.getCurrentItem();
         if (currentItem == null || Material.AIR.equals(currentItem.getType())) {
+            // 取消点击效果
+            event.setCancelled(true);
             return inventoryCheckParam;
         }
-
-        HandyInventory handyInventory = (HandyInventory) holder;
-
         // 事件是否被取消
         if (event.isCancelled()) {
             return inventoryCheckParam;
@@ -100,7 +99,7 @@ public class HandyClickFactory {
      */
     public void rawSlotClick(HandyInventory handyInventory, InventoryClickEvent event) {
         IHandyClickEvent handyClickEvent = HANDY_CLICK_EVENT_MAP.get(handyInventory.getGuiType());
-        if (handyClickEvent == null || !handyClickEvent.rawSlotList().contains(event.getRawSlot())) {
+        if (handyClickEvent == null) {
             return;
         }
         handyClickEvent.rawSlotClick(handyInventory, event);
