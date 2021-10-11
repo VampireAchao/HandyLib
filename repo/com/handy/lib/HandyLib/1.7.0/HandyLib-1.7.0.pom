@@ -27,9 +27,9 @@
     <distributionManagement>
         <repository>
             <id>handy-lib-repo</id>
-            <!-- <url>file: /Users/handy/ideaProjects/HandyLib/repo</url>>-->
+            <url>file: /Users/handy/ideaProjects/HandyLib/repo</url>
             <!--<url>file: D:\java\ideaProject\HandyLib\repo</url>-->
-            <url>file:/Users/handy/ideaProjects/HandyLib-Doc/repo</url>
+            <!--<url>file:/Users/handy/ideaProjects/HandyLib-Doc/repo</url>-->
         </repository>
     </distributionManagement>
 
