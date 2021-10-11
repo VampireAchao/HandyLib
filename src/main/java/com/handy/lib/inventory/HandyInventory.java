@@ -27,6 +27,18 @@ public class HandyInventory implements InventoryHolder {
      */
     private Map<Integer, Long> map;
     /**
+     * 数据map
+     *
+     * @since 1.7.0
+     */
+    private Map<Integer, Object> objMap;
+    /**
+     * 额外数据传输对象
+     *
+     * @since 1.7.0
+     */
+    private Object obj;
+    /**
      * gui类型
      */
     private String guiType;
@@ -43,7 +55,7 @@ public class HandyInventory implements InventoryHolder {
      */
     private String searchType;
     /**
-     * 玩家,只是用来传值,不是真实玩家
+     * 玩家
      */
     private Player player;
 

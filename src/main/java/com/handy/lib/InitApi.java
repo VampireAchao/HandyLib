@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 public class InitApi {
     public static Plugin PLUGIN;
     private static ClassUtil CLASS_UTIL;
-    private final static String VERSION = "1.6.9";
+    private final static String VERSION = "1.7.0";
 
     private InitApi() {
     }

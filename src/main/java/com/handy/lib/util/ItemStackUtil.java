@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * ItemStack工具类
@@ -286,6 +287,17 @@ public class ItemStackUtil {
         }
         itemMeta.setCustomModelData(id);
         return itemMeta;
+    }
+
+    /**
+     * 获取必定不为空的ItemMeta
+     *
+     * @param itemStack ItemStack
+     * @return ItemMeta
+     * @since 1.7.0
+     */
+    public static ItemMeta getItemMeta(ItemStack itemStack) {
+        return Objects.requireNonNull(itemStack.getItemMeta());
     }
 
 }

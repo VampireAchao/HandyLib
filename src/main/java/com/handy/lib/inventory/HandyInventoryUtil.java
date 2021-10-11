@@ -217,4 +217,21 @@ public class HandyInventoryUtil {
         inventory.setItem(50, nextPageItemStack);
     }
 
+    /**
+     * 分页设置
+     *
+     * @param fileConfig     配置
+     * @param handyInventory gui
+     * @param pageCount      总页
+     * @since 1.7.0
+     */
+    public static void setPage(FileConfiguration fileConfig, HandyInventory handyInventory, Integer pageCount) {
+        handyInventory.setPageCount(pageCount);
+        String nextPageMaterial = fileConfig.getString("nextPage.material");
+        String previousPageMaterial = fileConfig.getString("previousPage.material");
+        int nextPageCustomModelData = fileConfig.getInt("nextPage.custom-model-data");
+        int previousPageCustomModelData = fileConfig.getInt("previousPage.custom-model-data");
+        setPage(handyInventory.getInventory(), handyInventory.getPageNum(), pageCount, previousPageMaterial, nextPageMaterial, previousPageCustomModelData, nextPageCustomModelData);
+    }
+
 }
