@@ -2,7 +2,6 @@ package com.handy.lib.util;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.handy.lib.InitApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.CollUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -291,10 +290,9 @@ public class BaseUtil {
         if (BaseConstants.itemJsonCacheMap.size() > 0) {
             // 物品
             String name = BaseConstants.itemJsonCacheMap.get(type);
-            if (name == null) {
-                return type;
+            if (name != null) {
+                return name;
             }
-            return name;
         }
         // 如果有云汉化信息,转换
         if (BaseConstants.cloudItemJsonCacheMap.size() > 0) {
