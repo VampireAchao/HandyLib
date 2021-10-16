@@ -288,7 +288,7 @@ public class Compare<T> implements Serializable {
      * @param <R> 类型
      * @return this
      */
-    public <R> Compare<T> in(DbFunction<R, ?> fn, List<Object> in) {
+    public <R> Compare<T> in(DbFunction<R, ?> fn, List<?> in) {
         return this.in(true, fn, in);
     }
 
@@ -301,7 +301,7 @@ public class Compare<T> implements Serializable {
      * @param <R>       类型
      * @return this
      */
-    public <R> Compare<T> in(boolean condition, DbFunction<R, ?> fn, List<Object> in) {
+    public <R> Compare<T> in(boolean condition, DbFunction<R, ?> fn, List<?> in) {
         dbSql.addInCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.IN, in);
         return this;
     }
@@ -314,7 +314,7 @@ public class Compare<T> implements Serializable {
      * @param <R> 类型
      * @return this
      */
-    public <R> Compare<T> notIn(DbFunction<R, ?> fn, List<Object> in) {
+    public <R> Compare<T> notIn(DbFunction<R, ?> fn, List<?> in) {
         return this.notIn(true, fn, in);
     }
 
@@ -327,7 +327,7 @@ public class Compare<T> implements Serializable {
      * @param <R>       类型
      * @return this
      */
-    public <R> Compare<T> notIn(boolean condition, DbFunction<R, ?> fn, List<Object> in) {
+    public <R> Compare<T> notIn(boolean condition, DbFunction<R, ?> fn, List<?> in) {
         dbSql.addInCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.NOT_IN, in);
         return this;
     }

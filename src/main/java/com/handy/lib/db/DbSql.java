@@ -167,7 +167,7 @@ public class DbSql implements Serializable {
      * @param sqlKeyword SQL 关键词
      * @param in         条件值
      */
-    protected void addInCondition(boolean condition, String fieldName, SqlKeyword sqlKeyword, List<Object> in) {
+    protected void addInCondition(boolean condition, String fieldName, SqlKeyword sqlKeyword, List<?> in) {
         if (!condition || CollUtil.isEmpty(in)) {
             return;
         }
