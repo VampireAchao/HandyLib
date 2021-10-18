@@ -17,6 +17,7 @@ public enum FieldTypeEnum {
      */
     STRING("java.lang.String", "VARCHAR", 64),
     INTEGER("java.lang.Integer", "INT", 11),
+    LONG("java.lang.Long", "INT", 11),
     BASIC_INT("int", "INT", 11),
     BOOLEAN("java.lang.Boolean", "INT", 11),
     BASIC_BOOLEAN("boolean", "INT", 11),

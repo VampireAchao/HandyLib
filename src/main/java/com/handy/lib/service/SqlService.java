@@ -290,9 +290,9 @@ public class SqlService {
             ps = conn.prepareStatement(sql);
             rst = ps.executeQuery();
             while (rst.next()) {
-                String fieId = "";
+                String fieId;
                 if (BaseConstants.MYSQL.equals(storageMethod)) {
-                    fieId = rst.getString("FieId");
+                    fieId = rst.getString("column_name");
                 } else {
                     fieId = rst.getString("name");
                 }

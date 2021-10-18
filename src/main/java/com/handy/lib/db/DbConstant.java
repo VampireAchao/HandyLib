@@ -40,13 +40,9 @@ public class DbConstant implements Serializable {
      */
     public static final String TABLE_COMMENT = "ALTER TABLE `%s` COMMENT '%s';";
     /**
-     * 字段是否存在
-     */
-    public static final String COLUMNS_IF_NOT_EXISTS = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name='%s' AND COLUMN_NAME='%s';";
-    /**
      * 表信息
      */
-    public static final String TABLE_INFO = "DESC %s";
+    public static final String TABLE_INFO = "SELECT column_name FROM information_schema.COLUMNS WHERE table_name = '%s';";
 
     /**
      * 新增字段
@@ -61,10 +57,6 @@ public class DbConstant implements Serializable {
      * SQLITE 新增表
      */
     public static final String SQLITE_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `%s` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT);";
-    /**
-     * SQLITE 字段是否存在
-     */
-    public static final String SQLITE_COLUMNS_IF_NOT_EXISTS = "SELECT COUNT(*) FROM sqlite_master WHERE tbl_name='%s' AND sql LIKE '%%%s%%';";
 
     /**
      * SQLITE 表信息
