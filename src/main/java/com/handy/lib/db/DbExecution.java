@@ -79,12 +79,12 @@ public class DbExecution<T> implements BaseMapper<T> {
             if (!isMysql && filedInfoParam.getFiledNotNull()) {
                 notNullSql += DbConstant.DEFAULT;
             }
-            String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), fieldTypeEnum.getLength(), notNullSql);
+            String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength(), notNullSql);
             MessageApi.sendConsoleDebugMessage("新增字段: " + createFieldSql);
             SqlService.getInstance().executionSql(createFieldSql);
             // 新增字段注释
             if (isMysql) {
-                String fieldCommentSql = String.format(DbConstant.ADD_COLUMN_COMMENT, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), fieldTypeEnum.getLength(), filedInfoParam.getFiledComment());
+                String fieldCommentSql = String.format(DbConstant.ADD_COLUMN_COMMENT, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength(), filedInfoParam.getFiledComment());
                 MessageApi.sendConsoleDebugMessage("新增字段注释: " + fieldCommentSql);
                 SqlService.getInstance().executionSql(fieldCommentSql);
             }

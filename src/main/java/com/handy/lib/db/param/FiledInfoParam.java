@@ -45,4 +45,9 @@ public class FiledInfoParam implements Serializable {
      * 字段坐标
      */
     private Integer filedIndex;
+
+    /**
+     * 字段长度
+     */
+    private Integer filedLength;
 }

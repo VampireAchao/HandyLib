@@ -112,6 +112,7 @@ public class Db<T> {
                         .filedComment(tableField.comment())
                         .filedNotNull(tableField.notNull())
                         .filedIndex(i + 1)
+                        .filedLength(tableField.length())
                         .build();
                 filedInfoMap.put(tableField.value(), build);
             }
