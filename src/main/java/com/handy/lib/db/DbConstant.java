@@ -34,7 +34,7 @@ public class DbConstant implements Serializable {
     /**
      * 新增表
      */
-    public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `%s` (`id` INTEGER (11) AUTO_INCREMENT,PRIMARY KEY (`id`)) ENGINE=INNODB;";
+    public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `%s` (`id` INTEGER (11) AUTO_INCREMENT,PRIMARY KEY (`id`)) CHARACTER SET = utf8mb4 ENGINE=INNODB;";
     /**
      * 新增表注释
      */
