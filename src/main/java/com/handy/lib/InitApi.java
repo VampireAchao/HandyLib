@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 public class InitApi {
     public static Plugin PLUGIN;
     private static ClassUtil CLASS_UTIL;
-    private final static String VERSION = "1.7.8";
+    private final static String VERSION = "1.7.9";
 
     private InitApi() {
     }
@@ -243,6 +243,28 @@ public class InitApi {
     public InitApi addMetrics(int pluginId) {
         // bStats进行插件使用数据统计
         new Metrics(PLUGIN, pluginId);
+        // cStats进行插件使用数据统计
+        new com.iroselle.cstats.bukkit.Metrics(PLUGIN);
+        return this;
+    }
+
+    /**
+     * 进行插件使用数据统计
+     *
+     * @param pluginId     插件id
+     * @param customCharts 自定义图表
+     * @return this
+     * @since 1.7.9
+     */
+    public InitApi addMetrics(int pluginId, List<Metrics.CustomChart> customCharts) {
+        // bStats进行插件使用数据统计
+        Metrics metrics = new Metrics(PLUGIN, pluginId);
+        // 添加自定义图表
+        if (CollUtil.isNotEmpty(customCharts)) {
+            for (Metrics.CustomChart customChart : customCharts) {
+                metrics.addCustomChart(customChart);
+            }
+        }
         // cStats进行插件使用数据统计
         new com.iroselle.cstats.bukkit.Metrics(PLUGIN);
         return this;
