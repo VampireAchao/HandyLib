@@ -195,10 +195,10 @@ public class HandyInventoryUtil {
         if (pageCount == 0) {
             pageCount = 1;
         }
-        String currentPage = BaseUtil.getLangMsg("currentPage", "&a当前页:");
-        String totalPages = BaseUtil.getLangMsg("totalPages", "&a总页数:");
-        String previousPageMsg = BaseUtil.getLangMsg("previousPage", "&a点击前往上一页");
-        String nextPageMsg = BaseUtil.getLangMsg("nextPage", "&a点击前往下一页");
+        String currentPage = BaseUtil.getLangMsg("currentPage", BaseUtil.replaceChatColor("&a当前页:"));
+        String totalPages = BaseUtil.getLangMsg("totalPages", BaseUtil.replaceChatColor("&a总页数:"));
+        String previousPageMsg = BaseUtil.getLangMsg("previousPage", BaseUtil.replaceChatColor("&a点击前往上一页"));
+        String nextPageMsg = BaseUtil.getLangMsg("nextPage", BaseUtil.replaceChatColor("&a点击前往下一页"));
         // 上一页
         List<String> previousPage = new ArrayList<>();
         previousPage.add(currentPage + (pageNum + 1));
