@@ -197,4 +197,9 @@ public abstract class BaseConstants {
      */
     public static String IP = "http://116.62.51.78:9020";
 
+    /**
+     * 版本号
+     */
+    public static String VERSION = "version";
+
 }

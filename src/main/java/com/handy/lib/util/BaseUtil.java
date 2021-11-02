@@ -502,10 +502,11 @@ public class BaseUtil {
     public static void fileVersion(String path, int version) {
         File file = new File(InitApi.PLUGIN.getDataFolder(), path);
         if (!(file.exists())) {
+            MessageApi.sendConsoleDebugMessage("文件不存在，无需更新");
             return;
         }
         YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
-        int versionId = yamlConfiguration.getInt("version");
+        int versionId = yamlConfiguration.getInt(BaseConstants.VERSION);
         if (versionId == version) {
             MessageApi.sendConsoleDebugMessage("version 相同，无需更新");
             return;
