@@ -251,7 +251,7 @@ public class HandyHttpUtil {
                     paramMap.put("version", version);
                     String result = HttpUtil.get(CLOUD_GET_URL, paramMap);
                     if (StringUtils.isNotBlank(result)) {
-                        BaseConstants.cloudItemJsonCacheMap = new Gson().fromJson(result, new TypeToken<Map<String, String>>() {
+                        BaseConstants.CLOUD_ITEM_JSON_CACHE_MAP = new Gson().fromJson(result, new TypeToken<Map<String, String>>() {
                         }.getType());
                         MessageApi.sendConsoleMessage(ChatColor.GREEN + "获取云汉化数据成功...");
                     }
@@ -276,7 +276,7 @@ public class HandyHttpUtil {
             @Override
             public void run() {
                 try {
-                    Map<String, String> itemJsonCacheMap = BaseConstants.itemJsonCacheMap;
+                    Map<String, String> itemJsonCacheMap = BaseConstants.ITEM_JSON_CACHE_MAP;
                     if (itemJsonCacheMap.size() < 1) {
                         return;
                     }

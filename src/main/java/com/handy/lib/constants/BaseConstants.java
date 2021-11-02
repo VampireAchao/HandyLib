@@ -55,17 +55,17 @@ public abstract class BaseConstants {
     /**
      * 物品汉化map
      */
-    public static Map<String, String> jsonCacheMap = new HashMap<>();
+    public static Map<String, String> JSON_CACHE_MAP = new HashMap<>();
 
     /**
      * 自定义物品汉化map
      */
-    public static Map<String, String> itemJsonCacheMap = new HashMap<>();
+    public static Map<String, String> ITEM_JSON_CACHE_MAP = new HashMap<>();
 
     /**
      * 云汉化map
      */
-    public static Map<String, String> cloudItemJsonCacheMap = new HashMap<>();
+    public static Map<String, String> CLOUD_ITEM_JSON_CACHE_MAP = new HashMap<>();
 
     /**
      * 是否通过签名验证

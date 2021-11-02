@@ -277,31 +277,32 @@ public class BaseUtil {
             return displayName;
         }
         // 如果有汉化信息,转换
-        if (BaseConstants.jsonCacheMap.size() > 0) {
+        if (BaseConstants.JSON_CACHE_MAP.size() > 0) {
             // 物品
-            String name = BaseConstants.jsonCacheMap.get("item.minecraft." + type.toLowerCase());
+            String name = BaseConstants.JSON_CACHE_MAP.get("item.minecraft." + type.toLowerCase());
             if (name == null) {
                 // 方块
-                name = BaseConstants.jsonCacheMap.get("block.minecraft." + type.toLowerCase());
+                name = BaseConstants.JSON_CACHE_MAP.get("block.minecraft." + type.toLowerCase());
             }
-            return name;
+            if (name != null) {
+                return name;
+            }
         }
         // 如果有自定义汉化信息,转换
-        if (BaseConstants.itemJsonCacheMap.size() > 0) {
+        if (BaseConstants.ITEM_JSON_CACHE_MAP.size() > 0) {
             // 物品
-            String name = BaseConstants.itemJsonCacheMap.get(type);
+            String name = BaseConstants.ITEM_JSON_CACHE_MAP.get(type);
             if (name != null) {
                 return name;
             }
         }
         // 如果有云汉化信息,转换
-        if (BaseConstants.cloudItemJsonCacheMap.size() > 0) {
+        if (BaseConstants.CLOUD_ITEM_JSON_CACHE_MAP.size() > 0) {
             // 物品
-            String name = BaseConstants.cloudItemJsonCacheMap.get(type);
-            if (name == null) {
-                return type;
+            String name = BaseConstants.CLOUD_ITEM_JSON_CACHE_MAP.get(type);
+            if (name != null) {
+                return name;
             }
-            return name;
         }
         // 直接返回类型
         return type;
@@ -315,7 +316,7 @@ public class BaseUtil {
     public static void readJsonFileToItemJsonCacheMap(File file) {
         String json = readJsonFile(file);
         if (json != null && json.length() > 1) {
-            BaseConstants.itemJsonCacheMap = new Gson().fromJson(json, new TypeToken<Map<String, String>>() {
+            BaseConstants.ITEM_JSON_CACHE_MAP = new Gson().fromJson(json, new TypeToken<Map<String, String>>() {
             }.getType());
         }
     }
@@ -328,7 +329,7 @@ public class BaseUtil {
     public static void readJsonFileToJsonCacheMap(File file) {
         String json = readJsonFile(file);
         if (json != null && json.length() > 1) {
-            BaseConstants.jsonCacheMap = new Gson().fromJson(json, new TypeToken<Map<String, String>>() {
+            BaseConstants.JSON_CACHE_MAP = new Gson().fromJson(json, new TypeToken<Map<String, String>>() {
             }.getType());
         }
     }
