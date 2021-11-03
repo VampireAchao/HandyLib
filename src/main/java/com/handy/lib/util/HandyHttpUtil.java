@@ -177,7 +177,6 @@ public class HandyHttpUtil {
             case V_1_10:
             case V_1_11:
             case V_1_12:
-                setCloudItemJsonCacheMap(versionCheckEnum.getVersion());
                 break;
             case V_1_13:
                 url = URL_1_13;
