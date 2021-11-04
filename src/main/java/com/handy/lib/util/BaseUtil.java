@@ -454,13 +454,26 @@ public class BaseUtil {
      * 获取版本第一位
      *
      * @param plugin 插件
-     * @return 版本
+     * @return 版本第一位
      * @since 1.1.5
      */
     public static int getFirstPluginVersion(Plugin plugin) {
         String version = plugin.getDescription().getVersion();
         String[] split = version.split("\\.");
         return Integer.parseInt(split[0]);
+    }
+
+    /**
+     * 获取版本第二位
+     *
+     * @param plugin 插件
+     * @return 版本第二位
+     * @since 1.8.4
+     */
+    public static int getTwoPluginVersion(Plugin plugin) {
+        String version = plugin.getDescription().getVersion();
+        String[] split = version.split("\\.");
+        return Integer.parseInt(split[1]);
     }
 
     /**
