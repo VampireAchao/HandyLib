@@ -7,7 +7,7 @@
     <groupId>com.handy.lib</groupId>
     <artifactId>HandyLib</artifactId>
     <name>HandyLib</name>
-    <version>1.8.2</version>
+    <version>1.8.3</version>
     <description>handy的基础插件</description>
 
     <properties>
@@ -16,12 +16,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spigot-api.vesion>1.17.1-R0.1-SNAPSHOT</spigot-api.vesion>
         <bstats.version>1.7</bstats.version>
-        <lombok.version>1.18.20</lombok.version>
-        <mysql.version>8.0.23</mysql.version>
-        <sqlite.version>3.34.0</sqlite.version>
+        <lombok.version>1.18.22</lombok.version>
+        <mysql.version>8.0.25</mysql.version>
+        <sqlite.version>3.36.0.2</sqlite.version>
         <HikariCP.version>3.4.5</HikariCP.version>
-        <slf4j.version>1.7.2</slf4j.version>
+        <slf4j.version>1.7.32</slf4j.version>
         <SXAttribute.version>2.0.3</SXAttribute.version>
+        <MythicMobs.version>4.3.2</MythicMobs.version>
     </properties>
 
     <distributionManagement>
@@ -79,6 +80,12 @@
              <groupId>github.saukiya.sxattribute</groupId>
              <artifactId>SXAttribute</artifactId>
              <version>${SXAttribute.version}</version>
+             <scope>provided</scope>
+         </dependency>
+         <dependency>
+             <groupId>io.lumine.xikage</groupId>
+             <artifactId>MythicMobs</artifactId>
+             <version>${MythicMobs.version}</version>
              <scope>provided</scope>
          </dependency>
      </dependencies>
