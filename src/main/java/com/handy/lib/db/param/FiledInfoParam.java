@@ -42,6 +42,13 @@ public class FiledInfoParam implements Serializable {
     private Boolean filedNotNull;
 
     /**
+     * 字段默认值
+     *
+     * @since 1.8.6
+     */
+    private String filedDefault;
+
+    /**
      * 字段坐标
      */
     private Integer filedIndex;

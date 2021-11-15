@@ -3,6 +3,7 @@ package com.handy.lib.db;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.BeanUtil;
+import com.handy.lib.core.StrUtil;
 import com.handy.lib.db.enter.Page;
 import com.handy.lib.db.enums.FieldTypeEnum;
 import com.handy.lib.db.enums.SqlKeyword;
@@ -68,23 +69,34 @@ public class DbExecution<T> implements BaseMapper<T> {
         List<String> filedNameList = SqlService.getInstance().getTableInfo(BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD), sql);
         // 新增字段
         for (String filedName : filedInfoMap.keySet()) {
-            if (filedNameList.contains(filedName)) {
+            if ("id".equals(filedName)) {
                 continue;
             }
             // 新增字段
             FiledInfoParam filedInfoParam = filedInfoMap.get(filedName);
             FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam.getFiledType());
-            String addColumn = isMysql ? DbConstant.ADD_COLUMN : DbConstant.SQLITE_ADD_COLUMN;
-            String notNullSql = filedInfoParam.getFiledNotNull() ? DbConstant.NOT_NULL : "";
-            if (!isMysql && filedInfoParam.getFiledNotNull()) {
-                notNullSql += DbConstant.DEFAULT;
+            if (!filedNameList.contains(filedName)) {
+                String addColumn = isMysql ? DbConstant.ADD_COLUMN : DbConstant.SQLITE_ADD_COLUMN;
+                String filedSql = filedInfoParam.getFiledNotNull() ? DbConstant.NOT_NULL : "";
+                if (isMysql && StrUtil.isNotEmpty(filedInfoParam.getFiledDefault())) {
+                    filedSql += String.format(DbConstant.DEFAULT, filedInfoParam.getFiledDefault());
+                } else if (!isMysql && filedInfoParam.getFiledNotNull()) {
+                    filedSql += String.format(DbConstant.DEFAULT, filedInfoParam.getFiledDefault());
+                }
+                String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength(), filedSql);
+                MessageApi.sendConsoleDebugMessage("新增字段: " + createFieldSql);
+                SqlService.getInstance().executionSql(createFieldSql);
             }
-            String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength(), notNullSql);
-            MessageApi.sendConsoleDebugMessage("新增字段: " + createFieldSql);
-            SqlService.getInstance().executionSql(createFieldSql);
-            // 新增字段注释
             if (isMysql) {
-                String fieldCommentSql = String.format(DbConstant.ADD_COLUMN_COMMENT, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength(), filedInfoParam.getFiledComment());
+                // 修改字段信息
+                String filedSql = filedInfoParam.getFiledNotNull() ? DbConstant.NOT_NULL : "";
+                if (StrUtil.isNotEmpty(filedInfoParam.getFiledDefault())) {
+                    filedSql += String.format(DbConstant.DEFAULT, filedInfoParam.getFiledDefault());
+                }
+                if (StrUtil.isNotEmpty(filedInfoParam.getFiledComment())) {
+                    filedSql += String.format(DbConstant.COMMENT, filedInfoParam.getFiledComment());
+                }
+                String fieldCommentSql = String.format(DbConstant.ADD_COLUMN_COMMENT, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength(), filedSql);
                 MessageApi.sendConsoleDebugMessage("新增字段注释: " + fieldCommentSql);
                 SqlService.getInstance().executionSql(fieldCommentSql);
             }

@@ -111,6 +111,7 @@ public class Db<T> {
                         .filedType(field.getGenericType().getTypeName())
                         .filedComment(tableField.comment())
                         .filedNotNull(tableField.notNull())
+                        .filedDefault(tableField.filedDefault())
                         .filedIndex(i + 1)
                         .filedLength(tableField.length())
                         .build();

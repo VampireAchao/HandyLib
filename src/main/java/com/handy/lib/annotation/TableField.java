@@ -21,7 +21,7 @@ public @interface TableField {
     String value();
 
     /**
-     * 注释
+     * mysql 字段注释
      *
      * @return 注释
      */
@@ -42,4 +42,13 @@ public @interface TableField {
      * @return 是否可为null
      */
     boolean notNull() default false;
+
+    /**
+     * 字段默认值
+     *
+     * @return 字段默认值
+     * @since 1.8.6
+     */
+    String filedDefault() default "";
+
 }

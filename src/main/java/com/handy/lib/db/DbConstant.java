@@ -14,7 +14,8 @@ public class DbConstant implements Serializable {
     public static final String UPDATE = "UPDATE ";
     public static final String DELETE = "DELETE FROM ";
     public static final String NOT_NULL = "NOT NULL";
-    public static final String DEFAULT = " DEFAULT ''";
+    public static final String DEFAULT = " DEFAULT '%s'";
+    public static final String COMMENT = " COMMENT '%s'";
 
     public static final String SET = " SET ";
     public static final String FORM = " FROM ";
@@ -35,12 +36,14 @@ public class DbConstant implements Serializable {
      * 新增表
      */
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `%s` (`id` INTEGER (11) AUTO_INCREMENT,PRIMARY KEY (`id`)) CHARACTER SET = utf8mb4 ENGINE=INNODB;";
+
     /**
      * 新增表注释
      */
     public static final String TABLE_COMMENT = "ALTER TABLE `%s` COMMENT '%s';";
+
     /**
-     * 表信息
+     * 查询表字段信息
      */
     public static final String TABLE_INFO = "SELECT column_name FROM information_schema.COLUMNS WHERE table_name = '%s';";
 
@@ -48,10 +51,11 @@ public class DbConstant implements Serializable {
      * 新增字段
      */
     public static final String ADD_COLUMN = "ALTER TABLE `%s` ADD `%s` %s(%d) %s;";
+
     /**
-     * 新增字段注释
+     * 修改字段
      */
-    public static final String ADD_COLUMN_COMMENT = "ALTER TABLE `%s` MODIFY `%s` %s(%d) COMMENT '%s';";
+    public static final String ADD_COLUMN_COMMENT = "ALTER TABLE `%s` MODIFY `%s` %s(%d) %s;";
 
     /**
      * SQLITE 新增表
@@ -62,6 +66,7 @@ public class DbConstant implements Serializable {
      * SQLITE 表信息
      */
     public static final String SQLITE_TABLE_INFO = "PRAGMA table_info ( %s )";
+
     /**
      * SQLITE 新增字段
      */
