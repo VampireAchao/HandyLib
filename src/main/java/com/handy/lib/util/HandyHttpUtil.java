@@ -221,7 +221,6 @@ public class HandyHttpUtil {
                     File zhChFile = new File(InitApi.PLUGIN.getDataFolder(), "zh_cn.json");
                     if (zhChFile.exists()) {
                         BaseUtil.readJsonFileToJsonCacheMap(zhChFile);
-                        MessageApi.sendConsoleMessage(ChatColor.GREEN + "获取云汉化数据成功...");
                     }
                     this.cancel();
                 } catch (Exception ignored) {
@@ -252,7 +251,6 @@ public class HandyHttpUtil {
                     if (StringUtils.isNotBlank(result)) {
                         BaseConstants.CLOUD_ITEM_JSON_CACHE_MAP = new Gson().fromJson(result, new TypeToken<Map<String, String>>() {
                         }.getType());
-                        MessageApi.sendConsoleMessage(ChatColor.GREEN + "获取云汉化数据成功...");
                     }
                     this.cancel();
                 } catch (Exception ignored) {
