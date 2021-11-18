@@ -92,9 +92,9 @@ public class ItemStackUtil {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.setDisplayName(BaseUtil.replaceRpgChatColor(displayName));
+            itemMeta.setDisplayName(BaseUtil.replaceChatColor(displayName));
             if (CollUtil.isNotEmpty(loreList)) {
-                itemMeta.setLore(BaseUtil.replaceChatColor(loreList, false));
+                itemMeta.setLore(BaseUtil.replaceChatColor(loreList, true));
             }
             if (isEnchant) {
                 // 附魔效果
