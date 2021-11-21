@@ -39,7 +39,7 @@ public class MythicMobOldUtil {
         List<MythicMob> mythicMobs = this.getMythicMobs(pageNum);
         if (CollUtil.isNotEmpty(mythicMobs)) {
             for (MythicMob mythicMob : mythicMobs) {
-                map.put(mythicMob.getDisplayName(), mythicMob.getInternalName());
+                map.put(mythicMob.getDisplayName() != null ? mythicMob.getDisplayName() : mythicMob.getInternalName(), mythicMob.getInternalName());
             }
         }
         return map;
