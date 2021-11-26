@@ -65,6 +65,9 @@ public class MythicMobOldUtil {
      */
     public String getMythicMobName(String internalName) {
         MythicMob mythicMob = MythicMobs.inst().getMobManager().getMythicMob(internalName);
+        if (mythicMob == null) {
+            return internalName;
+        }
         String mythicMobName = mythicMob.getDisplayName();
         if (StrUtil.isEmpty(mythicMobName)) {
             return internalName;
