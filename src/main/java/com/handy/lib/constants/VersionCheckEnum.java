@@ -25,7 +25,9 @@ public enum VersionCheckEnum {
     V_1_14("1.14", 14),
     V_1_15("1.15", 15),
     V_1_16("1.16", 16),
-    V_1_17("1.17", 17);
+    V_1_17("1.17", 17),
+    V_1_18("1.18", 18),
+    ;
 
     private final String version;
     private final Integer versionId;

@@ -39,6 +39,7 @@ public class HandyHttpUtil {
     private final static String URL_1_15 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.15.json";
     private final static String URL_1_16 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.16.json";
     private final static String URL_1_17 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.17.json";
+    private final static String URL_1_18 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.18.json";
 
     /**
      * 进行验签
@@ -168,7 +169,6 @@ public class HandyHttpUtil {
      */
     public static void getZhCn() {
         // 获取版本
-        String url;
         VersionCheckEnum versionCheckEnum = VersionCheckEnum.getEnum();
         switch (versionCheckEnum) {
             case V_1_7:
@@ -179,28 +179,25 @@ public class HandyHttpUtil {
             case V_1_12:
                 break;
             case V_1_13:
-                url = URL_1_13;
-                getCloudZhCn(url);
+                getCloudZhCn(URL_1_13);
                 break;
             case V_1_14:
-                url = URL_1_14;
-                getCloudZhCn(url);
+                getCloudZhCn(URL_1_14);
                 break;
             case V_1_15:
-                url = URL_1_15;
-                getCloudZhCn(url);
+                getCloudZhCn(URL_1_15);
                 break;
             case V_1_16:
-                url = URL_1_16;
-                getCloudZhCn(url);
+                getCloudZhCn(URL_1_16);
                 break;
             case V_1_17:
-                url = URL_1_17;
-                getCloudZhCn(url);
+                getCloudZhCn(URL_1_17);
+                break;
+            case V_1_18:
+                getCloudZhCn(URL_1_18);
                 break;
             default:
-                url = URL_1_17;
-                getCloudZhCn(url);
+                getCloudZhCn(URL_1_18);
                 break;
         }
     }
