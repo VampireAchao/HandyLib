@@ -1,7 +1,6 @@
 package com.handy.lib.core;
 
 import com.handy.lib.constants.BaseConstants;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +53,7 @@ public class StrUtil {
      * @return 替换后的字符串
      */
     public static String replaceSpace(String str) {
-        if (StringUtils.isBlank(str)) {
+        if (StrUtil.isEmpty(str)) {
             return str;
         }
         return str.replace("#", " ");
@@ -68,7 +67,7 @@ public class StrUtil {
      */
     public static List<String> strToStrList(String str) {
         List<String> list = new ArrayList<>();
-        if (StringUtils.isBlank(str)) {
+        if (StrUtil.isEmpty(str)) {
             return list;
         }
         return Arrays.stream(str.split(",")).map(String::trim).collect(Collectors.toList());
@@ -82,7 +81,7 @@ public class StrUtil {
      */
     public static List<Long> strToLongList(String str) {
         List<Long> list = new ArrayList<>();
-        if (StringUtils.isBlank(str)) {
+        if (StrUtil.isEmpty(str)) {
             return list;
         }
         return Arrays.stream(str.split(",")).map(s -> Long.parseLong(s.trim())).collect(Collectors.toList());
@@ -96,7 +95,7 @@ public class StrUtil {
      */
     public static List<Integer> strToIntList(String str) {
         List<Integer> list = new ArrayList<>();
-        if (StringUtils.isBlank(str)) {
+        if (StrUtil.isEmpty(str)) {
             return list;
         }
         return Arrays.stream(str.split(",")).map(s -> Integer.valueOf(s.trim())).collect(Collectors.toList());

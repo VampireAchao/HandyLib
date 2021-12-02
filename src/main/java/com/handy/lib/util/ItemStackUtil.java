@@ -3,7 +3,6 @@ package com.handy.lib.util;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -232,7 +231,7 @@ public class ItemStackUtil {
      */
     public static Material getMaterial(String materialStr) {
         try {
-            if (StringUtils.isNotBlank(materialStr)) {
+            if (StrUtil.isNotEmpty(materialStr)) {
                 return Material.valueOf(materialStr);
             }
         } catch (Exception ignored) {
@@ -250,7 +249,7 @@ public class ItemStackUtil {
      */
     public static Material getMaterial(String materialStr, Material material) {
         try {
-            if (StringUtils.isNotBlank(materialStr)) {
+            if (StrUtil.isNotEmpty(materialStr)) {
                 return Material.valueOf(materialStr);
             }
         } catch (Exception ignored) {

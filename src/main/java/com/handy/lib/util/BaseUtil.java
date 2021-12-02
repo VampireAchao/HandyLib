@@ -7,8 +7,8 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.DateUtil;
+import com.handy.lib.core.StrUtil;
 import net.md_5.bungee.api.ChatColor;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -60,7 +60,7 @@ public class BaseUtil {
      * @return 转换后的字符串
      */
     public static String replaceChatColor(String str) {
-        if (StringUtils.isBlank(str)) {
+        if (StrUtil.isEmpty(str)) {
             return "";
         }
         return replaceRpgChatColor(str.replace("&", "§"));
@@ -92,7 +92,7 @@ public class BaseUtil {
      * @return 转换后的字符串
      */
     public static String replaceChatColor(String str, boolean isRpg) {
-        if (StringUtils.isBlank(str)) {
+        if (StrUtil.isEmpty(str)) {
             return "";
         }
         String newStr = str.replace("&", "§");
@@ -106,7 +106,7 @@ public class BaseUtil {
      * @return str
      */
     public static String replaceRpgChatColor(String str) {
-        if (StringUtils.isBlank(str)) {
+        if (StrUtil.isEmpty(str)) {
             return "";
         }
         if (BaseConstants.COLOR_CONFIG == null) {
@@ -122,7 +122,7 @@ public class BaseUtil {
         }
         for (String value : matchStrList) {
             String rpgStr = BaseConstants.COLOR_CONFIG.getString(stringFilter(value));
-            if (StringUtils.isBlank(rpgStr) || rpgStr.length() != 6) {
+            if (StrUtil.isEmpty(rpgStr) || rpgStr.length() != 6) {
                 continue;
             }
             ChatColor chatColor = ChatColor.of("#" + rpgStr);
@@ -138,7 +138,7 @@ public class BaseUtil {
      * @return str
      */
     public static int getIntensifyLevel(String str) {
-        if (StringUtils.isBlank(str)) {
+        if (StrUtil.isEmpty(str)) {
             return 0;
         }
         Matcher matcher = BaseConstants.INTENSIFY_PATTERN.matcher(str);
@@ -162,7 +162,7 @@ public class BaseUtil {
      * @return str
      */
     public static String delIntensifyLevel(String str) {
-        if (StringUtils.isBlank(str)) {
+        if (StrUtil.isEmpty(str)) {
             return "";
         }
         Matcher matcher = BaseConstants.INTENSIFY_PATTERN.matcher(str);
@@ -274,7 +274,7 @@ public class BaseUtil {
      */
     public static String getDisplayName(String displayName, String type) {
         // 如果不为空,返回
-        if (StringUtils.isNotBlank(displayName)) {
+        if (StrUtil.isNotEmpty(displayName)) {
             return displayName;
         }
         // 如果有汉化信息,转换

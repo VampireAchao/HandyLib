@@ -1,9 +1,8 @@
 package com.handy.lib.core;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 集合工具
@@ -19,8 +18,8 @@ public class CollUtil {
      * @param list 集合
      * @return 字符串
      */
-    public static String listToStr(List<?> list) {
-        return StringUtils.join(list.toArray(), ",");
+    public static <T> String listToStr(List<T> list) {
+        return list.stream().map(String::valueOf).collect(Collectors.joining(","));
     }
 
     /**

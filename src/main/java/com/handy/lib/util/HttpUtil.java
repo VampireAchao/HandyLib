@@ -1,6 +1,6 @@
 package com.handy.lib.util;
 
-import org.apache.commons.lang.StringUtils;
+import com.handy.lib.core.StrUtil;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -116,7 +116,7 @@ public class HttpUtil {
             conn = getConnection(new URL(url), method, requestType);
             conn.setConnectTimeout(CONNECT_TIMEOUT);
             conn.setReadTimeout(READ_TIMEOUT);
-            if (StringUtils.isNotBlank(requestContent)) {
+            if (StrUtil.isNotEmpty(requestContent)) {
                 out = conn.getOutputStream();
                 out.write(requestContent.getBytes(CHARSET));
             }

@@ -1,9 +1,9 @@
 package com.handy.lib.util;
 
 import com.google.common.collect.Maps;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
@@ -11,7 +11,6 @@ import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.param.VerifySignParam;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -136,7 +135,7 @@ public class HandyHttpUtil {
             public void run() {
                 try {
                     String result = HttpUtil.get(url);
-                    if (StringUtils.isNotBlank(result)) {
+                    if (StrUtil.isNotEmpty(result)) {
                         JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
                         // 当前版本
                         String version = InitApi.PLUGIN.getDescription().getVersion();
@@ -245,7 +244,7 @@ public class HandyHttpUtil {
                     HashMap<String, String> paramMap = Maps.newHashMapWithExpectedSize(1);
                     paramMap.put("version", version);
                     String result = HttpUtil.get(CLOUD_GET_URL, paramMap);
-                    if (StringUtils.isNotBlank(result)) {
+                    if (StrUtil.isNotEmpty(result)) {
                         BaseConstants.CLOUD_ITEM_JSON_CACHE_MAP = new Gson().fromJson(result, new TypeToken<Map<String, String>>() {
                         }.getType());
                     }
