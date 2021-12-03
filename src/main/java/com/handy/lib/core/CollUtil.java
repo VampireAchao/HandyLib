@@ -16,7 +16,8 @@ public class CollUtil {
      * 集合转,分隔的字符串
      *
      * @param list 集合
-     * @return 字符串
+     * @param <T>  字符串
+     * @return 分隔的字符串
      */
     public static <T> String listToStr(List<T> list) {
         return list.stream().map(String::valueOf).collect(Collectors.joining(","));
