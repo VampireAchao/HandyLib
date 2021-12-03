@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spigot-api.vesion>1.17.1-R0.1-SNAPSHOT</spigot-api.vesion>
+        <spigot-api.vesion>1.18-R0.1-SNAPSHOT</spigot-api.vesion>
         <bstats.version>1.7</bstats.version>
         <lombok.version>1.18.22</lombok.version>
         <mysql.version>8.0.25</mysql.version>
