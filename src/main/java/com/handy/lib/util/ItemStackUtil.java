@@ -209,7 +209,7 @@ public class ItemStackUtil {
      * @param itemStack       物品
      * @param amount          发送数量
      */
-    private void addItem(PlayerInventory playerInventory, ItemStack itemStack, int amount) {
+    public static void addItem(PlayerInventory playerInventory, ItemStack itemStack, int amount) {
         int maxStackSize = itemStack.getMaxStackSize();
         if (amount > maxStackSize) {
             // 如果发送数量大于最大上限
