@@ -349,7 +349,7 @@ public class DbExecution<T> implements BaseMapper<T> {
      * @return List
      */
     @Override
-    public List<T> selectBatchIds(List<Object> ids) {
+    public List<T> selectBatchIds(List<Integer> ids) {
         dbSql.addInCondition(true, "id", SqlKeyword.IN, ids);
         return this.list();
     }
@@ -385,7 +385,7 @@ public class DbExecution<T> implements BaseMapper<T> {
      * @return 结果
      */
     @Override
-    public int deleteBatchIds(List<Object> ids) {
+    public int deleteBatchIds(List<Integer> ids) {
         dbSql.addInCondition(true, "id", SqlKeyword.IN, ids);
         return this.delete();
     }

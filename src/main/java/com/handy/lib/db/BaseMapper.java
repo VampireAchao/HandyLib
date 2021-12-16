@@ -81,7 +81,7 @@ public interface BaseMapper<T> extends Serializable {
      * @param ids ids
      * @return List
      */
-    List<T> selectBatchIds(List<Object> ids);
+    List<T> selectBatchIds(List<Integer> ids);
 
     /**
      * 根据id更新
@@ -105,5 +105,5 @@ public interface BaseMapper<T> extends Serializable {
      * @param ids ids
      * @return 结果
      */
-    int deleteBatchIds(List<Object> ids);
+    int deleteBatchIds(List<Integer> ids);
 }
