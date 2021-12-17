@@ -6,6 +6,7 @@ import com.handy.lib.core.BeanUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.db.enter.Page;
 import com.handy.lib.db.enums.FieldTypeEnum;
+import com.handy.lib.db.enums.IndexEnum;
 import com.handy.lib.db.enums.SqlKeyword;
 import com.handy.lib.db.param.FiledInfoParam;
 import com.handy.lib.db.param.TableInfoParam;
@@ -99,6 +100,30 @@ public class DbExecution<T> implements BaseMapper<T> {
                 String fieldCommentSql = String.format(DbConstant.ADD_COLUMN_COMMENT, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength(), filedSql);
                 MessageApi.sendConsoleDebugMessage("新增字段注释: " + fieldCommentSql);
                 SqlService.getInstance().executionSql(fieldCommentSql);
+            }
+        }
+        // 新增索引
+        if (isMysql) {
+            String showIndexSql = String.format(DbConstant.SHOW_INDEX, tableInfoParam.getTableName());
+            MessageApi.sendConsoleDebugMessage("查询表索引sql: " + showIndexSql);
+            List<String> mysqlTableIndexList = SqlService.getInstance().getMysqlTableIndex(showIndexSql);
+            for (String filedName : filedInfoMap.keySet()) {
+                FiledInfoParam filedInfoParam = filedInfoMap.get(filedName);
+                if (IndexEnum.NOT.equals(filedInfoParam.getIndexEnum())) {
+                    continue;
+                }
+                if (mysqlTableIndexList.contains(filedName)) {
+                    continue;
+                }
+                String indexName = filedName;
+                if (IndexEnum.UNIQUE.equals(filedInfoParam.getIndexEnum())) {
+                    indexName = "un_" + indexName;
+                } else {
+                    indexName = "idx_" + indexName;
+                }
+                String addIndexSql = String.format(DbConstant.ADD_INDEX, tableInfoParam.getTableName(), indexName, filedInfoParam.getIndexEnum().getName());
+                MessageApi.sendConsoleDebugMessage("新增表索引: " + addIndexSql);
+                SqlService.getInstance().executionSql(addIndexSql);
             }
         }
     }

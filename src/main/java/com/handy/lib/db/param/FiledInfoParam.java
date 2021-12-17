@@ -1,5 +1,6 @@
 package com.handy.lib.db.param;
 
+import com.handy.lib.db.enums.IndexEnum;
 import lombok.Builder;
 import lombok.Data;
 
@@ -57,4 +58,11 @@ public class FiledInfoParam implements Serializable {
      * 字段长度
      */
     private Integer filedLength;
+
+    /**
+     * 字段索引
+     *
+     * @since 1.9.6
+     */
+    private IndexEnum indexEnum;
 }

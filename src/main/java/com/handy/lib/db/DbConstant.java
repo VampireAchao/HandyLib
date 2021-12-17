@@ -72,5 +72,19 @@ public class DbConstant implements Serializable {
      */
     public static final String SQLITE_ADD_COLUMN = "ALTER TABLE '%s' ADD '%s' %s(%d) %s;";
 
+    /**
+     * 查询索引
+     *
+     * @since 1.9.6
+     */
+    public static final String SHOW_INDEX = "SHOW INDEX FROM '%s';";
+
+    /**
+     * 添加索引
+     *
+     * @since 1.9.6
+     */
+    public static final String ADD_INDEX = "ALTER TABLE '%s' ADD INDEX '%s' ('%s');";
+
     private static final long serialVersionUID = -5121546824758656412L;
 }

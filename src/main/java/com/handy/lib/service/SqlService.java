@@ -307,6 +307,34 @@ public class SqlService {
     }
 
     /**
+     * 查询表索引字段
+     *
+     * @param sql sql
+     * @return true/成功
+     * @since 1.9.6
+     */
+    public List<String> getMysqlTableIndex(String sql) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rst = null;
+        List<String> columnNameList = new ArrayList<>();
+        try {
+            conn = SqlManagerUtil.getInstance().getConnection();
+            ps = conn.prepareStatement(sql);
+            rst = ps.executeQuery();
+            while (rst.next()) {
+                String columnName = rst.getString("Column_name");
+                columnNameList.add(columnName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
+        }
+        return columnNameList;
+    }
+
+    /**
      * 执行普通sql
      *
      * @param storageMethod 存储方法

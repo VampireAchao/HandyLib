@@ -114,6 +114,7 @@ public class Db<T> {
                         .filedDefault(tableField.filedDefault())
                         .filedIndex(i + 1)
                         .filedLength(tableField.length())
+                        .indexEnum(tableField.indexEnum())
                         .build();
                 filedInfoMap.put(tableField.value(), build);
             }

@@ -1,5 +1,7 @@
 package com.handy.lib.annotation;
 
+import com.handy.lib.db.enums.IndexEnum;
+
 import java.lang.annotation.*;
 
 /**
@@ -50,5 +52,13 @@ public @interface TableField {
      * @since 1.8.6
      */
     String filedDefault() default "";
+
+    /**
+     * MYSQL字段索引
+     *
+     * @return 索引类型
+     * @since 1.9.6
+     */
+    IndexEnum indexEnum() default IndexEnum.NOT;
 
 }
