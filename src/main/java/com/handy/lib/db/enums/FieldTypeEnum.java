@@ -22,7 +22,6 @@ public enum FieldTypeEnum {
     BOOLEAN("java.lang.Boolean", "INT", 11),
     BASIC_BOOLEAN("boolean", "INT", 11),
     DATE("java.util.Date", "DATETIME", 0),
-    LOCAL_DATE_TIME("java.time.LocalDateTime", "DATETIME", 0),
     ;
 
     private final String javaType;

@@ -19,7 +19,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -303,12 +302,6 @@ public class DbExecution<T> implements BaseMapper<T> {
                 LocalDateTime localDateTime = (LocalDateTime) obj;
                 obj = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
             }
-        }
-        // LocalDateTime处理
-        if (FieldTypeEnum.LOCAL_DATE_TIME.getJavaType().equals(filedInfoParam.getFiledType()) && !isMysql) {
-            String str = obj.toString();
-            // 将时间戳转为当前时间
-            obj = LocalDateTime.ofEpochSecond(Long.parseLong(str), 0, ZoneOffset.ofHours(8));
         }
         return obj;
     }
