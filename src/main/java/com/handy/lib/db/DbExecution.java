@@ -17,6 +17,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -190,11 +193,8 @@ public class DbExecution<T> implements BaseMapper<T> {
                     if (obj == null) {
                         continue;
                     }
-                    // date处理
-                    if (FieldTypeEnum.DATE.getJavaType().equals(filedInfoParam.getFiledType()) && !isMysql) {
-                        String str = obj.toString();
-                        obj = new Date(Long.parseLong(str));
-                    }
+                    // 特殊字段类型处理
+                    obj = specialHandling(filedInfoParam, obj);
                     Field field = clazz.getDeclaredField(filedInfoParam.getFieldRealName());
                     field.setAccessible(true);
                     field.set(newInstance, obj);
@@ -269,11 +269,8 @@ public class DbExecution<T> implements BaseMapper<T> {
                     if (obj == null) {
                         continue;
                     }
-                    // date处理
-                    if (FieldTypeEnum.DATE.getJavaType().equals(filedInfoParam.getFiledType()) && !isMysql) {
-                        String str = obj.toString();
-                        obj = new Date(Long.parseLong(str));
-                    }
+                    // 特殊字段类型处理
+                    obj = specialHandling(filedInfoParam, obj);
                     Field field = clazz.getDeclaredField(filedInfoParam.getFieldRealName());
                     field.setAccessible(true);
                     field.set(newInstance, obj);
@@ -287,6 +284,33 @@ public class DbExecution<T> implements BaseMapper<T> {
             SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
         }
         return list;
+    }
+
+    /**
+     * 特殊字段类型处理
+     *
+     * @param filedInfoParam 字段信息
+     * @param obj            值
+     * @return 新值
+     */
+    private Object specialHandling(FiledInfoParam filedInfoParam, Object obj) {
+        // date处理
+        if (FieldTypeEnum.DATE.getJavaType().equals(filedInfoParam.getFiledType())) {
+            if (!isMysql) {
+                String str = obj.toString();
+                obj = new Date(Long.parseLong(str));
+            } else {
+                LocalDateTime localDateTime = (LocalDateTime) obj;
+                obj = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+            }
+        }
+        // LocalDateTime处理
+        if (FieldTypeEnum.LOCAL_DATE_TIME.getJavaType().equals(filedInfoParam.getFiledType()) && !isMysql) {
+            String str = obj.toString();
+            // 将时间戳转为当前时间
+            obj = LocalDateTime.ofEpochSecond(Long.parseLong(str), 0, ZoneOffset.ofHours(8));
+        }
+        return obj;
     }
 
     /**
