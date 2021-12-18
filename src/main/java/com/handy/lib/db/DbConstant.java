@@ -84,7 +84,7 @@ public class DbConstant implements Serializable {
      *
      * @since 1.9.6
      */
-    public static final String ADD_INDEX = "ALTER TABLE '%s' ADD INDEX '%s' ('%s');";
+    public static final String ADD_INDEX = "ALTER TABLE %s ADD INDEX %s (%s);";
 
     private static final long serialVersionUID = -5121546824758656412L;
 }

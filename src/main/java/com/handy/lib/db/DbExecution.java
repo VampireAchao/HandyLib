@@ -121,7 +121,7 @@ public class DbExecution<T> implements BaseMapper<T> {
                 } else {
                     indexName = "idx_" + indexName;
                 }
-                String addIndexSql = String.format(DbConstant.ADD_INDEX, tableInfoParam.getTableName(), indexName, filedInfoParam.getIndexEnum().getName());
+                String addIndexSql = String.format(DbConstant.ADD_INDEX, tableInfoParam.getTableName(), indexName, filedName);
                 MessageApi.sendConsoleDebugMessage("新增表索引: " + addIndexSql);
                 SqlService.getInstance().executionSql(addIndexSql);
             }
