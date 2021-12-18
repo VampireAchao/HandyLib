@@ -77,7 +77,7 @@ public class DbConstant implements Serializable {
      *
      * @since 1.9.6
      */
-    public static final String SHOW_INDEX = "SHOW INDEX FROM '%s';";
+    public static final String SHOW_INDEX = "SHOW INDEX FROM %s;";
 
     /**
      * 添加索引
