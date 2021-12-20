@@ -2,6 +2,7 @@ package com.handy.lib.inventory;
 
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.CollUtil;
+import com.handy.lib.core.StrUtil;
 import com.handy.lib.param.InventoryWriteParam;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.ItemStackUtil;
@@ -120,13 +121,16 @@ public class HandyInventoryUtil {
                 }
                 MemorySection subMemorySection = (MemorySection) values2.get(values2Key);
                 boolean isUse = subMemorySection.getBoolean("isUse");
-                int index = subMemorySection.getInt("index");
+                String indexStrList = subMemorySection.getString("index");
+                List<Integer> indexList = StrUtil.strToIntList(indexStrList);
                 String material = subMemorySection.getString("material");
                 String name = subMemorySection.getString("name");
                 List<String> loreList = subMemorySection.getStringList("lore");
                 int customModelDataId = subMemorySection.getInt("custom-model-data");
-                InventoryWriteParam inventoryWriteParam = new InventoryWriteParam(isUse, index, material, name, loreList, indexValue, customModelDataId);
-                paramList.add(inventoryWriteParam);
+                for (Integer index : indexList) {
+                    InventoryWriteParam inventoryWriteParam = new InventoryWriteParam(isUse, index, material, name, loreList, indexValue, customModelDataId);
+                    paramList.add(inventoryWriteParam);
+                }
             }
         }
         return paramList;
