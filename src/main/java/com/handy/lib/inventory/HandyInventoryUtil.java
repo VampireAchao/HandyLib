@@ -72,7 +72,7 @@ public class HandyInventoryUtil {
      * @since 1.2.0
      */
     public static void setButton(Inventory inventory, Integer index, Material material, String name, List<String> loreList) {
-        setButton(inventory, index, material, name, loreList, 0);
+        setButton(inventory, index, material, name, loreList, 0, true);
     }
 
     /**
@@ -84,10 +84,11 @@ public class HandyInventoryUtil {
      * @param name              名称
      * @param loreList          loreList
      * @param customModelDataId 自定义模型id
+     * @param isEnchant         附魔效果
      * @since 1.6.5
      */
-    public static void setButton(Inventory inventory, Integer index, Material material, String name, List<String> loreList, int customModelDataId) {
-        ItemStack itemStack = ItemStackUtil.getItemStack(material, BaseUtil.replaceChatColor(name), BaseUtil.replaceChatColor(loreList, true));
+    public static void setButton(Inventory inventory, Integer index, Material material, String name, List<String> loreList, int customModelDataId, Boolean isEnchant) {
+        ItemStack itemStack = ItemStackUtil.getItemStack(material, BaseUtil.replaceChatColor(name), BaseUtil.replaceChatColor(loreList, true), false);
         itemStack.setItemMeta(ItemStackUtil.setCustomModelData(itemStack.getItemMeta(), customModelDataId));
         inventory.setItem(index, itemStack);
     }
@@ -152,7 +153,29 @@ public class HandyInventoryUtil {
             if (!param.getIsUse()) {
                 continue;
             }
-            setButton(inventory, param.getIndex(), ItemStackUtil.getMaterial(param.getMaterial()), param.getName(), param.getLoreList(), param.getCustomModelDataId());
+            setButton(inventory, param.getIndex(), ItemStackUtil.getMaterial(param.getMaterial()), param.getName(), param.getLoreList(), param.getCustomModelDataId(), true);
+            map.put(param.getIndex(), param.getIndexValue());
+        }
+    }
+
+    /**
+     * 批量设置指定按钮
+     *
+     * @param inventory gui
+     * @param paramList 入参
+     * @param map       入参
+     * @param isEnchant 附魔效果
+     * @since 2.0.1
+     */
+    public static void batchSetButton(Inventory inventory, List<InventoryWriteParam> paramList, Map<Integer, Long> map, Boolean isEnchant) {
+        if (CollUtil.isEmpty(paramList)) {
+            return;
+        }
+        for (InventoryWriteParam param : paramList) {
+            if (!param.getIsUse()) {
+                continue;
+            }
+            setButton(inventory, param.getIndex(), ItemStackUtil.getMaterial(param.getMaterial()), param.getName(), param.getLoreList(), param.getCustomModelDataId(), isEnchant);
             map.put(param.getIndex(), param.getIndexValue());
         }
     }
