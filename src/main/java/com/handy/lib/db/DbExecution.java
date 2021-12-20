@@ -299,8 +299,10 @@ public class DbExecution<T> implements BaseMapper<T> {
                 String str = obj.toString();
                 obj = new Date(Long.parseLong(str));
             } else {
-                LocalDateTime localDateTime = (LocalDateTime) obj;
-                obj = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+                if (obj instanceof LocalDateTime) {
+                    LocalDateTime localDateTime = (LocalDateTime) obj;
+                    obj = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+                }
             }
         }
         return obj;
