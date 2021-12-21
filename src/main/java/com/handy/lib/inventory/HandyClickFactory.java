@@ -2,8 +2,11 @@ package com.handy.lib.inventory;
 
 import com.handy.lib.InitApi;
 import com.handy.lib.core.CollUtil;
+import com.handy.lib.exception.HandyException;
 import com.handy.lib.param.InventoryCheckParam;
+import com.handy.lib.util.BaseUtil;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.InventoryHolder;
@@ -102,7 +105,15 @@ public class HandyClickFactory {
         if (handyClickEvent == null) {
             return;
         }
-        handyClickEvent.rawSlotClick(handyInventory, event);
+        // 捕获自定义异常并抛出提醒
+        try {
+            handyClickEvent.rawSlotClick(handyInventory, event);
+        } catch (HandyException exception) {
+            if (event.getWhoClicked() instanceof Player) {
+                HumanEntity whoClicked = event.getWhoClicked();
+                whoClicked.sendMessage(BaseUtil.replaceChatColor(exception.getMessage()));
+            }
+        }
     }
 
 }

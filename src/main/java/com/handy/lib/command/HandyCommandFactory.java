@@ -2,6 +2,7 @@ package com.handy.lib.command;
 
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
+import com.handy.lib.exception.HandyException;
 import com.handy.lib.util.BaseUtil;
 import lombok.SneakyThrows;
 import org.bukkit.command.Command;
@@ -30,7 +31,7 @@ public class HandyCommandFactory {
     /**
      * 全部实现类
      */
-    private static Map<String, IHandyCommandEvent> HANDY_COMMAND_EVENT_MAP = new HashMap<>();
+    private static final Map<String, IHandyCommandEvent> HANDY_COMMAND_EVENT_MAP = new HashMap<>();
 
     /**
      * 全部子命令
@@ -88,7 +89,12 @@ public class HandyCommandFactory {
             sender.sendMessage(BaseUtil.replaceChatColor(noPermission));
             return true;
         }
-        param.getMethod().invoke(param.getAClass().newInstance(), sender, cmd, label, args);
+        // 捕获自定义异常并抛出提醒
+        try {
+            param.getMethod().invoke(param.getAClass().newInstance(), sender, cmd, label, args);
+        } catch (HandyException exception) {
+            sender.sendMessage(BaseUtil.replaceChatColor(exception.getMessage()));
+        }
         return true;
     }
 
@@ -114,7 +120,12 @@ public class HandyCommandFactory {
             sender.sendMessage(BaseUtil.replaceChatColor(noPermission));
             return true;
         }
-        handyInventory.onCommand(sender, cmd, label, args);
+        // 捕获自定义异常并抛出提醒
+        try {
+            handyInventory.onCommand(sender, cmd, label, args);
+        } catch (HandyException exception) {
+            sender.sendMessage(BaseUtil.replaceChatColor(exception.getMessage()));
+        }
         return true;
     }
 
