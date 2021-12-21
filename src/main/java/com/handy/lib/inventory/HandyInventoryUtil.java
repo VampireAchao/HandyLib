@@ -88,8 +88,7 @@ public class HandyInventoryUtil {
      * @since 1.6.5
      */
     public static void setButton(Inventory inventory, Integer index, Material material, String name, List<String> loreList, int customModelDataId, Boolean isEnchant) {
-        ItemStack itemStack = ItemStackUtil.getItemStack(material, BaseUtil.replaceChatColor(name), BaseUtil.replaceChatColor(loreList, true), false);
-        itemStack.setItemMeta(ItemStackUtil.setCustomModelData(itemStack.getItemMeta(), customModelDataId));
+        ItemStack itemStack = ItemStackUtil.getItemStack(material, BaseUtil.replaceChatColor(name), BaseUtil.replaceChatColor(loreList, true), isEnchant, customModelDataId);
         inventory.setItem(index, itemStack);
     }
 
@@ -219,6 +218,24 @@ public class HandyInventoryUtil {
      * @since 1.6.6
      */
     public static void setPage(Inventory inventory, Integer pageNum, Integer pageCount, String previousPageMaterial, String nextPageMaterial, int previousPageCustomModelDataId, int nextPageCustomModelDataId) {
+        setPage(inventory, pageNum, pageCount, previousPageMaterial, nextPageMaterial, previousPageCustomModelDataId, nextPageCustomModelDataId, BaseConstants.GUI_SIZE_48, BaseConstants.GUI_SIZE_50);
+    }
+
+    /**
+     * 分页设置
+     *
+     * @param inventory                     gui
+     * @param pageNum                       当前页
+     * @param pageCount                     总页
+     * @param previousPageMaterial          上一页材质
+     * @param nextPageMaterial              下一页材质
+     * @param nextPageCustomModelDataId     上一页模型id
+     * @param previousPageCustomModelDataId 下一页模型id
+     * @param previousPageIndex             上一页位置
+     * @param nextPageIndex                 下一页位置
+     * @since 2.0.3
+     */
+    public static void setPage(Inventory inventory, Integer pageNum, Integer pageCount, String previousPageMaterial, String nextPageMaterial, int previousPageCustomModelDataId, int nextPageCustomModelDataId, Integer previousPageIndex, Integer nextPageIndex) {
         if (pageCount == 0) {
             pageCount = 1;
         }
@@ -230,16 +247,14 @@ public class HandyInventoryUtil {
         List<String> previousPage = new ArrayList<>();
         previousPage.add(currentPage + (pageNum + 1));
         previousPage.add(totalPages + pageCount);
-        ItemStack previousPageItemStack = ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(previousPageMaterial, Material.PAPER), previousPageMsg, previousPage);
-        previousPageItemStack.setItemMeta(ItemStackUtil.setCustomModelData(previousPageItemStack.getItemMeta(), previousPageCustomModelDataId));
-        inventory.setItem(BaseConstants.GUI_SIZE_48, previousPageItemStack);
+        ItemStack previousPageItemStack = ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(previousPageMaterial, Material.PAPER), previousPageMsg, previousPage, previousPageCustomModelDataId);
+        inventory.setItem(previousPageIndex, previousPageItemStack);
         // 下一页
         List<String> nextPage = new ArrayList<>();
         nextPage.add(currentPage + (pageNum + 1));
         nextPage.add(totalPages + pageCount);
-        ItemStack nextPageItemStack = ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(nextPageMaterial, Material.PAPER), nextPageMsg, nextPage);
-        nextPageItemStack.setItemMeta(ItemStackUtil.setCustomModelData(nextPageItemStack.getItemMeta(), nextPageCustomModelDataId));
-        inventory.setItem(BaseConstants.GUI_SIZE_50, nextPageItemStack);
+        ItemStack nextPageItemStack = ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(nextPageMaterial, Material.PAPER), nextPageMsg, nextPage, nextPageCustomModelDataId);
+        inventory.setItem(nextPageIndex, nextPageItemStack);
     }
 
     /**
@@ -256,7 +271,9 @@ public class HandyInventoryUtil {
         String previousPageMaterial = fileConfig.getString("previousPage.material");
         int nextPageCustomModelData = fileConfig.getInt("nextPage.custom-model-data");
         int previousPageCustomModelData = fileConfig.getInt("previousPage.custom-model-data");
-        setPage(handyInventory.getInventory(), handyInventory.getPageNum(), pageCount, previousPageMaterial, nextPageMaterial, previousPageCustomModelData, nextPageCustomModelData);
+        int nextPageIndex = fileConfig.getInt("nextPage.index", BaseConstants.GUI_SIZE_50);
+        int previousPageIndex = fileConfig.getInt("previousPage.index", BaseConstants.GUI_SIZE_48);
+        setPage(handyInventory.getInventory(), handyInventory.getPageNum(), pageCount, previousPageMaterial, nextPageMaterial, previousPageCustomModelData, nextPageCustomModelData, previousPageIndex, nextPageIndex);
     }
 
 }

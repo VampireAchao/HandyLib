@@ -3,7 +3,7 @@ package com.handy.lib.util;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
-import org.bukkit.Bukkit;
+import com.handy.lib.expand.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -58,6 +58,17 @@ public class ItemStackUtil {
     /**
      * 物品生成
      *
+     * @param material 材质
+     * @return 自定义物品
+     * @since 2.0.3
+     */
+    public static ItemStack getItemStack(Material material) {
+        return getItemStack(material, null, null);
+    }
+
+    /**
+     * 物品生成
+     *
      * @param material    材质
      * @param displayName 名称
      * @return 自定义物品
@@ -88,19 +99,51 @@ public class ItemStackUtil {
      * @return 自定义物品
      */
     public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, Boolean isEnchant) {
+        return getItemStack(material, displayName, loreList, isEnchant, 0);
+    }
+
+    /**
+     * 物品生成
+     *
+     * @param material        材质
+     * @param displayName     名称
+     * @param loreList        lore
+     * @param isEnchant       附魔效果
+     * @param customModelData 自定义模型id
+     * @return 自定义物品
+     * @since 2.0.3
+     */
+    public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, int customModelData) {
+        return getItemStack(material, displayName, loreList, true, customModelData);
+    }
+
+    /**
+     * 物品生成
+     *
+     * @param material        材质
+     * @param displayName     名称
+     * @param loreList        lore
+     * @param isEnchant       附魔效果
+     * @param customModelData 自定义模型id
+     * @return 自定义物品
+     * @since 2.0.3
+     */
+    public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, Boolean isEnchant, int customModelData) {
         ItemStack itemStack = new ItemStack(material);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta != null) {
+        ItemMeta itemMeta = getItemMeta(itemStack);
+        if (StrUtil.isNotEmpty(displayName)) {
             itemMeta.setDisplayName(BaseUtil.replaceChatColor(displayName));
-            if (CollUtil.isNotEmpty(loreList)) {
-                itemMeta.setLore(BaseUtil.replaceChatColor(loreList, true));
-            }
-            if (isEnchant) {
-                // 附魔效果
-                setEnchant(itemMeta);
-            }
-            itemStack.setItemMeta(itemMeta);
         }
+        if (CollUtil.isNotEmpty(loreList)) {
+            itemMeta.setLore(BaseUtil.replaceChatColor(loreList, true));
+        }
+        // 附魔效果
+        if (isEnchant) {
+            setEnchant(itemMeta);
+        }
+        // 模型效果
+        itemMeta = setCustomModelData(itemMeta, customModelData);
+        itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 
@@ -112,11 +155,8 @@ public class ItemStackUtil {
     public static void setEnchant(ItemMeta itemMeta) {
         // 耐久
         itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
-        VersionCheckEnum versionCheckEnum = VersionCheckEnum.getEnum();
-        if (!VersionCheckEnum.V_1_7.equals(versionCheckEnum)) {
-            // 隐藏附魔效果
-            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
+        // 隐藏附魔效果
+        hideEnchant(itemMeta);
     }
 
     /**
@@ -230,14 +270,7 @@ public class ItemStackUtil {
      * @return Material
      */
     public static Material getMaterial(String materialStr) {
-        try {
-            if (StrUtil.isNotEmpty(materialStr)) {
-                return Material.valueOf(materialStr);
-            }
-        } catch (Exception ignored) {
-            Bukkit.getLogger().info("没有找到对应的物品材质: " + materialStr);
-        }
-        return Material.STONE;
+        return getMaterial(materialStr, Material.STONE);
     }
 
     /**
@@ -248,14 +281,7 @@ public class ItemStackUtil {
      * @return Material
      */
     public static Material getMaterial(String materialStr, Material material) {
-        try {
-            if (StrUtil.isNotEmpty(materialStr)) {
-                return Material.valueOf(materialStr);
-            }
-        } catch (Exception ignored) {
-            Bukkit.getLogger().info("没有找到对应的物品材质: " + materialStr);
-        }
-        return material;
+        return XMaterial.matchXMaterial(materialStr).orElse(XMaterial.matchXMaterial(material)).parseMaterial();
     }
 
     /**
