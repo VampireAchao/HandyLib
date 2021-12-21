@@ -18,13 +18,24 @@ import java.util.regex.Matcher;
 public class AssertUtil {
 
     /**
-     * 是true报错
+     * 不是true报错
      *
      * @param expression 条件
      * @param sender     发送人
      * @param message    消息
      */
     public static void isTrue(boolean expression, CommandSender sender, String message) {
+        notTrue(!expression, sender, message);
+    }
+
+    /**
+     * 是true报错
+     *
+     * @param expression 条件
+     * @param sender     发送人
+     * @param message    消息
+     */
+    public static void notTrue(boolean expression, CommandSender sender, String message) {
         if (expression) {
             throw new HandyException(message);
         }
