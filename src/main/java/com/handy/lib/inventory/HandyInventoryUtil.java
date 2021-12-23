@@ -57,7 +57,7 @@ public class HandyInventoryUtil {
      * @since 2.1.5
      */
     public static int getIndex(FileConfiguration config, String type) {
-        return config.getInt("index", 0);
+        return config.getInt(type + ".index", 0);
     }
 
     /**
@@ -111,7 +111,7 @@ public class HandyInventoryUtil {
         if (!memberEnable) {
             return;
         }
-        String indexStrList = config.getString("index");
+        String indexStrList = config.getString(type + ".index");
         List<Integer> indexList = StrUtil.strToIntList(indexStrList);
         String name = config.getString(type + ".name");
         String material = config.getString(type + ".material");
