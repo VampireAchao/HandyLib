@@ -42,4 +42,36 @@ public class UpdateCondition<T> implements Serializable {
         return this;
     }
 
+    /**
+     * 更新条件 减少
+     *
+     * @param condition          执行条件
+     * @param fn                 字段
+     * @param calculateFieldName 参与计算的字段
+     * @param val                值
+     * @param <R>                类型
+     * @return this
+     * @since 2.1.0
+     */
+    public <R> UpdateCondition<T> subtract(boolean condition, DbFunction<R, ?> fn, DbFunction<R, ?> calculateFieldName, Object val) {
+        dbSql.updateCondition(condition, DbColumnUtil.getFieldName(fn), DbColumnUtil.getFieldName(calculateFieldName), DbConstant.SUBTRACT, val);
+        return this;
+    }
+
+    /**
+     * 更新条件 增加
+     *
+     * @param condition          执行条件
+     * @param fn                 字段
+     * @param calculateFieldName 参与计算的字段
+     * @param val                值
+     * @param <R>                类型
+     * @return this
+     * @since 2.1.0
+     */
+    public <R> UpdateCondition<T> add(boolean condition, DbFunction<R, ?> fn, DbFunction<R, ?> calculateFieldName, Object val) {
+        dbSql.updateCondition(condition, DbColumnUtil.getFieldName(fn), DbColumnUtil.getFieldName(calculateFieldName), DbConstant.ADD, val);
+        return this;
+    }
+
 }

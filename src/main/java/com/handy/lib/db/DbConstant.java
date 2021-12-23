@@ -23,6 +23,8 @@ public class DbConstant implements Serializable {
 
     public static final String QUESTION_MARK = "?";
     public static final String EQUALS = " = ";
+    public static final String SUBTRACT = " - ";
+    public static final String ADD = " + ";
     public static final String POINT = "`";
     public static final String TRANSFER = "'";
     public static final String LEFT_BRACKET = "(";

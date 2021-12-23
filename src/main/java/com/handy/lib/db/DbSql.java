@@ -163,7 +163,7 @@ public class DbSql implements Serializable {
      * in 条件
      *
      * @param condition  是否执行
-     * @param fieldName  属性
+     * @param fieldName  赋值字段
      * @param sqlKeyword SQL 关键词
      * @param in         条件值
      */
@@ -182,7 +182,7 @@ public class DbSql implements Serializable {
      * update构造
      *
      * @param condition 是否执行
-     * @param fieldName 属性
+     * @param fieldName 赋值字段
      * @param val       条件值
      */
     protected void updateCondition(boolean condition, String fieldName, Object val) {
@@ -190,6 +190,24 @@ public class DbSql implements Serializable {
             return;
         }
         this.updateFiledList.add(DbConstant.POINT + fieldName + DbConstant.POINT + DbConstant.EQUALS + DbConstant.QUESTION_MARK);
+        this.updateFiledMap.put(this.updateFiledList.size(), val);
+    }
+
+    /**
+     * 计算类update构造
+     *
+     * @param condition          是否执行
+     * @param fieldName          赋值字段
+     * @param calculateFieldName 参与计算字段
+     * @param sqlKeyword         计算符
+     * @param val                条件值
+     * @since 2.1.0
+     */
+    protected void updateCondition(boolean condition, String fieldName, String calculateFieldName, String sqlKeyword, Object val) {
+        if (!condition) {
+            return;
+        }
+        this.updateFiledList.add(DbConstant.POINT + fieldName + DbConstant.POINT + DbConstant.EQUALS + DbConstant.POINT + calculateFieldName + DbConstant.POINT + sqlKeyword + DbConstant.QUESTION_MARK);
         this.updateFiledMap.put(this.updateFiledList.size(), val);
     }
 
