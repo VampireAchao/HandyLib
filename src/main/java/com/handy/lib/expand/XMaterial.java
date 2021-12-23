@@ -67,6 +67,9 @@ import java.util.regex.PatternSyntaxException;
  * @see ItemStack
  */
 public enum XMaterial {
+    /**
+     * 类型
+     */
     ACACIA_BOAT("BOAT_ACACIA"),
     ACACIA_BUTTON("WOOD_BUTTON"),
     ACACIA_DOOR("ACACIA_DOOR", "ACACIA_DOOR_ITEM"),

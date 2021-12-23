@@ -281,6 +281,9 @@ public class ItemStackUtil {
      * @return Material
      */
     public static Material getMaterial(String materialStr, Material material) {
+        if (StrUtil.isEmpty(materialStr)) {
+            return material;
+        }
         return XMaterial.matchXMaterial(materialStr).orElse(XMaterial.matchXMaterial(material)).parseMaterial();
     }
 
