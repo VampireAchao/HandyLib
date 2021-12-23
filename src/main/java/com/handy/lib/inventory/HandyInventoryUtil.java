@@ -49,6 +49,18 @@ public class HandyInventoryUtil {
     }
 
     /**
+     * 获取配置中的index坐标
+     *
+     * @param config 配置
+     * @param type   类型
+     * @return 坐标
+     * @since 2.1.5
+     */
+    public static int getIndex(FileConfiguration config, String type) {
+        return config.getInt("index", 0);
+    }
+
+    /**
      * 通用设置按钮
      *
      * @param config    配置
