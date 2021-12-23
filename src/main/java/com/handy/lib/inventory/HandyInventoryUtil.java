@@ -49,6 +49,85 @@ public class HandyInventoryUtil {
     }
 
     /**
+     * 通用设置按钮
+     *
+     * @param config    配置
+     * @param inventory gui
+     * @param type      类型
+     * @since 2.1.2
+     */
+    public static void setButton(FileConfiguration config, Inventory inventory, String type) {
+        setButton(config, inventory, type, 0);
+    }
+
+    /**
+     * 通用设置按钮
+     *
+     * @param config       配置
+     * @param inventory    gui
+     * @param type         类型
+     * @param defaultIndex 默认index
+     * @since 2.1.2
+     */
+    public static void setButton(FileConfiguration config, Inventory inventory, String type, int defaultIndex) {
+        setButton(config, inventory, type, defaultIndex, true, null);
+    }
+
+    /**
+     * 通用设置按钮
+     *
+     * @param config       配置
+     * @param inventory    gui
+     * @param type         类型
+     * @param defaultIndex 默认index
+     * @since 2.1.2
+     */
+    public static void setButton(FileConfiguration config, Inventory inventory, String type, int defaultIndex, Boolean isEnchant) {
+        setButton(config, inventory, type, defaultIndex, isEnchant, null);
+    }
+
+    /**
+     * 通用设置按钮
+     *
+     * @param config       配置
+     * @param inventory    gui
+     * @param type         类型
+     * @param defaultIndex 默认index
+     * @param isEnchant    附魔效果
+     * @param map          替换map
+     * @since 2.1.2
+     */
+    public static void setButton(FileConfiguration config, Inventory inventory, String type, int defaultIndex, Boolean isEnchant, Map<String, String> map) {
+        boolean memberEnable = config.getBoolean(type + ".enable");
+        if (!memberEnable) {
+            return;
+        }
+        int index = config.getInt(type + ".index", defaultIndex);
+        if (index == 0) {
+            return;
+        }
+        String name = config.getString(type + ".name");
+        String material = config.getString(type + ".material");
+        List<String> loreList = config.getStringList(type + ".lore");
+        // 进行变量替换
+        List<String> newLoreList = new ArrayList<>();
+        if (map != null && map.size() > 0 && CollUtil.isNotEmpty(loreList)) {
+            for (String lore : loreList) {
+                for (String key : map.keySet()) {
+                    if (lore.contains("${" + key + "}")) {
+                        lore = lore.replace("${" + key + "}", map.get(key));
+                    }
+                }
+                newLoreList.add(lore);
+            }
+        } else {
+            newLoreList.addAll(loreList);
+        }
+        int customModelDataId = config.getInt(type + ".custom-model-data");
+        inventory.setItem(index, ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(material), name, newLoreList, isEnchant, customModelDataId));
+    }
+
+    /**
      * 设置指定按钮
      *
      * @param inventory gui
@@ -88,7 +167,7 @@ public class HandyInventoryUtil {
      * @since 1.6.5
      */
     public static void setButton(Inventory inventory, Integer index, Material material, String name, List<String> loreList, int customModelDataId, Boolean isEnchant) {
-        ItemStack itemStack = ItemStackUtil.getItemStack(material, BaseUtil.replaceChatColor(name), BaseUtil.replaceChatColor(loreList, true), isEnchant, customModelDataId);
+        ItemStack itemStack = ItemStackUtil.getItemStack(material, name, loreList, isEnchant, customModelDataId);
         inventory.setItem(index, itemStack);
     }
 
