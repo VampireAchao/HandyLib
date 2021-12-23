@@ -95,7 +95,7 @@ public class HandyInventoryUtil {
      * @since 2.1.2
      */
     public static void setButton(FileConfiguration config, Inventory inventory, String type, Boolean isEnchant, Map<String, String> map) {
-        boolean memberEnable = config.getBoolean(type + ".enable");
+        boolean memberEnable = config.getBoolean(type + ".enable", true);
         if (!memberEnable) {
             return;
         }
