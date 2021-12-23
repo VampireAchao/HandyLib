@@ -57,55 +57,50 @@ public class HandyInventoryUtil {
      * @since 2.1.2
      */
     public static void setButton(FileConfiguration config, Inventory inventory, String type) {
-        setButton(config, inventory, type, 0);
+        setButton(config, inventory, type, true, null);
     }
 
     /**
      * 通用设置按钮
      *
-     * @param config       配置
-     * @param inventory    gui
-     * @param type         类型
-     * @param defaultIndex 默认index
+     * @param config    配置
+     * @param inventory gui
+     * @param type      类型
      * @since 2.1.2
      */
-    public static void setButton(FileConfiguration config, Inventory inventory, String type, int defaultIndex) {
-        setButton(config, inventory, type, defaultIndex, true, null);
+    public static void setButton(FileConfiguration config, Inventory inventory, String type, Boolean isEnchant) {
+        setButton(config, inventory, type, isEnchant, null);
     }
 
     /**
      * 通用设置按钮
      *
-     * @param config       配置
-     * @param inventory    gui
-     * @param type         类型
-     * @param defaultIndex 默认index
+     * @param config    配置
+     * @param inventory gui
+     * @param type      类型
      * @since 2.1.2
      */
-    public static void setButton(FileConfiguration config, Inventory inventory, String type, int defaultIndex, Boolean isEnchant) {
-        setButton(config, inventory, type, defaultIndex, isEnchant, null);
+    public static void setButton(FileConfiguration config, Inventory inventory, String type, Map<String, String> map) {
+        setButton(config, inventory, type, true, map);
     }
 
     /**
      * 通用设置按钮
      *
-     * @param config       配置
-     * @param inventory    gui
-     * @param type         类型
-     * @param defaultIndex 默认index
-     * @param isEnchant    附魔效果
-     * @param map          替换map
+     * @param config    配置
+     * @param inventory gui
+     * @param type      类型
+     * @param isEnchant 附魔效果
+     * @param map       替换map
      * @since 2.1.2
      */
-    public static void setButton(FileConfiguration config, Inventory inventory, String type, int defaultIndex, Boolean isEnchant, Map<String, String> map) {
+    public static void setButton(FileConfiguration config, Inventory inventory, String type, Boolean isEnchant, Map<String, String> map) {
         boolean memberEnable = config.getBoolean(type + ".enable");
         if (!memberEnable) {
             return;
         }
-        int index = config.getInt(type + ".index", defaultIndex);
-        if (index == 0) {
-            return;
-        }
+        String indexStrList = config.getString("index");
+        List<Integer> indexList = StrUtil.strToIntList(indexStrList);
         String name = config.getString(type + ".name");
         String material = config.getString(type + ".material");
         List<String> loreList = config.getStringList(type + ".lore");
@@ -124,7 +119,9 @@ public class HandyInventoryUtil {
             newLoreList.addAll(loreList);
         }
         int customModelDataId = config.getInt(type + ".custom-model-data");
-        inventory.setItem(index, ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(material), name, newLoreList, isEnchant, customModelDataId));
+        for (Integer index : indexList) {
+            inventory.setItem(index, ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(material), name, newLoreList, isEnchant, customModelDataId));
+        }
     }
 
     /**
