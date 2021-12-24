@@ -26,6 +26,14 @@ public interface BaseMapper<T> extends Serializable {
     int insert(T obj);
 
     /**
+     * 批量插入
+     *
+     * @param objList 入参集合
+     * @return true
+     */
+    boolean insertBatch(List<T> objList);
+
+    /**
      * 根据 entity 条件，查询一条记录
      *
      * @return T

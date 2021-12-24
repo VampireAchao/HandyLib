@@ -168,6 +168,14 @@ public class DbExecution<T> implements BaseMapper<T> {
     }
 
     @Override
+    public boolean insertBatch(List<T> objList) {
+        for (T t : objList) {
+            this.insert(t);
+        }
+        return true;
+    }
+
+    @Override
     public T selectOne() {
         Connection conn = null;
         PreparedStatement ps = null;
