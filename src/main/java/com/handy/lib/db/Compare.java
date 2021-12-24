@@ -35,6 +35,19 @@ public class Compare<T> implements Serializable {
     /**
      * 等于 =
      *
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> eq(DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        return this.eq(true, fn, compareFn);
+    }
+
+    /**
+     * 等于 =
+     *
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
@@ -43,6 +56,21 @@ public class Compare<T> implements Serializable {
      */
     public <R> Compare<T> eq(boolean condition, DbFunction<R, ?> fn, Object val) {
         dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.EQ, val);
+        return this;
+    }
+
+    /**
+     * 等于 =
+     *
+     * @param condition 执行条件
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> eq(boolean condition, DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.EQ, DbColumnUtil.getFieldName(compareFn));
         return this;
     }
 
@@ -61,6 +89,19 @@ public class Compare<T> implements Serializable {
     /**
      * 不等于
      *
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> ne(DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        return this.ne(true, fn, compareFn);
+    }
+
+    /**
+     * 不等于
+     *
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
@@ -69,6 +110,21 @@ public class Compare<T> implements Serializable {
      */
     public <R> Compare<T> ne(boolean condition, DbFunction<R, ?> fn, Object val) {
         dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.NE, val);
+        return this;
+    }
+
+    /**
+     * 不等于
+     *
+     * @param condition 执行条件
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> ne(boolean condition, DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.NE, DbColumnUtil.getFieldName(compareFn));
         return this;
     }
 
@@ -87,6 +143,19 @@ public class Compare<T> implements Serializable {
     /**
      * 大于
      *
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> gt(DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        return this.gt(true, fn, compareFn);
+    }
+
+    /**
+     * 大于
+     *
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
@@ -95,6 +164,21 @@ public class Compare<T> implements Serializable {
      */
     public <R> Compare<T> gt(boolean condition, DbFunction<R, ?> fn, Object val) {
         dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.GT, val);
+        return this;
+    }
+
+    /**
+     * 大于
+     *
+     * @param condition 执行条件
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> gt(boolean condition, DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.GT, DbColumnUtil.getFieldName(compareFn));
         return this;
     }
 
@@ -113,6 +197,19 @@ public class Compare<T> implements Serializable {
     /**
      * 小于
      *
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> lt(DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        return this.lt(true, fn, compareFn);
+    }
+
+    /**
+     * 小于
+     *
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
@@ -121,6 +218,21 @@ public class Compare<T> implements Serializable {
      */
     public <R> Compare<T> lt(boolean condition, DbFunction<R, ?> fn, Object val) {
         dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.LT, val);
+        return this;
+    }
+
+    /**
+     * 小于
+     *
+     * @param condition 执行条件
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> lt(boolean condition, DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.LT, DbColumnUtil.getFieldName(compareFn));
         return this;
     }
 
@@ -139,6 +251,19 @@ public class Compare<T> implements Serializable {
     /**
      * 大于等于
      *
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> ge(DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        return this.ge(true, fn, compareFn);
+    }
+
+    /**
+     * 大于等于
+     *
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
@@ -147,6 +272,21 @@ public class Compare<T> implements Serializable {
      */
     public <R> Compare<T> ge(boolean condition, DbFunction<R, ?> fn, Object val) {
         dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.GE, val);
+        return this;
+    }
+
+    /**
+     * 大于等于
+     *
+     * @param condition 执行条件
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> ge(boolean condition, DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.GE, DbColumnUtil.getFieldName(compareFn));
         return this;
     }
 
@@ -165,6 +305,19 @@ public class Compare<T> implements Serializable {
     /**
      * 小于等于
      *
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> le(DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        return this.le(true, fn, compareFn);
+    }
+
+    /**
+     * 小于等于
+     *
      * @param condition 执行条件
      * @param fn        字段
      * @param val       值
@@ -173,6 +326,21 @@ public class Compare<T> implements Serializable {
      */
     public <R> Compare<T> le(boolean condition, DbFunction<R, ?> fn, Object val) {
         dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.LE, val);
+        return this;
+    }
+
+    /**
+     * 小于等于
+     *
+     * @param condition 执行条件
+     * @param fn        字段
+     * @param compareFn 比较字段
+     * @param <R>       类型
+     * @return this
+     * @since 2.2.3
+     */
+    public <R> Compare<T> le(boolean condition, DbFunction<R, ?> fn, DbFunction<R, ?> compareFn) {
+        dbSql.addCondition(condition, DbColumnUtil.getFieldName(fn), SqlKeyword.LE, DbColumnUtil.getFieldName(compareFn));
         return this;
     }
 

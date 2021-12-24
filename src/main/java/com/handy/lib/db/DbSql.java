@@ -122,6 +122,21 @@ public class DbSql implements Serializable {
     }
 
     /**
+     * 比较查询条件
+     *
+     * @param condition        是否执行
+     * @param fieldName        属性
+     * @param sqlKeyword       SQL 关键词
+     * @param compareFieldName 比较字段
+     */
+    protected void addCondition(boolean condition, String fieldName, SqlKeyword sqlKeyword, String compareFieldName) {
+        if (!condition) {
+            return;
+        }
+        this.where += SqlKeyword.AND.getKeyword() + DbConstant.POINT + fieldName + DbConstant.POINT + sqlKeyword.getKeyword() + DbConstant.POINT + compareFieldName + DbConstant.POINT;
+    }
+
+    /**
      * order By 条件
      *
      * @param condition 是否执行
