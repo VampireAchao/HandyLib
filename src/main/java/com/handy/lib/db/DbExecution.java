@@ -90,6 +90,9 @@ public class DbExecution<T> implements BaseMapper<T> {
             if (isMysql) {
                 // 修改字段信息
                 String filedSql = filedInfoParam.getFiledNotNull() ? DbConstant.NOT_NULL : "";
+                if ("id".equals(filedName)) {
+                    filedSql = DbConstant.NOT_NULL + DbConstant.AUTO_INCREMENT;
+                }
                 if (StrUtil.isNotEmpty(filedInfoParam.getFiledDefault())) {
                     filedSql += String.format(DbConstant.DEFAULT, filedInfoParam.getFiledDefault());
                 }

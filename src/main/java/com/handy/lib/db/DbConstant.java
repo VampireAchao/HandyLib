@@ -14,6 +14,7 @@ public class DbConstant implements Serializable {
     public static final String UPDATE = "UPDATE ";
     public static final String DELETE = "DELETE FROM ";
     public static final String NOT_NULL = "NOT NULL";
+    public static final String AUTO_INCREMENT = " AUTO_INCREMENT";
     public static final String DEFAULT = " DEFAULT '%s'";
     public static final String COMMENT = " COMMENT '%s'";
 
