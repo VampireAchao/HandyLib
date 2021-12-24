@@ -129,6 +129,22 @@ public class ItemStackUtil {
      * @since 2.0.3
      */
     public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, Boolean isEnchant, int customModelData) {
+        return getItemStack(material, displayName, loreList, isEnchant, customModelData, true);
+    }
+
+    /**
+     * 物品生成
+     *
+     * @param material        材质
+     * @param displayName     名称
+     * @param loreList        lore
+     * @param isEnchant       附魔效果
+     * @param customModelData 自定义模型id
+     * @param hideFlag        隐藏标签
+     * @return 自定义物品
+     * @since 2.1.7
+     */
+    public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, Boolean isEnchant, int customModelData, boolean hideFlag) {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta itemMeta = getItemMeta(itemStack);
         if (StrUtil.isNotEmpty(displayName)) {
@@ -141,6 +157,10 @@ public class ItemStackUtil {
         if (isEnchant) {
             setEnchant(itemMeta);
         }
+        // 隐藏物品属性
+        if (hideFlag) {
+            hideAttributes(itemMeta);
+        }
         // 模型效果
         itemMeta = setCustomModelData(itemMeta, customModelData);
         itemStack.setItemMeta(itemMeta);
@@ -148,7 +168,7 @@ public class ItemStackUtil {
     }
 
     /**
-     * 给物品添加附魔效果
+     * 给物品添加附魔效果并隐藏附魔效果
      *
      * @param itemMeta 物品属性
      */
@@ -169,6 +189,19 @@ public class ItemStackUtil {
         if (!VersionCheckEnum.V_1_7.equals(versionCheckEnum)) {
             // 隐藏附魔效果
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+    }
+
+    /**
+     * 隐藏Item属性
+     *
+     * @param itemMeta 物品属性
+     */
+    public static void hideAttributes(ItemMeta itemMeta) {
+        VersionCheckEnum versionCheckEnum = VersionCheckEnum.getEnum();
+        if (!VersionCheckEnum.V_1_7.equals(versionCheckEnum)) {
+            // 隐藏Item属性
+            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         }
     }
 
