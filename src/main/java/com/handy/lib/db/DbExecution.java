@@ -72,9 +72,6 @@ public class DbExecution<T> implements BaseMapper<T> {
         List<String> filedNameList = SqlService.getInstance().getTableInfo(BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD), sql);
         // 新增字段
         for (String filedName : filedInfoMap.keySet()) {
-            if ("id".equals(filedName)) {
-                continue;
-            }
             // 新增字段
             FiledInfoParam filedInfoParam = filedInfoMap.get(filedName);
             FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam.getFiledType());

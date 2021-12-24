@@ -25,7 +25,7 @@ public class HandyInventory implements InventoryHolder {
     /**
      * 数据map
      */
-    private Map<Integer, Long> map;
+    private Map<Integer, Integer> map;
     /**
      * 数据map
      *
@@ -38,6 +38,12 @@ public class HandyInventory implements InventoryHolder {
      * @since 1.7.0
      */
     private Object obj;
+    /**
+     * gui传输中的id
+     *
+     * @since 2.1.8
+     */
+    private Integer id;
     /**
      * gui类型
      */
@@ -67,7 +73,7 @@ public class HandyInventory implements InventoryHolder {
      * @param title   标题
      * @param size    大小
      */
-    public HandyInventory(Map<Integer, Long> map, String guiType, String title, int size) {
+    public HandyInventory(Map<Integer, Integer> map, String guiType, String title, int size) {
         this.map = map;
         this.objMap = new HashMap<>();
         this.guiType = guiType;
