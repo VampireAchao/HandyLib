@@ -301,7 +301,6 @@ public class DbExecution<T> implements BaseMapper<T> {
      * @return 新值
      */
     private Object specialHandling(FiledInfoParam filedInfoParam, Object obj) {
-
         FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam.getFiledType());
         switch (fieldTypeEnum) {
             // date处理

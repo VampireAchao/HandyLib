@@ -9,7 +9,10 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -113,6 +116,8 @@ public class DbSql implements Serializable {
         if (!condition) {
             return;
         }
+        // 特殊值处理
+        val = specialHandling(val);
         this.where += SqlKeyword.AND.getKeyword() + DbConstant.POINT + fieldName + DbConstant.POINT + sqlKeyword.getKeyword() + DbConstant.TRANSFER + val + DbConstant.TRANSFER;
     }
 
@@ -189,6 +194,8 @@ public class DbSql implements Serializable {
         if (!condition) {
             return;
         }
+        // 特殊值处理
+        val = specialHandling(val);
         this.updateFiledList.add(DbConstant.POINT + fieldName + DbConstant.POINT + DbConstant.EQUALS + DbConstant.QUESTION_MARK);
         this.updateFiledMap.put(this.updateFiledList.size(), val);
     }
@@ -209,6 +216,34 @@ public class DbSql implements Serializable {
         }
         this.updateFiledList.add(DbConstant.POINT + fieldName + DbConstant.POINT + DbConstant.EQUALS + DbConstant.POINT + calculateFieldName + DbConstant.POINT + sqlKeyword + DbConstant.QUESTION_MARK);
         this.updateFiledMap.put(this.updateFiledList.size(), val);
+    }
+
+    /**
+     * 特殊字段类型处理
+     *
+     * @param val 值
+     * @return 新值
+     */
+    private Object specialHandling(Object val) {
+        if (val == null) {
+            return null;
+        }
+        //布尔处理
+        if (val instanceof Boolean) {
+            Boolean bool = (Boolean) val;
+            val = bool ? 1 : 0;
+        }
+        // LocalDateTime处理
+        if (val instanceof LocalDateTime) {
+            LocalDateTime localDateTime = (LocalDateTime) val;
+            val = localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        }
+        // LocalDateTime处理
+        if (val instanceof Date) {
+            Date date = (Date) val;
+            val = date.getTime();
+        }
+        return val;
     }
 
     /**
