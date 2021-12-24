@@ -301,17 +301,31 @@ public class DbExecution<T> implements BaseMapper<T> {
      * @return 新值
      */
     private Object specialHandling(FiledInfoParam filedInfoParam, Object obj) {
-        // date处理
-        if (FieldTypeEnum.DATE.getJavaType().equals(filedInfoParam.getFiledType())) {
-            if (!isMysql) {
-                String str = obj.toString();
-                obj = new Date(Long.parseLong(str));
-            } else {
-                if (obj instanceof LocalDateTime) {
-                    LocalDateTime localDateTime = (LocalDateTime) obj;
-                    obj = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+        FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam.getFiledType());
+        switch (fieldTypeEnum) {
+            // date处理
+            case DATE:
+                if (!isMysql) {
+                    String str = obj.toString();
+                    obj = new Date(Long.parseLong(str));
+                } else {
+                    if (obj instanceof LocalDateTime) {
+                        LocalDateTime localDateTime = (LocalDateTime) obj;
+                        obj = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+                    }
                 }
-            }
+                break;
+            // 布尔处理
+            case BOOLEAN:
+            case BASIC_BOOLEAN:
+                if (obj instanceof Integer) {
+                    Integer bool = (Integer) obj;
+                    obj = bool == 1;
+                }
+                break;
+            default:
+                break;
         }
         return obj;
     }
