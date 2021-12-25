@@ -104,4 +104,17 @@ public class DateUtil {
         return date;
     }
 
+    /**
+     * 获得指定日期是星期几
+     *
+     * @param date 日期
+     * @return 对应的星期
+     * @since 2.2.4
+     */
+    public static Integer dayOfWeekEnum(Date date) {
+        Integer[] weekDays = {7, 1, 2, 3, 4, 5, 6};
+        Calendar calendar = Calendar.getInstance();
+        return weekDays[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+    }
+
 }
