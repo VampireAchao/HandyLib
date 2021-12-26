@@ -323,6 +323,21 @@ public class DbExecution<T> implements BaseMapper<T> {
                     obj = bool == 1;
                 }
                 break;
+            // Long处理
+            case LONG:
+            case BASIC_LONG:
+                if (obj instanceof Integer) {
+                    Integer bool = (Integer) obj;
+                    obj = bool.longValue();
+                }
+                break;
+            // FLOAT处理
+            case FLOAT:
+            case BASIC_FLOAT:
+                if (obj instanceof Double) {
+                    Double bool = (Double) obj;
+                    obj = bool.floatValue();
+                }
             default:
                 break;
         }

@@ -16,16 +16,17 @@ public enum FieldTypeEnum {
      * 查询全部数据sql
      */
     STRING("java.lang.String", "VARCHAR", 64),
+    DATE("java.util.Date", "DATETIME", 0),
     INTEGER("java.lang.Integer", "INT", 11),
-    LONG("java.lang.Long", "INT", 11),
     BASIC_INT("int", "INT", 11),
+    LONG("java.lang.Long", "INT", 11),
+    BASIC_LONG("long", "INT", 11),
     BOOLEAN("java.lang.Boolean", "INT", 11),
     BASIC_BOOLEAN("boolean", "INT", 11),
-    DATE("java.util.Date", "DATETIME", 0),
     DOUBLE("java.lang.Double", "DOUBLE", 11),
     BASIC_DOUBLE("double", "DOUBLE", 11),
-    BASIC_FLOAT("float", "FLOAT", 11),
     FLOAT("java.lang.Float", "FLOAT", 11),
+    BASIC_FLOAT("float", "FLOAT", 11),
     ;
 
     private final String javaType;
