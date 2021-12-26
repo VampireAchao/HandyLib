@@ -249,7 +249,7 @@ public class HandyHttpUtil {
                         }.getType());
                     }
                     this.cancel();
-                } catch (Exception ignored) {
+                } catch (Throwable ignored) {
                     if (retryNumber[0] == 0) {
                         this.cancel();
                     } else {
