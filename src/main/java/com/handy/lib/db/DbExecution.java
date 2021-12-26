@@ -77,11 +77,21 @@ public class DbExecution<T> implements BaseMapper<T> {
             FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam.getFiledType());
             if (!filedNameList.contains(filedName)) {
                 String addColumn = isMysql ? DbConstant.ADD_COLUMN : DbConstant.SQLITE_ADD_COLUMN;
-                String filedSql = filedInfoParam.getFiledNotNull() ? DbConstant.NOT_NULL : "";
-                if (isMysql && StrUtil.isNotEmpty(filedInfoParam.getFiledDefault())) {
-                    filedSql += String.format(DbConstant.DEFAULT, filedInfoParam.getFiledDefault());
-                } else if (!isMysql && StrUtil.isNotEmpty(filedInfoParam.getFiledDefault())) {
-                    filedSql += String.format(DbConstant.DEFAULT, filedInfoParam.getFiledDefault());
+                String filedSql;
+                if (isMysql) {
+                    // mysql处理
+                    filedSql = filedInfoParam.getFiledNotNull() ? DbConstant.NOT_NULL : "";
+                    if (StrUtil.isNotEmpty(filedInfoParam.getFiledDefault())) {
+                        filedSql += String.format(DbConstant.DEFAULT, filedInfoParam.getFiledDefault());
+                    }
+                } else {
+                    // sqlite not null 必须有默认值
+                    filedSql = filedInfoParam.getFiledNotNull() ? DbConstant.NOT_NULL : "";
+                    if (StrUtil.isNotEmpty(filedInfoParam.getFiledDefault())) {
+                        filedSql += String.format(DbConstant.DEFAULT, filedInfoParam.getFiledDefault());
+                    } else if (filedInfoParam.getFiledNotNull()) {
+                        filedSql += String.format(DbConstant.DEFAULT, "");
+                    }
                 }
                 String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength(), filedSql);
                 MessageApi.sendConsoleDebugMessage("新增字段: " + createFieldSql);

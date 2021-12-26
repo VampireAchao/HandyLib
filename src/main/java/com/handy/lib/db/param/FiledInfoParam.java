@@ -39,6 +39,7 @@ public class FiledInfoParam implements Serializable {
 
     /**
      * 字段是否可为null
+     * sqlite NotNull 必须有默认值
      */
     private Boolean filedNotNull;
 
