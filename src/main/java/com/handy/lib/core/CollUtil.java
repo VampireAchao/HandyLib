@@ -1,5 +1,6 @@
 package com.handy.lib.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,4 +60,27 @@ public class CollUtil {
         }
         return list.equals(list1);
     }
+
+    /**
+     * 对list进行分组
+     *
+     * @param list    list
+     * @param toIndex 分组数
+     * @param <T>     t
+     * @return List<List < T>>
+     * @since 2.3.1
+     */
+    public static <T> List<List<T>> partition(List<T> list, int toIndex) {
+        List<List<T>> listGroup = new ArrayList<>();
+        int listSize = list.size();
+        for (int i = 0; i < list.size(); i += toIndex) {
+            if (i + toIndex > listSize) {
+                toIndex = listSize - i;
+            }
+            List<T> newList = list.subList(i, i + toIndex);
+            listGroup.add(newList);
+        }
+        return listGroup;
+    }
+
 }
