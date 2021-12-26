@@ -80,7 +80,7 @@ public class DbExecution<T> implements BaseMapper<T> {
                 String filedSql = filedInfoParam.getFiledNotNull() ? DbConstant.NOT_NULL : "";
                 if (isMysql && StrUtil.isNotEmpty(filedInfoParam.getFiledDefault())) {
                     filedSql += String.format(DbConstant.DEFAULT, filedInfoParam.getFiledDefault());
-                } else if (!isMysql && filedInfoParam.getFiledNotNull()) {
+                } else if (!isMysql && StrUtil.isNotEmpty(filedInfoParam.getFiledDefault())) {
                     filedSql += String.format(DbConstant.DEFAULT, filedInfoParam.getFiledDefault());
                 }
                 String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength(), filedSql);
