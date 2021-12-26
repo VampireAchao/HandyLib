@@ -11,6 +11,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 import static org.bukkit.Bukkit.getServer;
 
 /**
@@ -20,6 +22,34 @@ import static org.bukkit.Bukkit.getServer;
  */
 public class MessageApi {
     private MessageApi() {
+    }
+
+    /**
+     * 发送消息
+     *
+     * @param playerUuid 玩家uuid
+     * @param msg        消息
+     * @since 2.2.9
+     */
+    public static void sendMessage(UUID playerUuid, String msg) {
+        Player player = Bukkit.getPlayer(playerUuid);
+        if (player != null && player.isOnline()) {
+            sendMessage(player, msg);
+        }
+    }
+
+    /**
+     * 发送消息
+     *
+     * @param playerName 玩家名称
+     * @param msg        消息
+     * @since 2.2.9
+     */
+    public static void sendMessage(String playerName, String msg) {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player != null && player.isOnline()) {
+            sendMessage(player, msg);
+        }
     }
 
     /**
