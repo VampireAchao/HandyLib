@@ -108,7 +108,6 @@ public class ItemStackUtil {
      * @param material        材质
      * @param displayName     名称
      * @param loreList        lore
-     * @param isEnchant       附魔效果
      * @param customModelData 自定义模型id
      * @return 自定义物品
      * @since 2.0.3

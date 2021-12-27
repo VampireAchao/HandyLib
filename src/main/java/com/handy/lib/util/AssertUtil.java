@@ -73,6 +73,7 @@ public class AssertUtil {
      * @param collection 条件
      * @param sender     发送人
      * @param message    消息
+     * @param <T>        T
      */
     public static <T> void notNull(Collection<T> collection, CommandSender sender, String message) {
         if (CollUtil.isEmpty(collection)) {

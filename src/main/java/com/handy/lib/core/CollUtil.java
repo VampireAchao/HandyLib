@@ -67,7 +67,7 @@ public class CollUtil {
      * @param list    list
      * @param toIndex 分组数
      * @param <T>     t
-     * @return List<List < T>>
+     * @return List
      * @since 2.3.1
      */
     public static <T> List<List<T>> partition(List<T> list, int toIndex) {

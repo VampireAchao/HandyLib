@@ -78,6 +78,7 @@ public class HandyInventoryUtil {
      * @param config    配置
      * @param inventory gui
      * @param type      类型
+     * @param isEnchant 是否附魔
      * @since 2.1.2
      */
     public static void setButton(FileConfiguration config, Inventory inventory, String type, Boolean isEnchant) {
@@ -85,11 +86,10 @@ public class HandyInventoryUtil {
     }
 
     /**
-     * 通用设置按钮
-     *
      * @param config    配置
      * @param inventory gui
      * @param type      类型
+     * @param map       赋值
      * @since 2.1.2
      */
     public static void setButton(FileConfiguration config, Inventory inventory, String type, Map<String, String> map) {
