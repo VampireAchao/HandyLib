@@ -3,7 +3,7 @@
   <groupId>com.handy.lib</groupId>
   <artifactId>HandyLib</artifactId>
   <versioning>
-    <release>2.3.1</release>
+    <release>2.3.3</release>
     <versions>
       <version>1.6.8</version>
       <version>1.6.9</version>
@@ -22,7 +22,8 @@
       <version>1.9.3</version>
       <version>1.9.9</version>
       <version>2.3.1</version>
+      <version>2.3.3</version>
     </versions>
-    <lastUpdated>20211227022833</lastUpdated>
+    <lastUpdated>20211227061508</lastUpdated>
   </versioning>
 </metadata>
