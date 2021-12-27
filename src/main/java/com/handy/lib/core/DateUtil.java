@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * 时间工具类
@@ -95,13 +96,41 @@ public class DateUtil {
      */
     public static Date getToday() {
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(YYYY);
         try {
             date = sdf.parse(sdf.format(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return date;
+    }
+
+    /**
+     * 获取周一日期
+     *
+     * @return 周一日期
+     * @since 2.3.4
+     */
+    public static Date getMonday() {
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取周日日期
+     *
+     * @return 周日日期
+     * @since 2.3.4
+     */
+    public static Date getSunday() {
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        return calendar.getTime();
     }
 
     /**
