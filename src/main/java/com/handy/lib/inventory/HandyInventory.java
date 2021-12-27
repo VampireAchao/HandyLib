@@ -25,7 +25,13 @@ public class HandyInventory implements InventoryHolder {
     /**
      * 数据map
      */
-    private Map<Integer, Integer> map;
+    private Map<Integer, Long> map;
+    /**
+     * 数据map,兼容新版本使用
+     *
+     * @since 2.3.2
+     */
+    private Map<Integer, Integer> intMap;
     /**
      * 数据map
      *
@@ -73,8 +79,9 @@ public class HandyInventory implements InventoryHolder {
      * @param title   标题
      * @param size    大小
      */
-    public HandyInventory(Map<Integer, Integer> map, String guiType, String title, int size) {
+    public HandyInventory(Map<Integer, Long> map, String guiType, String title, int size) {
         this.map = map;
+        this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
@@ -89,6 +96,7 @@ public class HandyInventory implements InventoryHolder {
      */
     public HandyInventory(String guiType, String title, int size) {
         this.map = new HashMap<>();
+        this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
@@ -102,6 +110,7 @@ public class HandyInventory implements InventoryHolder {
      */
     public HandyInventory(String guiType, InventoryType inventoryType) {
         this.map = new HashMap<>();
+        this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType);
@@ -116,6 +125,7 @@ public class HandyInventory implements InventoryHolder {
      */
     public HandyInventory(String guiType, String title, InventoryType inventoryType) {
         this.map = new HashMap<>();
+        this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType, title);
@@ -129,6 +139,7 @@ public class HandyInventory implements InventoryHolder {
      */
     public HandyInventory(String guiType, String title) {
         this.map = new HashMap<>();
+        this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, BaseConstants.GUI_SIZE_54, title);
