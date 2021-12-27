@@ -172,6 +172,21 @@ public class HandyInventoryUtil {
      * @param name              名称
      * @param loreList          loreList
      * @param customModelDataId 自定义模型id
+     * @since 2.3.3
+     */
+    public static void setButton(Inventory inventory, Integer index, Material material, String name, List<String> loreList, int customModelDataId) {
+        setButton(inventory, index, material, name, loreList, customModelDataId, true);
+    }
+
+    /**
+     * 设置指定按钮
+     *
+     * @param inventory         gui
+     * @param index             下标
+     * @param material          材质
+     * @param name              名称
+     * @param loreList          loreList
+     * @param customModelDataId 自定义模型id
      * @param isEnchant         附魔效果
      * @since 1.6.5
      */
