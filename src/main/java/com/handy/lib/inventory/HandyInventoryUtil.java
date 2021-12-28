@@ -116,23 +116,9 @@ public class HandyInventoryUtil {
         String name = config.getString(type + ".name");
         String material = config.getString(type + ".material");
         List<String> loreList = config.getStringList(type + ".lore");
-        // 进行变量替换
-        List<String> newLoreList = new ArrayList<>();
-        if (map != null && map.size() > 0 && CollUtil.isNotEmpty(loreList)) {
-            for (String lore : loreList) {
-                for (String key : map.keySet()) {
-                    if (lore.contains("${" + key + "}")) {
-                        lore = lore.replace("${" + key + "}", map.get(key));
-                    }
-                }
-                newLoreList.add(lore);
-            }
-        } else {
-            newLoreList.addAll(loreList);
-        }
         int customModelDataId = config.getInt(type + ".custom-model-data");
         for (Integer index : indexList) {
-            inventory.setItem(index, ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(material), name, newLoreList, isEnchant, customModelDataId));
+            inventory.setItem(index, ItemStackUtil.getItemStack(material, name, loreList, isEnchant, customModelDataId, map));
         }
     }
 

@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -119,6 +120,37 @@ public class ItemStackUtil {
     /**
      * 物品生成
      *
+     * @param materialStr     材质名称
+     * @param displayName     名称
+     * @param loreList        lore
+     * @param isEnchant       附魔效果
+     * @param customModelData 自定义模型id
+     * @return 自定义物品
+     * @since 2.3.5
+     */
+    public static ItemStack getItemStack(String materialStr, String displayName, List<String> loreList, Boolean isEnchant, int customModelData) {
+        return getItemStack(getMaterial(materialStr), displayName, loreList, isEnchant, customModelData, true);
+    }
+
+    /**
+     * 物品生成
+     *
+     * @param materialStr     材质名称
+     * @param displayName     名称
+     * @param loreList        lore
+     * @param isEnchant       附魔效果
+     * @param customModelData 自定义模型id
+     * @param replaceMap      lore替换map
+     * @return 自定义物品
+     * @since 2.3.5
+     */
+    public static ItemStack getItemStack(String materialStr, String displayName, List<String> loreList, Boolean isEnchant, int customModelData, Map<String, String> replaceMap) {
+        return getItemStack(getMaterial(materialStr), displayName, loreList, isEnchant, customModelData, true, replaceMap);
+    }
+
+    /**
+     * 物品生成
+     *
      * @param material        材质
      * @param displayName     名称
      * @param loreList        lore
@@ -144,13 +176,30 @@ public class ItemStackUtil {
      * @since 2.1.7
      */
     public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, Boolean isEnchant, int customModelData, boolean hideFlag) {
+        return getItemStack(material, displayName, loreList, isEnchant, customModelData, hideFlag, null);
+    }
+
+    /**
+     * 物品生成
+     *
+     * @param material        材质
+     * @param displayName     名称
+     * @param loreList        lore
+     * @param isEnchant       附魔效果
+     * @param customModelData 自定义模型id
+     * @param hideFlag        隐藏标签
+     * @param replaceMap      lore替换map
+     * @return 自定义物品
+     * @since 2.3.5
+     */
+    public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, Boolean isEnchant, int customModelData, boolean hideFlag, Map<String, String> replaceMap) {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta itemMeta = getItemMeta(itemStack);
         if (StrUtil.isNotEmpty(displayName)) {
             itemMeta.setDisplayName(BaseUtil.replaceChatColor(displayName));
         }
         if (CollUtil.isNotEmpty(loreList)) {
-            itemMeta.setLore(BaseUtil.replaceChatColor(loreList, true));
+            itemMeta.setLore(BaseUtil.replaceChatColor(loreReplaceMap(loreList, replaceMap), true));
         }
         // 附魔效果
         if (isEnchant) {
@@ -358,6 +407,89 @@ public class ItemStackUtil {
      */
     public static ItemMeta getItemMeta(ItemStack itemStack) {
         return Objects.requireNonNull(itemStack.getItemMeta());
+    }
+
+
+    /**
+     * 进行lore的变量替换
+     *
+     * @param loreList   原本lore
+     * @param replaceMap 替换map
+     * @return 新lore
+     * @since 2.3.5
+     */
+    public static List<String> loreReplaceMap(List<String> loreList, Map<String, String> replaceMap) {
+        List<String> newLoreList = new ArrayList<>();
+        if (replaceMap != null && replaceMap.size() > 0 && CollUtil.isNotEmpty(loreList)) {
+            for (String lore : loreList) {
+                for (String key : replaceMap.keySet()) {
+                    if (lore.contains("${" + key + "}")) {
+                        lore = lore.replace("${" + key + "}", replaceMap.get(key));
+                    }
+                }
+                newLoreList.add(lore);
+            }
+        } else {
+            newLoreList.addAll(loreList);
+        }
+        return newLoreList;
+    }
+
+    /**
+     * 进行lore的变量批量替换
+     *
+     * @param loreList   原本loreList
+     * @param replaceMap 替换map
+     * @param def        默认值
+     * @return 新loreList
+     * @since 2.3.5
+     */
+    public static List<String> loreBatchReplaceMap(List<String> loreList, Map<String, List<String>> replaceMap, String def) {
+        if (CollUtil.isEmpty(loreList) || replaceMap == null || replaceMap.isEmpty()) {
+            return loreList;
+        }
+        List<String> newLoreList = new ArrayList<>();
+        for (String lore : loreList) {
+            newLoreList.addAll(loreBatchReplaceMap(lore, replaceMap, def));
+        }
+        return newLoreList;
+    }
+
+    /**
+     * 进行lore的变量批量替换
+     *
+     * @param lore       原本lore
+     * @param replaceMap 替换map
+     * @param def        默认值
+     * @return 新lore
+     * @since 2.3.5
+     */
+    public static List<String> loreBatchReplaceMap(String lore, Map<String, List<String>> replaceMap, String def) {
+        List<String> loreList = new ArrayList<>();
+        if (StrUtil.isEmpty(lore)) {
+            return loreList;
+        }
+        if (replaceMap == null || replaceMap.isEmpty()) {
+            loreList.add(lore);
+            return loreList;
+        }
+        for (String key : replaceMap.keySet()) {
+            if (lore.contains("${" + key + "}")) {
+                List<String> replaceList = replaceMap.get(key);
+                if (CollUtil.isEmpty(replaceList)) {
+                    loreList.add(lore.replace("${" + key + "}", def));
+                } else {
+                    for (String replaceStr : replaceList) {
+                        loreList.add(lore.replace("${" + key + "}", replaceStr));
+                    }
+                }
+                break;
+            }
+        }
+        if (CollUtil.isEmpty(loreList)) {
+            loreList.add(lore);
+        }
+        return loreList;
     }
 
 }
