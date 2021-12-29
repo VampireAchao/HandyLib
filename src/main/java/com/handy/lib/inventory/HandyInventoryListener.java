@@ -24,8 +24,10 @@ public class HandyInventoryListener implements Listener {
         if (!inventoryCheckParam.isCheck()) {
             return;
         }
-        event.setCancelled(true);
-        HandyClickFactory.getInstance().rawSlotClick(inventoryCheckParam.getHandyInventory(), event);
+        HandyInventory handyInventory = inventoryCheckParam.getHandyInventory();
+        // 点击事件是否取消
+        event.setCancelled(handyInventory.isToCancel());
+        HandyClickFactory.getInstance().rawSlotClick(handyInventory, event);
     }
 
 }

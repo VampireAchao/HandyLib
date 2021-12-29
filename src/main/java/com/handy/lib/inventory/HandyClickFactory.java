@@ -74,14 +74,14 @@ public class HandyClickFactory {
         // 禁止数字键和shift键
         if (event.getClick().isShiftClick() || event.getClick().isKeyboardClick()) {
             // 取消点击效果
-            event.setCancelled(true);
+            event.setCancelled(handyInventory.isToCancel());
             return inventoryCheckParam;
         }
         // 点击为空返回
         ItemStack currentItem = event.getCurrentItem();
         if (currentItem == null || Material.AIR.equals(currentItem.getType())) {
             // 取消点击效果
-            event.setCancelled(true);
+            event.setCancelled(handyInventory.isToCancel());
             return inventoryCheckParam;
         }
         // 事件是否被取消

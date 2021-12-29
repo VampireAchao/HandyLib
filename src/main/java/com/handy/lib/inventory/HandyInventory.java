@@ -72,6 +72,13 @@ public class HandyInventory implements InventoryHolder {
     private Player player;
 
     /**
+     * 是否默认取消事件，默认情况下构造赋值为true
+     *
+     * @since 2.3.6
+     */
+    private boolean toCancel;
+
+    /**
      * 创建gui
      *
      * @param map     参数
@@ -85,6 +92,7 @@ public class HandyInventory implements InventoryHolder {
         this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
+        this.toCancel = true;
     }
 
     /**
@@ -100,6 +108,7 @@ public class HandyInventory implements InventoryHolder {
         this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
+        this.toCancel = true;
     }
 
     /**
@@ -114,6 +123,7 @@ public class HandyInventory implements InventoryHolder {
         this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType);
+        this.toCancel = true;
     }
 
     /**
@@ -129,6 +139,7 @@ public class HandyInventory implements InventoryHolder {
         this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType, title);
+        this.toCancel = true;
     }
 
     /**
@@ -143,6 +154,7 @@ public class HandyInventory implements InventoryHolder {
         this.objMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, BaseConstants.GUI_SIZE_54, title);
+        this.toCancel = true;
     }
 
 }
