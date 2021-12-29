@@ -1,7 +1,5 @@
 package com.handy.lib.core;
 
-import com.sun.xml.internal.ws.util.UtilException;
-
 import java.net.*;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
@@ -80,7 +78,7 @@ public class NetUtil {
                 return networkInterface.getHardwareAddress();
             }
         } catch (SocketException e) {
-            throw new UtilException(e);
+            throw new RuntimeException(e);
         }
         return null;
     }
@@ -142,11 +140,11 @@ public class NetUtil {
         try {
             networkInterfaces = NetworkInterface.getNetworkInterfaces();
         } catch (SocketException e) {
-            throw new UtilException(e);
+            throw new RuntimeException(e);
         }
 
         if (networkInterfaces == null) {
-            throw new UtilException("Get network interface error!");
+            throw new RuntimeException("Get network interface error!");
         }
 
         final LinkedHashSet<InetAddress> ipSet = new LinkedHashSet<>();
