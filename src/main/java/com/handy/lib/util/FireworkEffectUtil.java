@@ -1,6 +1,5 @@
 package com.handy.lib.util;
 
-import com.handy.lib.api.MessageApi;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -221,7 +220,6 @@ public class FireworkEffectUtil {
      */
     public void spawnEntity(Location location) {
         if (location.getWorld() == null) {
-            MessageApi.sendConsoleDebugMessage("&a发射烟花获取世界为空");
             return;
         }
         Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
