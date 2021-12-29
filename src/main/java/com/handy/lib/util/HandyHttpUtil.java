@@ -9,6 +9,7 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.CollUtil;
+import com.handy.lib.core.NetUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.param.VerifySignParam;
 import org.bukkit.ChatColor;
@@ -112,6 +113,83 @@ public class HandyHttpUtil {
                     BaseConstants.SIGN_VERIFY = BaseConstants.TRUE.equals(result);
                 } catch (Exception e) {
                     BaseConstants.SIGN_VERIFY = false;
+                }
+            }
+        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 20 * 60 * 60, 20 * 60 * 60);
+    }
+
+    /**
+     * 使用mac地址进行验签
+     *
+     * @param verifySignParam 参数
+     * @since 2.3.8
+     */
+    public static void macVerifySign(VerifySignParam verifySignParam) {
+        // 进行校验
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    HashMap<String, String> paramMap = Maps.newHashMapWithExpectedSize(4);
+                    paramMap.put("sign", verifySignParam.getSign());
+                    paramMap.put("mac", NetUtil.getLocalMacAddress());
+                    paramMap.put("pluginName", verifySignParam.getPluginName());
+                    paramMap.put("secretKey", verifySignParam.getSecretKey());
+                    String result = HttpUtil.get(VERIFY_SIGN, paramMap);
+                    if (BaseConstants.TRUE.equals(result)) {
+                        BaseConstants.MAC_SIGN_VERIFY = true;
+                        if (CollUtil.isNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
+                            for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
+                                MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignSucceedMsg));
+                            }
+                        }
+                    } else {
+                        BaseConstants.MAC_SIGN_VERIFY = false;
+                        if (CollUtil.isNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
+                            for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
+                                MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignFailureMsg));
+                            }
+                        }
+                    }
+                    this.cancel();
+                } catch (Exception e) {
+                    BaseConstants.MAC_SIGN_VERIFY = false;
+                    if (CollUtil.isNotEmpty(verifySignParam.getRequestError())) {
+                        for (String requestError : verifySignParam.getRequestError()) {
+                            MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(requestError));
+                        }
+                    }
+                    if (verifySignParam.getRetryNumber() < 1) {
+                        this.cancel();
+                    } else {
+                        verifySignParam.setRetryNumber(verifySignParam.getRetryNumber() - 1);
+                    }
+                }
+            }
+        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 0, 20 * 60);
+    }
+
+    /**
+     * 重新进行验签(每小时进行一次校验)
+     *
+     * @param verifySignParam 参数
+     * @since 2.3.8
+     */
+    public static void macAnewVerifySign(VerifySignParam verifySignParam) {
+        // 进行校验
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    HashMap<String, String> paramMap = Maps.newHashMapWithExpectedSize(4);
+                    paramMap.put("sign", verifySignParam.getSign());
+                    paramMap.put("mac", NetUtil.getLocalMacAddress());
+                    paramMap.put("pluginName", verifySignParam.getPluginName());
+                    paramMap.put("secretKey", verifySignParam.getSecretKey());
+                    String result = HttpUtil.get(VERIFY_SIGN, paramMap);
+                    BaseConstants.MAC_SIGN_VERIFY = BaseConstants.TRUE.equals(result);
+                } catch (Exception e) {
+                    BaseConstants.MAC_SIGN_VERIFY = false;
                 }
             }
         }.runTaskTimerAsynchronously(InitApi.PLUGIN, 20 * 60 * 60, 20 * 60 * 60);

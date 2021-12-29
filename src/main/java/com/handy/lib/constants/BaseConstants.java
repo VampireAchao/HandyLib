@@ -73,6 +73,13 @@ public abstract class BaseConstants {
     public static Boolean SIGN_VERIFY = false;
 
     /**
+     * 是否通过签名验证
+     *
+     * @since 2.3.8
+     */
+    public static Boolean MAC_SIGN_VERIFY = false;
+
+    /**
      * true
      */
     public final static String TRUE = "true";
