@@ -357,15 +357,16 @@ public class ItemStackUtil {
     /**
      * 获取材质
      *
-     * @param materialStr 材质
-     * @param material    未找到的的默认材质
+     * @param materialStr     材质
+     * @param defaultMaterial 未找到的的默认材质
      * @return Material
      */
-    public static Material getMaterial(String materialStr, Material material) {
-        if (StrUtil.isEmpty(materialStr)) {
+    public static Material getMaterial(String materialStr, Material defaultMaterial) {
+        Material material = Material.getMaterial(materialStr);
+        if (material != null) {
             return material;
         }
-        return XMaterial.matchXMaterial(materialStr).orElse(XMaterial.matchXMaterial(material)).parseMaterial();
+        return XMaterial.matchXMaterial(materialStr).orElse(XMaterial.matchXMaterial(defaultMaterial)).parseMaterial();
     }
 
     /**
