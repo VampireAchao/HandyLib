@@ -362,6 +362,9 @@ public class ItemStackUtil {
      * @return Material
      */
     public static Material getMaterial(String materialStr, Material defaultMaterial) {
+        if (StrUtil.isEmpty(materialStr)) {
+            return defaultMaterial;
+        }
         Material material = Material.getMaterial(materialStr);
         if (material != null) {
             return material;
