@@ -279,6 +279,7 @@ public class BossBarUtil {
      * 移除 BossBar
      *
      * @param namespacedKey key
+     * @return true
      * @since 2.3.9
      */
     public static boolean removeBossBar(String namespacedKey) {
