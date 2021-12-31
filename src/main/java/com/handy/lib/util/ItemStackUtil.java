@@ -471,6 +471,7 @@ public class ItemStackUtil {
     public static List<String> loreBatchReplaceMap(String lore, Map<String, List<String>> replaceMap, String def) {
         List<String> loreList = new ArrayList<>();
         if (StrUtil.isEmpty(lore)) {
+            loreList.add(lore);
             return loreList;
         }
         if (replaceMap == null || replaceMap.isEmpty()) {
