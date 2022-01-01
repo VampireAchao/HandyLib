@@ -1,10 +1,12 @@
 package com.handy.lib.db;
 
+import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.db.enums.SqlKeyword;
 import com.handy.lib.db.param.FiledInfoParam;
 import com.handy.lib.db.param.TableInfoParam;
+import com.handy.lib.util.SqlManagerUtil;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -248,15 +250,18 @@ public class DbSql implements Serializable {
             Boolean bool = (Boolean) val;
             val = bool ? 1 : 0;
         }
-        // LocalDateTime处理
-        if (val instanceof LocalDateTime) {
-            LocalDateTime localDateTime = (LocalDateTime) val;
-            val = localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
-        }
-        // LocalDateTime处理
-        if (val instanceof Date) {
-            Date date = (Date) val;
-            val = date.getTime();
+        // sqlite
+        if (BaseConstants.SQLITE.equalsIgnoreCase(SqlManagerUtil.getInstance().getStorageMethod())) {
+            // LocalDateTime处理
+            if (val instanceof LocalDateTime) {
+                LocalDateTime localDateTime = (LocalDateTime) val;
+                val = localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+            }
+            // LocalDateTime处理
+            if (val instanceof Date) {
+                Date date = (Date) val;
+                val = date.getTime();
+            }
         }
         return val;
     }
