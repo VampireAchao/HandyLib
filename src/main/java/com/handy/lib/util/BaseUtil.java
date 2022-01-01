@@ -70,6 +70,17 @@ public class BaseUtil {
      * 颜色代码转换
      *
      * @param stringList 消息
+     * @return 转换后的字符串集合
+     * @since 2.4.5
+     */
+    public static List<String> replaceChatColor(List<String> stringList) {
+        return replaceChatColor(stringList, true);
+    }
+
+    /**
+     * 颜色代码转换
+     *
+     * @param stringList 消息
      * @param isRpg      是否rpg消息
      * @return 转换后的字符串集合
      */
@@ -112,6 +123,7 @@ public class BaseUtil {
         if (BaseConstants.COLOR_CONFIG == null) {
             return str;
         }
+
         Matcher matcher = BaseConstants.RPG_PATTERN.matcher(str);
         List<String> matchStrList = new ArrayList<>();
         while (matcher.find()) {
