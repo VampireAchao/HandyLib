@@ -262,6 +262,17 @@ public class DbSql implements Serializable {
                 Date date = (Date) val;
                 val = date.getTime();
             }
+        } else {
+            // LocalDateTime处理
+            if (val instanceof LocalDateTime) {
+                LocalDateTime localDateTime = (LocalDateTime) val;
+                val = new java.sql.Date(localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli());
+            }
+            // LocalDateTime处理
+            if (val instanceof Date) {
+                Date date = (Date) val;
+                val = new java.sql.Date(date.getTime());
+            }
         }
         return val;
     }
