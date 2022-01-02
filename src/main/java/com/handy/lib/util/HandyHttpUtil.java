@@ -87,6 +87,9 @@ public class HandyHttpUtil {
                     } else {
                         verifySignParam.setRetryNumber(verifySignParam.getRetryNumber() - 1);
                     }
+                    if (BaseConstants.DEBUG) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }.runTaskTimerAsynchronously(InitApi.PLUGIN, 0, 20 * 60);
@@ -113,6 +116,9 @@ public class HandyHttpUtil {
                     BaseConstants.SIGN_VERIFY = BaseConstants.TRUE.equals(result);
                 } catch (Exception e) {
                     BaseConstants.SIGN_VERIFY = false;
+                    if (BaseConstants.DEBUG) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }.runTaskTimerAsynchronously(InitApi.PLUGIN, 20 * 60 * 60, 20 * 60 * 60);
@@ -166,6 +172,9 @@ public class HandyHttpUtil {
                     } else {
                         verifySignParam.setRetryNumber(verifySignParam.getRetryNumber() - 1);
                     }
+                    if (BaseConstants.DEBUG) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }.runTaskTimerAsynchronously(InitApi.PLUGIN, 0, 20 * 60);
@@ -194,6 +203,9 @@ public class HandyHttpUtil {
                     BaseConstants.MAC_SIGN_VERIFY = BaseConstants.TRUE.equals(result);
                 } catch (Exception e) {
                     BaseConstants.MAC_SIGN_VERIFY = false;
+                    if (BaseConstants.DEBUG) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }.runTaskTimerAsynchronously(InitApi.PLUGIN, 20 * 60 * 60, 20 * 60 * 60);
