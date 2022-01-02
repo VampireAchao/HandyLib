@@ -51,4 +51,9 @@ public class InventoryWriteParam implements Serializable {
      */
     private int customModelDataId;
 
+    /**
+     * 附魔效果
+     */
+    private Boolean enchant;
+
 }

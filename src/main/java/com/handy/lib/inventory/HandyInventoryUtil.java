@@ -69,7 +69,7 @@ public class HandyInventoryUtil {
      * @since 2.1.2
      */
     public static void setButton(FileConfiguration config, Inventory inventory, String type) {
-        setButton(config, inventory, type, true, null);
+        setButton(config, inventory, type, null);
     }
 
     /**
@@ -78,35 +78,10 @@ public class HandyInventoryUtil {
      * @param config    配置
      * @param inventory gui
      * @param type      类型
-     * @param isEnchant 是否附魔
-     * @since 2.1.2
-     */
-    public static void setButton(FileConfiguration config, Inventory inventory, String type, Boolean isEnchant) {
-        setButton(config, inventory, type, isEnchant, null);
-    }
-
-    /**
-     * @param config    配置
-     * @param inventory gui
-     * @param type      类型
-     * @param map       赋值
-     * @since 2.1.2
-     */
-    public static void setButton(FileConfiguration config, Inventory inventory, String type, Map<String, String> map) {
-        setButton(config, inventory, type, true, map);
-    }
-
-    /**
-     * 通用设置按钮
-     *
-     * @param config    配置
-     * @param inventory gui
-     * @param type      类型
-     * @param isEnchant 附魔效果
      * @param map       替换map
      * @since 2.1.2
      */
-    public static void setButton(FileConfiguration config, Inventory inventory, String type, Boolean isEnchant, Map<String, String> map) {
+    public static void setButton(FileConfiguration config, Inventory inventory, String type, Map<String, String> map) {
         if (!config.getBoolean(type + ".enable", true)) {
             return;
         }
@@ -116,8 +91,9 @@ public class HandyInventoryUtil {
         String material = config.getString(type + ".material");
         List<String> loreList = config.getStringList(type + ".lore");
         int customModelDataId = config.getInt(type + ".custom-model-data");
+        boolean enchant = config.getBoolean(type + ".isEnchant");
         for (Integer index : indexList) {
-            inventory.setItem(index, ItemStackUtil.getItemStack(material, name, loreList, isEnchant, customModelDataId, map));
+            inventory.setItem(index, ItemStackUtil.getItemStack(material, name, loreList, enchant, customModelDataId, map));
         }
     }
 
@@ -215,8 +191,9 @@ public class HandyInventoryUtil {
                 String name = subMemorySection.getString("name");
                 List<String> loreList = subMemorySection.getStringList("lore");
                 int customModelDataId = subMemorySection.getInt("custom-model-data");
+                boolean enchant = subMemorySection.getBoolean("isEnchant");
                 for (Integer index : indexList) {
-                    InventoryWriteParam inventoryWriteParam = new InventoryWriteParam(isUse, index, material, name, loreList, indexValue, customModelDataId);
+                    InventoryWriteParam inventoryWriteParam = new InventoryWriteParam(isUse, index, material, name, loreList, indexValue, customModelDataId, enchant);
                     paramList.add(inventoryWriteParam);
                 }
             }
@@ -240,7 +217,7 @@ public class HandyInventoryUtil {
             if (!param.getIsUse()) {
                 continue;
             }
-            setButton(inventory, param.getIndex(), ItemStackUtil.getMaterial(param.getMaterial()), param.getName(), param.getLoreList(), param.getCustomModelDataId(), true);
+            setButton(inventory, param.getIndex(), ItemStackUtil.getMaterial(param.getMaterial()), param.getName(), param.getLoreList(), param.getCustomModelDataId(), param.getEnchant());
             map.put(param.getIndex(), param.getIndexValue());
         }
     }
