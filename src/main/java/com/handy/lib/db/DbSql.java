@@ -245,6 +245,13 @@ public class DbSql implements Serializable {
         if (val == null) {
             return null;
         }
+        // 有特殊字符处理
+        if (val instanceof String) {
+            String str = val.toString();
+            if (str.contains(DbConstant.TRANSFER)) {
+                val = str.replace(DbConstant.TRANSFER, "\\" + DbConstant.TRANSFER);
+            }
+        }
         //布尔处理
         if (val instanceof Boolean) {
             Boolean bool = (Boolean) val;
