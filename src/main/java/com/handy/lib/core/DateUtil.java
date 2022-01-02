@@ -114,7 +114,7 @@ public class DateUtil {
     public static Date getMonday() {
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.setTimeInMillis(getToday().getTime());
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         return calendar.getTime();
     }
@@ -128,7 +128,7 @@ public class DateUtil {
     public static Date getSunday() {
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.setTimeInMillis(getToday().getTime());
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         return calendar.getTime();
     }
