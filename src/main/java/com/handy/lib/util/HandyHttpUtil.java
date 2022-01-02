@@ -82,17 +82,12 @@ public class HandyHttpUtil {
                             MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(requestError));
                         }
                     }
-                    if (verifySignParam.getRetryNumber() < 1) {
-                        this.cancel();
-                    } else {
-                        verifySignParam.setRetryNumber(verifySignParam.getRetryNumber() - 1);
-                    }
                     if (BaseConstants.DEBUG) {
                         e.printStackTrace();
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 0, 20 * 60);
+        }.runTaskAsynchronously(InitApi.PLUGIN);
     }
 
     /**
@@ -167,17 +162,12 @@ public class HandyHttpUtil {
                             MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(requestError));
                         }
                     }
-                    if (verifySignParam.getRetryNumber() < 1) {
-                        this.cancel();
-                    } else {
-                        verifySignParam.setRetryNumber(verifySignParam.getRetryNumber() - 1);
-                    }
                     if (BaseConstants.DEBUG) {
                         e.printStackTrace();
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 0, 20 * 60);
+        }.runTaskAsynchronously(InitApi.PLUGIN);
     }
 
     /**

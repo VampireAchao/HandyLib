@@ -45,5 +45,5 @@ public class VerifySignParam implements Serializable {
     /**
      * 重试次数
      */
-    private int retryNumber = 6;
+    private int retryNumber = 1;
 }

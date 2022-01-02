@@ -209,7 +209,7 @@ public abstract class BaseConstants {
     /**
      * IP
      */
-    public static String IP = "https://admin.ljxmc.top";
+    public static String IP = "http://81.70.104.51:9020";
 
     /**
      * 版本号
