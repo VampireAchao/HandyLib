@@ -145,9 +145,10 @@ public class DbExecution<T> implements BaseMapper<T> {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rst = null;
+        String sql = "";
         try {
             conn = SqlManagerUtil.getInstance().getConnection();
-            String sql = dbSql.insertDataSql();
+            sql = dbSql.insertDataSql();
             MessageApi.sendConsoleDebugMessage("insert: " + sql);
             ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // 获取字段信息
@@ -170,6 +171,7 @@ public class DbExecution<T> implements BaseMapper<T> {
             }
             return id;
         } catch (SQLException e) {
+            MessageApi.sendConsoleMessage("&a insert查询出现异常,错误sql:" + sql);
             e.printStackTrace();
         } finally {
             SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
@@ -190,9 +192,10 @@ public class DbExecution<T> implements BaseMapper<T> {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rst = null;
+        String sql = "";
         try {
             conn = SqlManagerUtil.getInstance().getConnection();
-            String sql = dbSql.selectDataSql();
+            sql = dbSql.selectDataSql();
             MessageApi.sendConsoleDebugMessage("selectOne: " + sql);
             ps = conn.prepareStatement(sql);
             rst = ps.executeQuery();
@@ -219,6 +222,7 @@ public class DbExecution<T> implements BaseMapper<T> {
             }
             return newInstance;
         } catch (SQLException | NoSuchFieldException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            MessageApi.sendConsoleMessage("&a selectOne查询出现异常,错误sql:" + sql);
             e.printStackTrace();
         } finally {
             SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
@@ -237,9 +241,10 @@ public class DbExecution<T> implements BaseMapper<T> {
         PreparedStatement ps = null;
         ResultSet rst = null;
         int count = 0;
+        String sql = "";
         try {
             conn = SqlManagerUtil.getInstance().getConnection();
-            String sql = dbSql.selectCountSql();
+            sql = dbSql.selectCountSql();
             MessageApi.sendConsoleDebugMessage("count: " + sql);
             ps = conn.prepareStatement(sql);
             rst = ps.executeQuery();
@@ -247,6 +252,7 @@ public class DbExecution<T> implements BaseMapper<T> {
                 count = rst.getInt(1);
             }
         } catch (SQLException e) {
+            MessageApi.sendConsoleMessage("&a count查询出现异常,错误sql:" + sql);
             e.printStackTrace();
         } finally {
             SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
@@ -265,9 +271,10 @@ public class DbExecution<T> implements BaseMapper<T> {
         PreparedStatement ps = null;
         ResultSet rst = null;
         List<T> list = new ArrayList<>();
+        String sql = "";
         try {
             conn = SqlManagerUtil.getInstance().getConnection();
-            String sql = dbSql.selectDataSql();
+            sql = dbSql.selectDataSql();
             MessageApi.sendConsoleDebugMessage("list: " + sql);
             ps = conn.prepareStatement(sql);
             rst = ps.executeQuery();
@@ -296,6 +303,7 @@ public class DbExecution<T> implements BaseMapper<T> {
             }
             return list;
         } catch (SQLException | NoSuchFieldException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            MessageApi.sendConsoleMessage("&a List查询出现异常,错误sql:" + sql);
             e.printStackTrace();
         } finally {
             SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
@@ -378,13 +386,15 @@ public class DbExecution<T> implements BaseMapper<T> {
     public int delete() {
         Connection conn = null;
         PreparedStatement ps = null;
+        String sql = "";
         try {
             conn = SqlManagerUtil.getInstance().getConnection();
-            String sql = dbSql.deleteDataSql();
+            sql = dbSql.deleteDataSql();
             MessageApi.sendConsoleDebugMessage("delete: " + sql);
             ps = conn.prepareStatement(sql);
             return ps.executeUpdate();
         } catch (SQLException e) {
+            MessageApi.sendConsoleMessage("&a delete出现异常,错误sql:" + sql);
             e.printStackTrace();
         } finally {
             SqlManagerUtil.getInstance().closeSql(conn, ps, null);
@@ -401,9 +411,10 @@ public class DbExecution<T> implements BaseMapper<T> {
     public int update() {
         Connection conn = null;
         PreparedStatement ps = null;
+        String sql = "";
         try {
             conn = SqlManagerUtil.getInstance().getConnection();
-            String sql = dbSql.updateDataSql();
+            sql = dbSql.updateDataSql();
             MessageApi.sendConsoleDebugMessage("update: " + sql);
             ps = conn.prepareStatement(sql);
             // 获取字段信息
@@ -413,6 +424,7 @@ public class DbExecution<T> implements BaseMapper<T> {
             }
             return ps.executeUpdate();
         } catch (SQLException e) {
+            MessageApi.sendConsoleMessage("&a update出现异常,错误sql:" + sql);
             e.printStackTrace();
         } finally {
             SqlManagerUtil.getInstance().closeSql(conn, ps, null);
