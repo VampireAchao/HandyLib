@@ -53,12 +53,12 @@ public class DbConstant implements Serializable {
     /**
      * 新增字段
      */
-    public static final String ADD_COLUMN = "ALTER TABLE `%s` ADD `%s` %s(%d) %s;";
+    public static final String ADD_COLUMN = "ALTER TABLE `%s` ADD `%s` %s(%s) %s;";
 
     /**
      * 修改字段
      */
-    public static final String ADD_COLUMN_COMMENT = "ALTER TABLE `%s` MODIFY `%s` %s(%d) %s;";
+    public static final String ADD_COLUMN_COMMENT = "ALTER TABLE `%s` MODIFY `%s` %s(%s) %s;";
 
     /**
      * SQLITE 新增表
@@ -73,7 +73,7 @@ public class DbConstant implements Serializable {
     /**
      * SQLITE 新增字段
      */
-    public static final String SQLITE_ADD_COLUMN = "ALTER TABLE '%s' ADD '%s' %s(%d) %s;";
+    public static final String SQLITE_ADD_COLUMN = "ALTER TABLE '%s' ADD '%s' %s(%s) %s;";
 
     /**
      * 查询索引

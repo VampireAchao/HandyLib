@@ -1,5 +1,7 @@
 package com.handy.lib.core;
 
+import com.handy.lib.util.HandyHttpUtil;
+
 import java.net.*;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
@@ -18,7 +20,11 @@ public class NetUtil {
      * @return 本机MAC地址
      */
     public static String getLocalMacAddress() {
-        return getMacAddress(getLocalhost());
+        String macAddress = getMacAddress(getLocalhost());
+        if (StrUtil.isEmpty(macAddress)) {
+            return HandyHttpUtil.getIp();
+        }
+        return macAddress;
     }
 
     /**
