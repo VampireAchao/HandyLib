@@ -48,7 +48,7 @@ public class DbConstant implements Serializable {
     /**
      * 查询表字段信息
      */
-    public static final String TABLE_INFO = "SELECT column_name FROM information_schema.COLUMNS WHERE table_name = '%s';";
+    public static final String TABLE_INFO = "SELECT column_name FROM information_schema.COLUMNS WHERE table_name = '%s' AND table_schema = '%s';";
 
     /**
      * 新增字段
