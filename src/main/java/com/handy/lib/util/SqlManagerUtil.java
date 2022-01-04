@@ -69,6 +69,10 @@ public class SqlManagerUtil {
      */
     public Connection getConnection(String storageMethod) throws SQLException {
         if (this.getStorageMethod().equalsIgnoreCase(storageMethod)) {
+            // 如果链接被关闭了，就重新打开
+            if (ds.isClosed()) {
+                enableTable(storageMethod);
+            }
             return ds.getConnection();
         }
         ds.close();

@@ -236,52 +236,23 @@ public class DbSql implements Serializable {
     }
 
     /**
-     * 特殊字段类型处理
+     * sqlite 特殊字符转义
      *
-     * @param val 值
-     * @return 新值
+     * @param keyWord 字符
+     * @return 转义后字符
+     * @since 2.5.2
      */
-    private Object specialHandling(Object val) {
-        if (val == null) {
-            return null;
-        }
-        // 有特殊字符处理
-        if (val instanceof String) {
-            String str = val.toString();
-            if (str.contains(DbConstant.TRANSFER)) {
-                val = str.replace(DbConstant.TRANSFER, "\\" + DbConstant.TRANSFER);
-            }
-        }
-        //布尔处理
-        if (val instanceof Boolean) {
-            Boolean bool = (Boolean) val;
-            val = bool ? 1 : 0;
-        }
-        // sqlite
-        if (BaseConstants.SQLITE.equalsIgnoreCase(SqlManagerUtil.getInstance().getStorageMethod())) {
-            // LocalDateTime处理
-            if (val instanceof LocalDateTime) {
-                LocalDateTime localDateTime = (LocalDateTime) val;
-                val = localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
-            }
-            // LocalDateTime处理
-            if (val instanceof Date) {
-                Date date = (Date) val;
-                val = date.getTime();
-            }
-        } else {
-            // LocalDateTime处理
-            if (val instanceof LocalDateTime) {
-                LocalDateTime localDateTime = (LocalDateTime) val;
-                val = new java.sql.Date(localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli());
-            }
-            // LocalDateTime处理
-            if (val instanceof Date) {
-                Date date = (Date) val;
-                val = new java.sql.Date(date.getTime());
-            }
-        }
-        return val;
+    private static String sqliteEscape(String keyWord) {
+        keyWord = keyWord.replace("/", "//");
+        keyWord = keyWord.replace("'", "''");
+        keyWord = keyWord.replace("[", "/[");
+        keyWord = keyWord.replace("]", "/]");
+        keyWord = keyWord.replace("%", "/%");
+        keyWord = keyWord.replace("&", "/&");
+        keyWord = keyWord.replace("_", "/_");
+        keyWord = keyWord.replace("(", "/(");
+        keyWord = keyWord.replace(")", "/)");
+        return keyWord;
     }
 
     /**
@@ -299,6 +270,60 @@ public class DbSql implements Serializable {
             sb.append(sql);
         }
         return sb.toString();
+    }
+
+    /**
+     * 特殊字段类型处理
+     *
+     * @param val 值
+     * @return 新值
+     */
+    private Object specialHandling(Object val) {
+        if (val == null) {
+            return null;
+        }
+
+        //布尔处理
+        if (val instanceof Boolean) {
+            Boolean bool = (Boolean) val;
+            val = bool ? 1 : 0;
+        }
+        // sqlite
+        if (BaseConstants.SQLITE.equalsIgnoreCase(SqlManagerUtil.getInstance().getStorageMethod())) {
+            // 有特殊字符处理
+            if (val instanceof String) {
+                val = sqliteEscape(val.toString());
+            }
+            // LocalDateTime处理
+            if (val instanceof LocalDateTime) {
+                LocalDateTime localDateTime = (LocalDateTime) val;
+                val = localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+            }
+            // LocalDateTime处理
+            if (val instanceof Date) {
+                Date date = (Date) val;
+                val = date.getTime();
+            }
+        } else {
+            // 有特殊字符处理
+            if (val instanceof String) {
+                String str = val.toString();
+                if (str.contains(DbConstant.TRANSFER)) {
+                    val = str.replace(DbConstant.TRANSFER, "\\" + DbConstant.TRANSFER);
+                }
+            }
+            // LocalDateTime处理
+            if (val instanceof LocalDateTime) {
+                LocalDateTime localDateTime = (LocalDateTime) val;
+                val = new java.sql.Date(localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli());
+            }
+            // LocalDateTime处理
+            if (val instanceof Date) {
+                Date date = (Date) val;
+                val = new java.sql.Date(date.getTime());
+            }
+        }
+        return val;
     }
 
 }
