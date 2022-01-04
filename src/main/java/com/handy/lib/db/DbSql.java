@@ -236,26 +236,6 @@ public class DbSql implements Serializable {
     }
 
     /**
-     * sqlite 特殊字符转义
-     *
-     * @param keyWord 字符
-     * @return 转义后字符
-     * @since 2.5.2
-     */
-    private static String sqliteEscape(String keyWord) {
-        keyWord = keyWord.replace("/", "//");
-        keyWord = keyWord.replace("'", "''");
-        keyWord = keyWord.replace("[", "/[");
-        keyWord = keyWord.replace("]", "/]");
-        keyWord = keyWord.replace("%", "/%");
-        keyWord = keyWord.replace("&", "/&");
-        keyWord = keyWord.replace("_", "/_");
-        keyWord = keyWord.replace("(", "/(");
-        keyWord = keyWord.replace(")", "/)");
-        return keyWord;
-    }
-
-    /**
      * 组合sql
      *
      * @param sqlColl sql内容
@@ -324,6 +304,18 @@ public class DbSql implements Serializable {
             }
         }
         return val;
+    }
+
+    /**
+     * sqlite 特殊字符转义
+     *
+     * @param keyWord 字符
+     * @return 转义后字符
+     * @since 2.5.2
+     */
+    private static String sqliteEscape(String keyWord) {
+        keyWord = keyWord.replace("'", "''");
+        return keyWord;
     }
 
 }
