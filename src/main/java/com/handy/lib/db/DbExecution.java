@@ -98,7 +98,14 @@ public class DbExecution<T> implements BaseMapper<T> {
                         filedSql += String.format(DbConstant.DEFAULT, "");
                     }
                 }
-                String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength(), filedSql);
+
+                Integer filedLength = filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength();
+                String mysqlType = fieldTypeEnum.getMysqlType();
+                String filedLengthStr = filedLength.toString();
+                if (FieldTypeEnum.DOUBLE.getMysqlType().equals(mysqlType) || FieldTypeEnum.BASIC_DOUBLE.getMysqlType().equals(mysqlType)) {
+                    filedLengthStr = filedLength + ", 2";
+                }
+                String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), mysqlType, filedLengthStr, filedSql);
                 MessageApi.sendConsoleDebugMessage("新增字段: " + createFieldSql);
                 SqlService.getInstance().executionSql(createFieldSql);
             }
