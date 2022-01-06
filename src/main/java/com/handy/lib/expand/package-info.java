@@ -1,5 +1,6 @@
 /**
- * 扩展类，包含从其他开源项目提取的class
- * XMaterial: 从xseries项目提取 https://github.com/CryptoMorin/XSeries 提取版本8.5.0.1
+ * 扩展类
+ * ItemFactory.java 不同版本的Material切换
+ * https://hamsteryds.github.io/noticements-in-bukkit/
  */
 package com.handy.lib.expand;
