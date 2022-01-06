@@ -366,9 +366,11 @@ public class ItemStackUtil {
         if (material != null) {
             return material;
         }
-        material = Material.getMaterial("LEGACY_" + materialStr, true);
-        if (material != null) {
-            return material;
+        if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
+            material = Material.getMaterial("LEGACY_" + materialStr, true);
+            if (material != null) {
+                return material;
+            }
         }
         return defaultMaterial;
     }
