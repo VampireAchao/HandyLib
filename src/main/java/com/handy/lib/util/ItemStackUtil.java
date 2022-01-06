@@ -3,7 +3,7 @@ package com.handy.lib.util;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
-import com.handy.lib.expand.ItemFactory;
+import com.handy.lib.expand.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,10 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * ItemStack工具类
@@ -365,7 +362,18 @@ public class ItemStackUtil {
         if (StrUtil.isEmpty(materialStr)) {
             return defaultMaterial;
         }
-        return ItemFactory.getMaterial(materialStr);
+        materialStr = materialStr.toUpperCase(Locale.ROOT);
+        Material material = Material.getMaterial(materialStr);
+        if (material != null) {
+            return material;
+        }
+        if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
+            material = Material.getMaterial("LEGACY_" + materialStr, true);
+            if (material != null) {
+                return material;
+            }
+        }
+        return XMaterial.matchXMaterial(materialStr).orElse(XMaterial.matchXMaterial(defaultMaterial)).parseMaterial();
     }
 
     /**
