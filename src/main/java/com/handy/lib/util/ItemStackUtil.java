@@ -3,6 +3,7 @@ package com.handy.lib.util;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
+import com.handy.lib.expand.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -372,7 +373,7 @@ public class ItemStackUtil {
                 return material;
             }
         }
-        return defaultMaterial;
+        return XMaterial.matchXMaterial(materialStr).orElse(XMaterial.matchXMaterial(defaultMaterial)).parseMaterial();
     }
 
     /**
