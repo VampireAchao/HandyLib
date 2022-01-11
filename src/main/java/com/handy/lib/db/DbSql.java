@@ -2,6 +2,7 @@ package com.handy.lib.db;
 
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.CollUtil;
+import com.handy.lib.core.DateUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.db.enums.SqlKeyword;
 import com.handy.lib.db.param.FiledInfoParam;
@@ -12,7 +13,6 @@ import lombok.Getter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -276,8 +276,7 @@ public class DbSql implements Serializable {
             }
             // LocalDateTime处理
             if (val instanceof LocalDateTime) {
-                LocalDateTime localDateTime = (LocalDateTime) val;
-                val = localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+                val = DateUtil.toEpochSecond((LocalDateTime) val);
             }
             // LocalDateTime处理
             if (val instanceof Date) {
@@ -294,8 +293,7 @@ public class DbSql implements Serializable {
             }
             // LocalDateTime处理
             if (val instanceof LocalDateTime) {
-                LocalDateTime localDateTime = (LocalDateTime) val;
-                val = new java.sql.Date(localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli());
+                val = new java.sql.Date(DateUtil.toEpochSecond((LocalDateTime) val));
             }
             // LocalDateTime处理
             if (val instanceof Date) {

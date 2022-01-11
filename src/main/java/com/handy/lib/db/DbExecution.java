@@ -3,6 +3,7 @@ package com.handy.lib.db;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.BeanUtil;
+import com.handy.lib.core.DateUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.db.enter.Page;
 import com.handy.lib.db.enums.FieldTypeEnum;
@@ -18,7 +19,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -340,8 +340,7 @@ public class DbExecution<T> implements BaseMapper<T> {
                     obj = new Date(Long.parseLong(str));
                 } else {
                     if (obj instanceof LocalDateTime) {
-                        LocalDateTime localDateTime = (LocalDateTime) obj;
-                        obj = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+                        obj = DateUtil.toDate((LocalDateTime) obj);
                     }
                 }
                 break;

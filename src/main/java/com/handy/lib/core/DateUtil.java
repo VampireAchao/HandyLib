@@ -2,6 +2,10 @@ package com.handy.lib.core;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -144,6 +148,64 @@ public class DateUtil {
         Integer[] weekDays = {7, 1, 2, 3, 4, 5, 6};
         Calendar calendar = Calendar.getInstance();
         return weekDays[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+    }
+
+    /**
+     * LocalDateTime 转date
+     *
+     * @param localDateTime localDateTime
+     * @return Date
+     * @since 2.6.2
+     */
+    public static Date toDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    /**
+     * date 转 LocalDateTime
+     *
+     * @param date date
+     * @return LocalDateTime
+     * @since 2.6.2
+     */
+    public static LocalDateTime toLocalDateTime(Date date) {
+        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+    }
+
+    /**
+     * LocalDateTime 转毫秒时间戳
+     *
+     * @param localDateTime localDateTime
+     * @return 毫秒时间戳
+     * @since 2.6.2
+     */
+    public static long toEpochSecond(LocalDateTime localDateTime) {
+        return localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+    }
+
+    /**
+     * 计算相差小时
+     *
+     * @param dateOne 第一个时间
+     * @param dateTwo 第二个时间
+     * @return 相差小时
+     * @since 2.6.2
+     */
+    public static long between(Date dateOne, Date dateTwo) {
+        return between(dateOne, dateTwo, ChronoUnit.HOURS);
+    }
+
+    /**
+     * 计算时间相差
+     *
+     * @param dateOne 第一个时间
+     * @param dateTwo 第二个时间
+     * @param unit    unit
+     * @return 相差多久
+     * @since 2.6.2
+     */
+    public static long between(Date dateOne, Date dateTwo, ChronoUnit unit) {
+        return unit.between(toLocalDateTime(dateOne), toLocalDateTime(dateTwo));
     }
 
 }
