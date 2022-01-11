@@ -212,7 +212,7 @@ public class DbSql implements Serializable {
             return;
         }
         // 特殊值处理
-        val = specialHandling(val);
+        val = updateSpecialHandling(val);
         this.updateFiledList.add(DbConstant.POINT + fieldName + DbConstant.POINT + DbConstant.EQUALS + DbConstant.QUESTION_MARK);
         this.updateFiledMap.put(this.updateFiledList.size(), val);
     }
@@ -291,6 +291,48 @@ public class DbSql implements Serializable {
                     val = str.replace(DbConstant.TRANSFER, "\\" + DbConstant.TRANSFER);
                 }
             }
+            // LocalDateTime处理
+            if (val instanceof LocalDateTime) {
+                val = new java.sql.Date(DateUtil.toEpochSecond((LocalDateTime) val));
+            }
+            // LocalDateTime处理
+            if (val instanceof Date) {
+                Date date = (Date) val;
+                val = new java.sql.Date(date.getTime());
+            }
+        }
+        return val;
+    }
+
+    /**
+     * update特殊字段类型处理
+     *
+     * @param val 值
+     * @return 新值
+     * @since 2.6.3
+     */
+    private Object updateSpecialHandling(Object val) {
+        if (val == null) {
+            return null;
+        }
+
+        //布尔处理
+        if (val instanceof Boolean) {
+            Boolean bool = (Boolean) val;
+            val = bool ? 1 : 0;
+        }
+        // sqlite
+        if (BaseConstants.SQLITE.equalsIgnoreCase(SqlManagerUtil.getInstance().getStorageMethod())) {
+            // LocalDateTime处理
+            if (val instanceof LocalDateTime) {
+                val = DateUtil.toEpochSecond((LocalDateTime) val);
+            }
+            // LocalDateTime处理
+            if (val instanceof Date) {
+                Date date = (Date) val;
+                val = date.getTime();
+            }
+        } else {
             // LocalDateTime处理
             if (val instanceof LocalDateTime) {
                 val = new java.sql.Date(DateUtil.toEpochSecond((LocalDateTime) val));
