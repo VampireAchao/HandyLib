@@ -55,6 +55,8 @@ public class SqlManagerUtil {
                 String jdbcUrl = "jdbc:sqlite:" + InitApi.PLUGIN.getDataFolder().getAbsolutePath() + "/" + InitApi.PLUGIN.getName() + ".db";
                 hikariConfig.setDriverClassName("org.sqlite.JDBC");
                 hikariConfig.setJdbcUrl(jdbcUrl);
+                hikariConfig.setMinimumIdle(1);
+                hikariConfig.setMaximumPoolSize(1);
             }
             ds = new HikariDataSource(hikariConfig);
         } catch (Throwable throwable) {
