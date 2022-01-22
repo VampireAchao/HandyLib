@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,6 +39,12 @@ public class HandyInventory implements InventoryHolder {
      * @since 1.7.0
      */
     private Map<Integer, Object> objMap;
+    /**
+     * 数据map
+     *
+     * @since 2.6.5
+     */
+    private Map<Integer, List<String>> listMap;
     /**
      * 额外数据传输对象
      *
@@ -90,6 +97,7 @@ public class HandyInventory implements InventoryHolder {
         this.map = map;
         this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
+        this.listMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
         this.toCancel = true;
@@ -106,6 +114,7 @@ public class HandyInventory implements InventoryHolder {
         this.map = new HashMap<>();
         this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
+        this.listMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
         this.toCancel = true;
@@ -121,6 +130,7 @@ public class HandyInventory implements InventoryHolder {
         this.map = new HashMap<>();
         this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
+        this.listMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType);
         this.toCancel = true;
@@ -137,6 +147,7 @@ public class HandyInventory implements InventoryHolder {
         this.map = new HashMap<>();
         this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
+        this.listMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType, title);
         this.toCancel = true;
@@ -152,6 +163,7 @@ public class HandyInventory implements InventoryHolder {
         this.map = new HashMap<>();
         this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
+        this.listMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, BaseConstants.GUI_SIZE_54, title);
         this.toCancel = true;
