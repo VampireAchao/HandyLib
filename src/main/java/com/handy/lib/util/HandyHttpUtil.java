@@ -91,35 +91,6 @@ public class HandyHttpUtil {
     }
 
     /**
-     * 重新进行验签(每小时进行一次校验)
-     *
-     * @param verifySignParam 参数
-     */
-    public static void anewVerifySign(VerifySignParam verifySignParam) {
-        int port = InitApi.PLUGIN.getServer().getPort();
-        // 进行校验
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    HashMap<String, String> paramMap = Maps.newHashMapWithExpectedSize(4);
-                    paramMap.put("sign", verifySignParam.getSign());
-                    paramMap.put("port", port + "");
-                    paramMap.put("pluginName", verifySignParam.getPluginName());
-                    paramMap.put("secretKey", verifySignParam.getSecretKey());
-                    String result = HttpUtil.get(VERIFY_SIGN, paramMap);
-                    BaseConstants.SIGN_VERIFY = BaseConstants.TRUE.equals(result);
-                } catch (Exception e) {
-                    BaseConstants.SIGN_VERIFY = false;
-                    if (BaseConstants.DEBUG) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 20 * 60 * 60, 20 * 60 * 60);
-    }
-
-    /**
      * 使用mac地址进行验签
      *
      * @param verifySignParam 参数
@@ -168,37 +139,6 @@ public class HandyHttpUtil {
                 }
             }
         }.runTaskAsynchronously(InitApi.PLUGIN);
-    }
-
-    /**
-     * 重新进行验签(每小时进行一次校验)
-     *
-     * @param verifySignParam 参数
-     * @since 2.3.8
-     */
-    public static void macAnewVerifySign(VerifySignParam verifySignParam) {
-        int port = InitApi.PLUGIN.getServer().getPort();
-        // 进行校验
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    HashMap<String, String> paramMap = Maps.newHashMapWithExpectedSize(5);
-                    paramMap.put("sign", verifySignParam.getSign());
-                    paramMap.put("mac", NetUtil.getLocalMacAddress());
-                    paramMap.put("port", port + "");
-                    paramMap.put("pluginName", verifySignParam.getPluginName());
-                    paramMap.put("secretKey", verifySignParam.getSecretKey());
-                    String result = HttpUtil.get(VERIFY_SIGN, paramMap);
-                    BaseConstants.MAC_SIGN_VERIFY = BaseConstants.TRUE.equals(result);
-                } catch (Exception e) {
-                    BaseConstants.MAC_SIGN_VERIFY = false;
-                    if (BaseConstants.DEBUG) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 20 * 60 * 60, 20 * 60 * 60);
     }
 
     /**

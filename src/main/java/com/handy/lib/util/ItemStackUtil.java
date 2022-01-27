@@ -189,7 +189,25 @@ public class ItemStackUtil {
      * @return 自定义物品
      * @since 2.3.5
      */
-    public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, Boolean isEnchant, int customModelData, boolean hideFlag, Map<String, String> replaceMap) {
+    public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, boolean isEnchant, int customModelData, boolean hideFlag, Map<String, String> replaceMap) {
+        return getItemStack(material, displayName, loreList, isEnchant, customModelData, hideFlag, replaceMap, isEnchant);
+    }
+
+    /**
+     * 物品生成
+     *
+     * @param material        材质
+     * @param displayName     名称
+     * @param loreList        lore
+     * @param isEnchant       附魔效果
+     * @param customModelData 自定义模型id
+     * @param hideFlag        隐藏标签
+     * @param replaceMap      lore替换map
+     * @param hideEnchant     隐藏附魔效果
+     * @return 自定义物品
+     * @since 2.6.6
+     */
+    public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, boolean isEnchant, int customModelData, boolean hideFlag, Map<String, String> replaceMap, boolean hideEnchant) {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta itemMeta = getItemMeta(itemStack);
         if (StrUtil.isNotEmpty(displayName)) {
@@ -201,6 +219,10 @@ public class ItemStackUtil {
         // 附魔效果
         if (isEnchant) {
             setEnchant(itemMeta);
+        }
+        // 隐藏附魔效果
+        if (hideEnchant) {
+            hideEnchant(itemMeta);
         }
         // 隐藏物品属性
         if (hideFlag) {
@@ -220,8 +242,6 @@ public class ItemStackUtil {
     public static void setEnchant(ItemMeta itemMeta) {
         // 耐久
         itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
-        // 隐藏附魔效果
-        hideEnchant(itemMeta);
     }
 
     /**
