@@ -39,31 +39,25 @@ public class SqlManagerUtil {
      * @param storageMethod 连接方式
      */
     public void enableTable(String storageMethod) {
-        try {
+        if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
             HikariConfig hikariConfig = new HikariConfig();
+            String host = BaseConstants.STORAGE_CONFIG.getString("MySQL.Host");
+            String database = BaseConstants.STORAGE_CONFIG.getString("MySQL.Database");
+            int port = BaseConstants.STORAGE_CONFIG.getInt("MySQL.Port");
+            String useSsl = BaseConstants.STORAGE_CONFIG.getString("MySQL.UseSSL");
+            String jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=" + useSsl + "&useUnicode=true&characterEncoding=UTF-8";
+            hikariConfig.setJdbcUrl(jdbcUrl);
             hikariConfig.setPoolName(InitApi.PLUGIN.getName() + "HikariPool");
-            if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
-                String host = BaseConstants.STORAGE_CONFIG.getString("MySQL.Host");
-                String database = BaseConstants.STORAGE_CONFIG.getString("MySQL.Database");
-                int port = BaseConstants.STORAGE_CONFIG.getInt("MySQL.Port");
-                String useSsl = BaseConstants.STORAGE_CONFIG.getString("MySQL.UseSSL");
-                String jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=" + useSsl + "&useUnicode=true&characterEncoding=UTF-8";
-                hikariConfig.setJdbcUrl(jdbcUrl);
-                hikariConfig.setUsername(BaseConstants.STORAGE_CONFIG.getString("MySQL.User"));
-                hikariConfig.setPassword(BaseConstants.STORAGE_CONFIG.getString("MySQL.Password"));
-            } else {
-                String jdbcUrl = "jdbc:sqlite:" + InitApi.PLUGIN.getDataFolder().getAbsolutePath() + "/" + InitApi.PLUGIN.getName() + ".db";
-                hikariConfig.setDriverClassName("org.sqlite.JDBC");
-                hikariConfig.setJdbcUrl(jdbcUrl);
-                hikariConfig.setMinimumIdle(1);
-                hikariConfig.setMaximumPoolSize(1);
-            }
+            hikariConfig.setUsername(BaseConstants.STORAGE_CONFIG.getString("MySQL.User"));
+            hikariConfig.setPassword(BaseConstants.STORAGE_CONFIG.getString("MySQL.Password"));
+            // 是否自定义配置，为true时下面两个参数才生效
+            hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
+            // 连接池大小默认25，官方推荐250-500
+            hikariConfig.addDataSourceProperty("prepStmtCacheSize", "10");
+            // 单条语句最大长度默认256，官方推荐2048
+            hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
             ds = new HikariDataSource(hikariConfig);
-        } catch (Throwable throwable) {
-            if (BaseConstants.DEBUG) {
-                throwable.printStackTrace();
-            }
-            MessageApi.sendConsoleDebugMessage("sqlite 初始化连接异常，使用jdbc方法获取链接");
+        } else {
             try {
                 Class.forName("org.sqlite.JDBC");
             } catch (ClassNotFoundException e) {
@@ -80,11 +74,7 @@ public class SqlManagerUtil {
      * @throws SQLException 异常
      */
     public Connection getConnection(String storageMethod) throws SQLException {
-        if (ds == null && BaseConstants.SQLITE.equalsIgnoreCase(storageMethod)) {
-            MessageApi.sendConsoleDebugMessage("sqlite HikariDataSource 获取链接异常，使用jdbc方法获取链接");
-            return DriverManager.getConnection("jdbc:sqlite:" + InitApi.PLUGIN.getDataFolder().getAbsolutePath() + "/" + InitApi.PLUGIN.getName() + ".db");
-        }
-        if (this.getStorageMethod().equalsIgnoreCase(storageMethod)) {
+        if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
             // 如果链接被关闭了，就重新打开
             if (ds.isClosed()) {
                 MessageApi.sendConsoleDebugMessage(" HikariDataSource 链接异常关闭，重新打开");
@@ -92,9 +82,7 @@ public class SqlManagerUtil {
             }
             return ds.getConnection();
         }
-        ds.close();
-        enableTable(storageMethod);
-        return ds.getConnection();
+        return DriverManager.getConnection("jdbc:sqlite:" + InitApi.PLUGIN.getDataFolder().getAbsolutePath() + "/" + InitApi.PLUGIN.getName() + ".db");
     }
 
     /**
@@ -104,7 +92,7 @@ public class SqlManagerUtil {
      * @throws SQLException 异常
      */
     public Connection getConnection() throws SQLException {
-        return this.getConnection(this.getStorageMethod());
+        return this.getConnection(BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD));
     }
 
     /**
