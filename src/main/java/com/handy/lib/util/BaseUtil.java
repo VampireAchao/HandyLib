@@ -1,6 +1,7 @@
 package com.handy.lib.util;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
@@ -541,8 +542,7 @@ public class BaseUtil {
         String fileName = split[0];
         String oleFileName = fileName + "_" + DateUtil.format(new Date(), DateUtil.YYYY_HH) + split[1];
         MessageApi.sendConsoleDebugMessage("旧文件备份, 生成新文件名: " + oleFileName);
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
-             BufferedWriter out = new BufferedWriter(new FileWriter(oleFileName))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)); BufferedWriter out = new BufferedWriter(new FileWriter(oleFileName))) {
             StringBuilder result = new StringBuilder();
             String str;
             // 使用readLine方法，一次读一行
@@ -554,6 +554,53 @@ public class BaseUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 转化版本号
+     *
+     * @param version 版本号
+     * @return 版本号数字
+     * @since 2.6.8
+     */
+    public static Integer convertVersion(String version) {
+        version = version.replaceAll("[^\\d.]", "");
+        if (!version.contains(".")) {
+            return Integer.parseInt(version);
+        }
+        StringBuilder var3 = new StringBuilder();
+        String[] var7;
+        int var6 = (var7 = version.split("\\.")).length;
+        for (int var5 = 0; var5 < var6; ++var5) {
+            String var4 = var7[var5];
+            String var8 = var4;
+            if (var4.length() == 1) {
+                var8 = "0" + var4;
+            }
+            var3.append(var8);
+        }
+        return Integer.parseInt(var3.toString());
+    }
+
+    /**
+     * 通过github url获取tag_name号
+     *
+     * @param url url
+     * @return 版本号
+     * @since 2.6.8
+     */
+    public static String getOfficialVersion(String url) {
+        try {
+            String result = HttpUtil.get(url);
+            if (StrUtil.isEmpty(result)) {
+                return null;
+            }
+            JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
+            // 获取到的信息
+            return jsonObject.get("tag_name").getAsString();
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 
 }

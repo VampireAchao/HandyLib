@@ -17,10 +17,9 @@ public class CheckVersionApi {
      *
      * @param player 玩家l
      * @param url    路径
-     * @param msg    更新提醒 ${version} 版本变量 ${body} 更新内容变量
      */
-    public static void checkVersion(Player player, String url, String msg) {
-        HandyHttpUtil.checkVersion(player, url, msg);
+    public static void checkVersion(Player player, String url) {
+        HandyHttpUtil.checkVersion(player, url);
     }
 
 }

@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 public class InitApi {
     public static Plugin PLUGIN;
     private static ClassUtil CLASS_UTIL;
-    private final static String VERSION = "2.6.7";
+    private final static String VERSION = "2.6.8";
 
     private InitApi() {
     }
@@ -209,27 +209,11 @@ public class InitApi {
      *
      * @param isVersion 是否提醒
      * @param url       提醒url
-     * @param msg       更新提醒 ${version} 版本变量 ${body} 更新内容变量
-     * @return this
-     * @since 1.6.9
-     */
-    public InitApi checkVersion(boolean isVersion, String url, String msg) {
-        if (isVersion) {
-            CheckVersionApi.checkVersion(null, url, msg);
-        }
-        return this;
-    }
-
-    /**
-     * 初始化版本更新提醒
-     *
-     * @param isVersion 是否提醒
-     * @param url       提醒url
      * @return this
      */
     public InitApi checkVersion(boolean isVersion, String url) {
         if (isVersion) {
-            CheckVersionApi.checkVersion(null, url, null);
+            CheckVersionApi.checkVersion(null, url);
         }
         return this;
     }

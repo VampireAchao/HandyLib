@@ -3,7 +3,6 @@ package com.handy.lib.util;
 import com.google.common.collect.Maps;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
@@ -12,6 +11,9 @@ import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.NetUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.param.VerifySignParam;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -144,44 +146,33 @@ public class HandyHttpUtil {
      *
      * @param player 玩家
      * @param url    路径
-     * @param msg    更新提醒 ${version} 版本变量 ${body} 更新内容变量
      */
-    public static void checkVersion(Player player, String url, String msg) {
+    public static void checkVersion(Player player, String url) {
         if (player != null && !player.isOp()) {
             return;
         }
-        // 异步处理
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    String result = HttpUtil.get(url);
-                    if (StrUtil.isNotEmpty(result)) {
-                        JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
-                        // 当前版本
-                        String version = InitApi.PLUGIN.getDescription().getVersion();
-                        version = version.replace("-permission", "");
-                        // 获取到的信息
-                        String tagName = jsonObject.get("tag_name").getAsString();
-                        String body = jsonObject.get("body").getAsString();
-                        // 版本为最新不进行提醒
-                        if (version.equals(tagName)) {
-                            return;
-                        }
-                        String message = ChatColor.GREEN + "检测到最新版本:" + tagName + "更新内容:" + body;
-                        if (StrUtil.isNotEmpty(msg)) {
-                            message = msg.replace("${version}", tagName).replace("${body}", body);
-                        }
-                        if (player == null) {
-                            MessageApi.sendConsoleMessage(message);
-                        } else {
-                            player.sendMessage(message);
-                        }
-                    }
-                } catch (Exception ignored) {
+        Bukkit.getScheduler().runTaskAsynchronously(InitApi.PLUGIN, () -> {
+            String version = InitApi.PLUGIN.getDescription().getVersion();
+            String tagName = BaseUtil.getOfficialVersion(url);
+            if (tagName != null && BaseUtil.convertVersion(tagName) > BaseUtil.convertVersion(version)) {
+                String oneMsg = ChatColor.GRAY + "_________________/ " + InitApi.PLUGIN.getDescription().getName() + " \\_________________\n";
+                TextComponent message = new TextComponent(oneMsg);
+                String twoMsg = "&a| &d" + tagName + "&a是最新版本! 当前版本: &d" + version + " &a|";
+                TextComponent content = new TextComponent(twoMsg);
+                content.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, InitApi.PLUGIN.getDescription().getWebsite()));
+                String threeMsg = "ChatColor.GRAY + ---------------------------------------- ";
+                TextComponent endMessage = new TextComponent(threeMsg);
+                message.addExtra(content);
+                message.addExtra(endMessage);
+                if (player == null) {
+                    MessageApi.sendConsoleMessage(oneMsg);
+                    MessageApi.sendConsoleMessage(twoMsg);
+                    MessageApi.sendConsoleMessage(threeMsg);
+                } else {
+                    MessageApi.sendMessage(player, message);
                 }
             }
-        }.runTaskAsynchronously(InitApi.PLUGIN);
+        });
     }
 
     /**
