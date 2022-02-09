@@ -47,7 +47,6 @@ public class HandyHttpUtil {
      * @param verifySignParam 参数
      */
     public static void verifySign(VerifySignParam verifySignParam) {
-        int port = InitApi.PLUGIN.getServer().getPort();
         // 进行校验
         new BukkitRunnable() {
             @Override
@@ -55,7 +54,7 @@ public class HandyHttpUtil {
                 try {
                     HashMap<String, String> paramMap = Maps.newHashMapWithExpectedSize(4);
                     paramMap.put("sign", verifySignParam.getSign());
-                    paramMap.put("port", port + "");
+                    paramMap.put("port", InitApi.PLUGIN.getServer().getPort() + "");
                     paramMap.put("pluginName", verifySignParam.getPluginName());
                     paramMap.put("secretKey", verifySignParam.getSecretKey());
                     String result = HttpUtil.get(VERIFY_SIGN, paramMap);
@@ -97,7 +96,6 @@ public class HandyHttpUtil {
      * @since 2.3.8
      */
     public static void macVerifySign(VerifySignParam verifySignParam) {
-        int port = InitApi.PLUGIN.getServer().getPort();
         // 进行校验
         new BukkitRunnable() {
             @Override
@@ -106,7 +104,7 @@ public class HandyHttpUtil {
                     HashMap<String, String> paramMap = Maps.newHashMapWithExpectedSize(5);
                     paramMap.put("sign", verifySignParam.getSign());
                     paramMap.put("mac", NetUtil.getLocalMacAddress());
-                    paramMap.put("port", port + "");
+                    paramMap.put("port", InitApi.PLUGIN.getServer().getPort() + "");
                     paramMap.put("pluginName", verifySignParam.getPluginName());
                     paramMap.put("secretKey", verifySignParam.getSecretKey());
                     String result = HttpUtil.get(VERIFY_SIGN, paramMap);
@@ -152,7 +150,6 @@ public class HandyHttpUtil {
         if (player != null && !player.isOp()) {
             return;
         }
-
         // 异步处理
         new BukkitRunnable() {
             @Override
