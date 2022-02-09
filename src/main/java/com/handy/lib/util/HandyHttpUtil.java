@@ -155,22 +155,20 @@ public class HandyHttpUtil {
             String version = InitApi.PLUGIN.getDescription().getVersion();
             String tagName = BaseUtil.getOfficialVersion(url);
             if (tagName != null && BaseUtil.convertVersion(tagName) > BaseUtil.convertVersion(version)) {
-                String oneMsg = ChatColor.GRAY + "_________________/ " + InitApi.PLUGIN.getDescription().getName() + " \\_________________\n";
+                String oneMsg = ChatColor.GRAY + "_________________/ &e" + InitApi.PLUGIN.getDescription().getName() + ChatColor.GRAY + " \\_________________\n";
                 oneMsg = BaseUtil.replaceChatColor(oneMsg);
                 TextComponent message = new TextComponent(oneMsg);
-                String twoMsg = "&a| &d" + tagName + "&a是最新版本! 当前版本: &d" + version + " &a|\n";
+                String twoMsg = "&7| &a最新版本: &d" + tagName + " &a当前版本: &d" + version + " &a点击&d&n此处查看&a更新内容 &7|\n";
                 twoMsg = BaseUtil.replaceChatColor(twoMsg);
-                TextComponent content = new TextComponent(twoMsg);
+                TextComponent content = new TextComponent("     " + twoMsg);
                 content.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, InitApi.PLUGIN.getDescription().getWebsite()));
-                String threeMsg = ChatColor.GRAY + "---------------------------------------- ";
+                String threeMsg = ChatColor.GRAY + "-----------------------------------------------";
                 threeMsg = BaseUtil.replaceChatColor(threeMsg);
                 TextComponent endMessage = new TextComponent(threeMsg);
                 message.addExtra(content);
                 message.addExtra(endMessage);
                 if (player == null) {
-                    MessageApi.sendConsoleMessage(oneMsg);
                     MessageApi.sendConsoleMessage(twoMsg);
-                    MessageApi.sendConsoleMessage(threeMsg);
                 } else {
                     MessageApi.sendMessage(player, message);
                 }
