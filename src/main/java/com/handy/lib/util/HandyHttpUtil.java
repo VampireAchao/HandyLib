@@ -156,11 +156,14 @@ public class HandyHttpUtil {
             String tagName = BaseUtil.getOfficialVersion(url);
             if (tagName != null && BaseUtil.convertVersion(tagName) > BaseUtil.convertVersion(version)) {
                 String oneMsg = ChatColor.GRAY + "_________________/ " + InitApi.PLUGIN.getDescription().getName() + " \\_________________\n";
+                oneMsg = BaseUtil.replaceChatColor(oneMsg);
                 TextComponent message = new TextComponent(oneMsg);
-                String twoMsg = "&a| &d" + tagName + "&a是最新版本! 当前版本: &d" + version + " &a|";
+                String twoMsg = "&a| &d" + tagName + "&a是最新版本! 当前版本: &d" + version + " &a|\n";
+                twoMsg = BaseUtil.replaceChatColor(twoMsg);
                 TextComponent content = new TextComponent(twoMsg);
                 content.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, InitApi.PLUGIN.getDescription().getWebsite()));
-                String threeMsg = "ChatColor.GRAY + ---------------------------------------- ";
+                String threeMsg = ChatColor.GRAY + "---------------------------------------- ";
+                threeMsg = BaseUtil.replaceChatColor(threeMsg);
                 TextComponent endMessage = new TextComponent(threeMsg);
                 message.addExtra(content);
                 message.addExtra(endMessage);
