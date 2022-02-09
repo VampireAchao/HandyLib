@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 public class InitApi {
     public static Plugin PLUGIN;
     private static ClassUtil CLASS_UTIL;
-    private final static String VERSION = "2.7.0";
+    private final static String VERSION = "2.7.1";
 
     private InitApi() {
     }
@@ -260,20 +260,8 @@ public class InitApi {
      * @param param 入参
      * @return this
      */
-    public InitApi verifySign(VerifySignParam param) {
-        HandyHttpUtil.verifySign(param);
-        return this;
-    }
-
-    /**
-     * 进行验签
-     *
-     * @param param 入参
-     * @return this
-     * @since 2.3.8
-     */
-    public InitApi macVerifySign(VerifySignParam param) {
-        HandyHttpUtil.macVerifySign(param);
+    public InitApi signVerify(VerifySignParam param) {
+        HandyHttpUtil.signVerify(param);
         return this;
     }
 

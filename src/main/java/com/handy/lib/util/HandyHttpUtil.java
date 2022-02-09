@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
+import com.handy.lib.constants.VerifyTypeEnum;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.NetUtil;
@@ -44,101 +45,52 @@ public class HandyHttpUtil {
     private final static String URL_1_18 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.18.json";
 
     /**
-     * 进行验签
+     * 签名验证
      *
      * @param verifySignParam 参数
+     * @since 2.7.1
      */
-    public static void verifySign(VerifySignParam verifySignParam) {
+    public static void signVerify(VerifySignParam verifySignParam) {
         // 进行校验
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    HashMap<String, String> paramMap = Maps.newHashMapWithExpectedSize(4);
-                    paramMap.put("sign", verifySignParam.getSign());
-                    paramMap.put("port", InitApi.PLUGIN.getServer().getPort() + "");
-                    paramMap.put("pluginName", verifySignParam.getPluginName());
-                    paramMap.put("secretKey", verifySignParam.getSecretKey());
-                    String result = HttpUtil.get(VERIFY_SIGN, paramMap);
-                    if (BaseConstants.TRUE.equals(result)) {
-                        BaseConstants.SIGN_VERIFY = true;
-                        if (CollUtil.isNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
-                            for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
-                                MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignSucceedMsg));
-                            }
-                        }
-                    } else {
-                        BaseConstants.SIGN_VERIFY = false;
-                        if (CollUtil.isNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
-                            for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
-                                MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignFailureMsg));
-                            }
-                        }
-                    }
-                    this.cancel();
-                } catch (Exception e) {
-                    BaseConstants.SIGN_VERIFY = false;
-                    if (CollUtil.isNotEmpty(verifySignParam.getRequestError())) {
-                        for (String requestError : verifySignParam.getRequestError()) {
-                            MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(requestError));
-                        }
-                    }
-                    if (BaseConstants.DEBUG) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.runTaskAsynchronously(InitApi.PLUGIN);
-    }
-
-    /**
-     * 使用mac地址进行验签
-     *
-     * @param verifySignParam 参数
-     * @since 2.3.8
-     */
-    public static void macVerifySign(VerifySignParam verifySignParam) {
-        // 进行校验
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    HashMap<String, String> paramMap = Maps.newHashMapWithExpectedSize(5);
-                    paramMap.put("sign", verifySignParam.getSign());
+        Bukkit.getScheduler().runTaskAsynchronously(InitApi.PLUGIN, () -> {
+            try {
+                HashMap<String, String> paramMap = new HashMap<>();
+                paramMap.put("sign", verifySignParam.getSign());
+                paramMap.put("port", InitApi.PLUGIN.getServer().getPort() + "");
+                paramMap.put("pluginName", verifySignParam.getPluginName());
+                paramMap.put("secretKey", verifySignParam.getSecretKey());
+                // 判断是否mac验证
+                if (VerifyTypeEnum.MAC.equals(BaseConstants.VERIFY_TYPE)) {
                     paramMap.put("mac", NetUtil.getLocalMacAddress());
-                    paramMap.put("port", InitApi.PLUGIN.getServer().getPort() + "");
-                    paramMap.put("pluginName", verifySignParam.getPluginName());
-                    paramMap.put("secretKey", verifySignParam.getSecretKey());
-                    String result = HttpUtil.get(VERIFY_SIGN, paramMap);
-                    if (BaseConstants.TRUE.equals(result)) {
-                        BaseConstants.MAC_SIGN_VERIFY = true;
-                        if (CollUtil.isNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
-                            for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
-                                MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignSucceedMsg));
-                            }
-                        }
-                    } else {
-                        BaseConstants.MAC_SIGN_VERIFY = false;
-                        if (CollUtil.isNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
-                            for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
-                                MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignFailureMsg));
-                            }
+                }
+                String result = HttpUtil.get(VERIFY_SIGN, paramMap);
+                if (BaseConstants.TRUE.equals(result)) {
+                    BaseConstants.PERMISSION = true;
+                    if (CollUtil.isNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
+                        for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
+                            MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignSucceedMsg));
                         }
                     }
-                    this.cancel();
-                } catch (Exception e) {
-                    BaseConstants.MAC_SIGN_VERIFY = false;
-                    if (CollUtil.isNotEmpty(verifySignParam.getRequestError())) {
-                        for (String requestError : verifySignParam.getRequestError()) {
-                            MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(requestError));
+                } else {
+                    BaseConstants.PERMISSION = false;
+                    if (CollUtil.isNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
+                        for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
+                            MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignFailureMsg));
                         }
-                    }
-                    if (BaseConstants.DEBUG) {
-                        e.printStackTrace();
                     }
                 }
+            } catch (Exception e) {
+                BaseConstants.PERMISSION = false;
+                if (CollUtil.isNotEmpty(verifySignParam.getRequestError())) {
+                    for (String requestError : verifySignParam.getRequestError()) {
+                        MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(requestError));
+                    }
+                }
+                if (BaseConstants.DEBUG) {
+                    e.printStackTrace();
+                }
             }
-        }.runTaskAsynchronously(InitApi.PLUGIN);
+        });
     }
 
     /**

@@ -68,16 +68,18 @@ public abstract class BaseConstants {
     public static Map<String, String> CLOUD_ITEM_JSON_CACHE_MAP = new HashMap<>();
 
     /**
-     * 是否通过签名验证
+     * 权限
+     *
+     * @since 2.7.1
      */
-    public static Boolean SIGN_VERIFY = false;
+    public static Boolean PERMISSION = false;
 
     /**
-     * 是否通过签名验证
+     * 验证方式
      *
-     * @since 2.3.8
+     * @since 2.7.1
      */
-    public static Boolean MAC_SIGN_VERIFY = false;
+    public static VerifyTypeEnum VERIFY_TYPE = VerifyTypeEnum.MAC;
 
     /**
      * true

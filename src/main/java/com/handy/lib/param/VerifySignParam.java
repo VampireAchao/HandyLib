@@ -41,9 +41,4 @@ public class VerifySignParam implements Serializable {
      * 请求错误消息
      */
     private List<String> requestError = Collections.singletonList("§4检测到网络不稳定,已停止认证..");
-
-    /**
-     * 重试次数
-     */
-    private int retryNumber = 1;
 }
