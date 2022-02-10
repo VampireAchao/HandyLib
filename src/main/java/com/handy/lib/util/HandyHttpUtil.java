@@ -1,14 +1,13 @@
 package com.handy.lib.util;
 
 import com.google.common.collect.Maps;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VerifyTypeEnum;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.CollUtil;
+import com.handy.lib.core.JsonUtil;
 import com.handy.lib.core.NetUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.param.VerifySignParam;
@@ -217,8 +216,7 @@ public class HandyHttpUtil {
                     paramMap.put("version", version);
                     String result = HttpUtil.get(CLOUD_GET_URL, paramMap);
                     if (StrUtil.isNotEmpty(result)) {
-                        BaseConstants.CLOUD_ITEM_JSON_CACHE_MAP = new Gson().fromJson(result, new TypeToken<Map<String, String>>() {
-                        }.getType());
+                        BaseConstants.CLOUD_ITEM_JSON_CACHE_MAP = JsonUtil.toMap(result);
                     }
                     this.cancel();
                 } catch (Throwable ignored) {
@@ -246,7 +244,7 @@ public class HandyHttpUtil {
                     }
                     VersionCheckEnum versionCheckEnum = VersionCheckEnum.getEnum();
                     itemJsonCacheMap.put("version", versionCheckEnum.getVersion());
-                    HttpUtil.post(CLOUD_SET_URL, new Gson().toJson(itemJsonCacheMap));
+                    HttpUtil.post(CLOUD_SET_URL, JsonUtil.toJson(itemJsonCacheMap));
                 } catch (Exception ignored) {
                 }
             }

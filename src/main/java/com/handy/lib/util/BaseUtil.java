@@ -1,13 +1,12 @@
 package com.handy.lib.util;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.DateUtil;
+import com.handy.lib.core.JsonUtil;
 import com.handy.lib.core.StrUtil;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -24,7 +23,10 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 
 /**
@@ -330,8 +332,7 @@ public class BaseUtil {
     public static void readJsonFileToItemJsonCacheMap(File file) {
         String json = readJsonFile(file);
         if (json != null && json.length() > 1) {
-            BaseConstants.ITEM_JSON_CACHE_MAP = new Gson().fromJson(json, new TypeToken<Map<String, String>>() {
-            }.getType());
+            BaseConstants.ITEM_JSON_CACHE_MAP = JsonUtil.toMap(json);
         }
     }
 
@@ -343,8 +344,7 @@ public class BaseUtil {
     public static void readJsonFileToJsonCacheMap(File file) {
         String json = readJsonFile(file);
         if (json != null && json.length() > 1) {
-            BaseConstants.JSON_CACHE_MAP = new Gson().fromJson(json, new TypeToken<Map<String, String>>() {
-            }.getType());
+            BaseConstants.JSON_CACHE_MAP = JsonUtil.toMap(json);
         }
     }
 
@@ -595,7 +595,7 @@ public class BaseUtil {
             if (StrUtil.isEmpty(result)) {
                 return null;
             }
-            JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
+            JsonObject jsonObject = JsonUtil.toBean(result, JsonObject.class);
             // 获取到的信息
             return jsonObject.get("tag_name").getAsString();
         } catch (Exception ignored) {
