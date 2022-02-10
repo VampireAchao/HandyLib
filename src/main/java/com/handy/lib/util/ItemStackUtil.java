@@ -1,10 +1,12 @@
 package com.handy.lib.util;
 
+import com.handy.lib.InitApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.expand.XMaterial;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -12,6 +14,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
@@ -208,6 +212,25 @@ public class ItemStackUtil {
      * @since 2.6.6
      */
     public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, boolean isEnchant, int customModelData, boolean hideFlag, Map<String, String> replaceMap, boolean hideEnchant) {
+        return getItemStack(material, displayName, loreList, isEnchant, customModelData, hideFlag, replaceMap, hideEnchant, null);
+    }
+
+    /**
+     * 物品生成
+     *
+     * @param material        材质
+     * @param displayName     名称
+     * @param loreList        lore
+     * @param isEnchant       附魔效果
+     * @param customModelData 自定义模型id
+     * @param hideFlag        隐藏标签
+     * @param replaceMap      lore替换map
+     * @param hideEnchant     隐藏附魔效果
+     * @param customData      自定义数据
+     * @return 自定义物品
+     * @since 2.7.4
+     */
+    public static ItemStack getItemStack(Material material, String displayName, List<String> loreList, boolean isEnchant, int customModelData, boolean hideFlag, Map<String, String> replaceMap, boolean hideEnchant, String customData) {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta itemMeta = getItemMeta(itemStack);
         if (StrUtil.isNotEmpty(displayName)) {
@@ -228,8 +251,14 @@ public class ItemStackUtil {
         if (hideFlag) {
             hideAttributes(itemMeta);
         }
+        // 设置自定义数据
+        if (StrUtil.isNotEmpty(customData)) {
+            setPersistentData(itemMeta, customData);
+        }
         // 模型效果
-        itemMeta = setCustomModelData(itemMeta, customModelData);
+        if (customModelData > 0) {
+            setCustomModelData(itemMeta, customModelData);
+        }
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
@@ -415,15 +444,13 @@ public class ItemStackUtil {
      *
      * @param itemMeta itemMeta
      * @param id       模型id
-     * @return itemMeta
      * @since 1.6.4
      */
-    public static ItemMeta setCustomModelData(ItemMeta itemMeta, int id) {
+    public static void setCustomModelData(ItemMeta itemMeta, int id) {
         if (itemMeta == null || VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_14.getVersionId() || id == 0) {
-            return itemMeta;
+            return;
         }
         itemMeta.setCustomModelData(id);
-        return itemMeta;
     }
 
     /**
@@ -519,6 +546,60 @@ public class ItemStackUtil {
             loreList.add(lore);
         }
         return loreList;
+    }
+
+    /**
+     * 注册键值
+     *
+     * @since 2.7.4
+     */
+    static NamespacedKey HANDY_DATA = new NamespacedKey(InitApi.PLUGIN, "handy_data");
+
+    /**
+     * 设置数据容器
+     *
+     * @param itemStack  物品
+     * @param customData 自定义数据
+     * @since 2.7.4
+     */
+    public static void setPersistentData(ItemStack itemStack, String customData) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_14.getVersionId() || itemMeta == null) {
+            return;
+        }
+        // 设置数据
+        setPersistentData(itemMeta, customData);
+        // 重新设置回去
+        itemStack.setItemMeta(itemMeta);
+    }
+
+    /**
+     * 设置数据容器
+     *
+     * @param itemMeta   物品
+     * @param customData 自定义数据
+     * @since 2.7.4
+     */
+    public static void setPersistentData(ItemMeta itemMeta, String customData) {
+        // 获取数据容器
+        PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
+        // 添加自定义标签
+        dataContainer.set(HANDY_DATA, PersistentDataType.STRING, customData);
+    }
+
+    /**
+     * 获取数据
+     *
+     * @param itemStack 物品
+     * @return 自定义数据
+     * @since 2.7.4
+     */
+    public static String getPersistentData(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_14.getVersionId() || itemMeta == null) {
+            return null;
+        }
+        return itemMeta.getPersistentDataContainer().get(HANDY_DATA, PersistentDataType.STRING);
     }
 
 }

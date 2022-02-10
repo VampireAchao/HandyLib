@@ -46,6 +46,12 @@ public class HandyInventory implements InventoryHolder {
      */
     private Map<Integer, List<String>> listMap;
     /**
+     * 数据map
+     *
+     * @since 2.7.4
+     */
+    private Map<Integer, String> strMap;
+    /**
      * 额外数据传输对象
      *
      * @since 1.7.0

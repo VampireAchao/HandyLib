@@ -7,6 +7,7 @@ import com.handy.lib.param.InventoryWriteParam;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.ItemStackUtil;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.HumanEntity;
@@ -339,6 +340,55 @@ public class HandyInventoryUtil {
         int nextPageIndex = fileConfig.getInt("nextPage.index", BaseConstants.GUI_SIZE_50);
         int previousPageIndex = fileConfig.getInt("previousPage.index", BaseConstants.GUI_SIZE_48);
         setPage(handyInventory.getInventory(), handyInventory.getPageNum(), pageCount, previousPageMaterial, nextPageMaterial, previousPageCustomModelData, nextPageCustomModelData, previousPageIndex, nextPageIndex);
+    }
+
+    /**
+     * 设置自定义按钮
+     *
+     * @param fileConfig     配置
+     * @param handyInventory inv
+     * @param parent         一级目录
+     * @since 2.7.4
+     */
+    public static void setCustomButton(FileConfiguration fileConfig, HandyInventory handyInventory, String parent) {
+        Inventory inventory = handyInventory.getInventory();
+        Map<Integer, String> strMap = handyInventory.getStrMap();
+        // 获取菜单
+        ConfigurationSection configurationSection = fileConfig.getConfigurationSection(parent);
+        if (configurationSection == null) {
+            return;
+        }
+        // 一级目录
+        Map<String, Object> values = configurationSection.getValues(false);
+        for (String key : values.keySet()) {
+            // 二级目录
+            MemorySection memorySection = (MemorySection) values.get(key);
+            if (memorySection == null) {
+                continue;
+            }
+            // 是否启用
+            boolean enable = memorySection.getBoolean("enable", true);
+            if (!enable) {
+                continue;
+            }
+            String indexStrList = memorySection.getString("index");
+            List<Integer> indexList = StrUtil.strToIntList(indexStrList);
+            String material = memorySection.getString("material");
+            String name = memorySection.getString("name");
+            List<String> loreList = memorySection.getStringList("lore");
+            int customModelDataId = memorySection.getInt("custom-model-data");
+            boolean enchant = memorySection.getBoolean("isEnchant", false);
+            boolean hideFlag = memorySection.getBoolean("hideFlag", true);
+            boolean hideEnchant = memorySection.getBoolean("hideEnchant", true);
+            String command = memorySection.getString("command");
+            for (Integer index : indexList) {
+                ItemStack itemStack = ItemStackUtil.getItemStack(ItemStackUtil.getMaterial(material), name, loreList, enchant, customModelDataId, hideFlag, null, hideEnchant);
+                inventory.setItem(index, itemStack);
+                if (StrUtil.isNotEmpty(command)) {
+                    strMap.put(index, command);
+                }
+            }
+        }
     }
 
 }
