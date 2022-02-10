@@ -51,46 +51,54 @@ public class HandyHttpUtil {
      * @since 2.7.1
      */
     public static void signVerify(VerifySignParam verifySignParam) {
-        // 进行校验
-        Bukkit.getScheduler().runTaskAsynchronously(InitApi.PLUGIN, () -> {
-            try {
-                HashMap<String, String> paramMap = new HashMap<>();
-                paramMap.put("sign", verifySignParam.getSign());
-                paramMap.put("port", InitApi.PLUGIN.getServer().getPort() + "");
-                paramMap.put("pluginName", verifySignParam.getPluginName());
-                paramMap.put("secretKey", verifySignParam.getSecretKey());
-                // 判断是否mac验证
-                if (VerifyTypeEnum.MAC.equals(BaseConstants.VERIFY_TYPE)) {
-                    paramMap.put("mac", NetUtil.getLocalMacAddress());
-                }
-                String result = HttpUtil.get(VERIFY_SIGN, paramMap);
-                if (BaseConstants.TRUE.equals(result)) {
-                    BaseConstants.PERMISSION = true;
-                    if (CollUtil.isNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
-                        for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
-                            MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignSucceedMsg));
+        final int[] retryNumber = {6};
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    HashMap<String, String> paramMap = new HashMap<>();
+                    paramMap.put("sign", verifySignParam.getSign());
+                    paramMap.put("port", InitApi.PLUGIN.getServer().getPort() + "");
+                    paramMap.put("pluginName", verifySignParam.getPluginName());
+                    paramMap.put("secretKey", verifySignParam.getSecretKey());
+                    // 判断是否mac验证
+                    if (VerifyTypeEnum.MAC.equals(BaseConstants.VERIFY_TYPE)) {
+                        paramMap.put("mac", NetUtil.getLocalMacAddress());
+                    }
+                    String result = HttpUtil.get(VERIFY_SIGN, paramMap);
+                    if (BaseConstants.TRUE.equals(result)) {
+                        BaseConstants.PERMISSION = true;
+                        if (CollUtil.isNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
+                            for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
+                                MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignSucceedMsg));
+                            }
+                        }
+                    } else {
+                        BaseConstants.PERMISSION = false;
+                        if (CollUtil.isNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
+                            for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
+                                MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignFailureMsg));
+                            }
                         }
                     }
-                } else {
+                    this.cancel();
+                } catch (Exception e) {
                     BaseConstants.PERMISSION = false;
-                    if (CollUtil.isNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
-                        for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
-                            MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignFailureMsg));
+                    if (CollUtil.isNotEmpty(verifySignParam.getRequestError())) {
+                        for (String requestError : verifySignParam.getRequestError()) {
+                            MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(requestError));
                         }
                     }
-                }
-            } catch (Exception e) {
-                BaseConstants.PERMISSION = false;
-                if (CollUtil.isNotEmpty(verifySignParam.getRequestError())) {
-                    for (String requestError : verifySignParam.getRequestError()) {
-                        MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(requestError));
+                    if (BaseConstants.DEBUG) {
+                        e.printStackTrace();
                     }
-                }
-                if (BaseConstants.DEBUG) {
-                    e.printStackTrace();
+                    retryNumber[0]--;
+                    if (retryNumber[0] < 1) {
+                        this.cancel();
+                    }
                 }
             }
-        });
+        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 20, 20 * 60);
     }
 
     /**
@@ -185,14 +193,13 @@ public class HandyHttpUtil {
                     }
                     this.cancel();
                 } catch (Exception ignored) {
-                    if (retryNumber[0] == 0) {
+                    retryNumber[0]--;
+                    if (retryNumber[0] < 1) {
                         this.cancel();
-                    } else {
-                        retryNumber[0]--;
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 0, 20 * 60);
+        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 20 * 2, 20 * 60);
     }
 
     /**
@@ -215,14 +222,13 @@ public class HandyHttpUtil {
                     }
                     this.cancel();
                 } catch (Throwable ignored) {
-                    if (retryNumber[0] == 0) {
+                    retryNumber[0]--;
+                    if (retryNumber[0] < 1) {
                         this.cancel();
-                    } else {
-                        retryNumber[0]--;
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 0, 20 * 60);
+        }.runTaskTimerAsynchronously(InitApi.PLUGIN, 20 * 3, 20 * 60);
     }
 
     /**
@@ -244,7 +250,7 @@ public class HandyHttpUtil {
                 } catch (Exception ignored) {
                 }
             }
-        }.runTaskAsynchronously(InitApi.PLUGIN);
+        }.runTaskLaterAsynchronously(InitApi.PLUGIN, 20 * 60);
     }
 
     /**
