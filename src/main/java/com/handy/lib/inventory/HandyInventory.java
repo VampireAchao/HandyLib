@@ -104,6 +104,7 @@ public class HandyInventory implements InventoryHolder {
         this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
         this.listMap = new HashMap<>();
+        this.strMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
         this.toCancel = true;
@@ -121,6 +122,7 @@ public class HandyInventory implements InventoryHolder {
         this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
         this.listMap = new HashMap<>();
+        this.strMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, size, title);
         this.toCancel = true;
@@ -137,6 +139,7 @@ public class HandyInventory implements InventoryHolder {
         this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
         this.listMap = new HashMap<>();
+        this.strMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType);
         this.toCancel = true;
@@ -154,6 +157,7 @@ public class HandyInventory implements InventoryHolder {
         this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
         this.listMap = new HashMap<>();
+        this.strMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, inventoryType, title);
         this.toCancel = true;
@@ -170,6 +174,7 @@ public class HandyInventory implements InventoryHolder {
         this.intMap = new HashMap<>();
         this.objMap = new HashMap<>();
         this.listMap = new HashMap<>();
+        this.strMap = new HashMap<>();
         this.guiType = guiType;
         this.inventory = Bukkit.createInventory(this, BaseConstants.GUI_SIZE_54, title);
         this.toCancel = true;

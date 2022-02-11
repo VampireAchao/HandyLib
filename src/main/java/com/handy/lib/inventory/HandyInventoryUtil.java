@@ -17,6 +17,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -371,8 +372,7 @@ public class HandyInventoryUtil {
             if (!enable) {
                 continue;
             }
-            String indexStrList = memorySection.getString("index");
-            List<Integer> indexList = StrUtil.strToIntList(indexStrList);
+            List<Integer> indexList = StrUtil.strToIntList(memorySection.getString("index"));
             String material = memorySection.getString("material");
             String name = memorySection.getString("name");
             List<String> loreList = memorySection.getStringList("lore");
@@ -389,6 +389,48 @@ public class HandyInventoryUtil {
                 }
             }
         }
+    }
+
+    /**
+     * 获取自定义按钮坐标
+     *
+     * @param fileConfig     配置
+     * @param handyInventory inv
+     * @param parent         一级目录
+     * @return map key坐标 value 命令
+     * @since 2.7.6
+     */
+    public static Map<Integer, String> getCustomButton(FileConfiguration fileConfig, HandyInventory handyInventory, String parent) {
+        Map<Integer, String> map = new HashMap<>();
+        // 获取菜单
+        ConfigurationSection configurationSection = fileConfig.getConfigurationSection(parent);
+        if (configurationSection == null) {
+            return map;
+        }
+        // 一级目录
+        Map<String, Object> values = configurationSection.getValues(false);
+        for (String key : values.keySet()) {
+            // 二级目录
+            MemorySection memorySection = (MemorySection) values.get(key);
+            if (memorySection == null) {
+                continue;
+            }
+            // 是否启用
+            boolean enable = memorySection.getBoolean("enable", true);
+            if (!enable) {
+                continue;
+            }
+            List<Integer> indexList = StrUtil.strToIntList(memorySection.getString("index"));
+            String command = memorySection.getString("command");
+            if (StrUtil.isEmpty(command)) {
+                continue;
+            }
+            for (Integer index : indexList) {
+                map.put(index, command);
+            }
+
+        }
+        return map;
     }
 
 }
