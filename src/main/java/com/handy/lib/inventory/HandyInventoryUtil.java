@@ -63,6 +63,20 @@ public class HandyInventoryUtil {
     }
 
     /**
+     * 获取配置中的index坐标
+     *
+     * @param config 配置
+     * @param type   类型
+     * @return 是否为点击的坐标
+     * @since 2.7.8
+     */
+    public static boolean isIndex(int rawSlot, FileConfiguration config, String type) {
+        int index = config.getInt(type + ".index", 0);
+        boolean enable = config.getBoolean(type + ".enable", true);
+        return enable && rawSlot == index;
+    }
+
+    /**
      * 通用设置按钮
      *
      * @param config    配置
