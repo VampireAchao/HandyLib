@@ -84,6 +84,20 @@ public class HandyInventoryUtil {
      * @since 2.1.2
      */
     public static void setButton(FileConfiguration config, Inventory inventory, String type, Map<String, String> map) {
+        setButton(config, inventory, type, map, null);
+    }
+
+    /**
+     * 通用设置按钮
+     *
+     * @param config    配置
+     * @param inventory gui
+     * @param type      类型
+     * @param map       替换map
+     * @param batchMap  批量替换map
+     * @since 2.7.7
+     */
+    public static void setButton(FileConfiguration config, Inventory inventory, String type, Map<String, String> map, Map<String, List<String>> batchMap) {
         if (!config.getBoolean(type + ".enable", true)) {
             return;
         }
@@ -95,6 +109,7 @@ public class HandyInventoryUtil {
         int customModelDataId = config.getInt(type + ".custom-model-data");
         boolean enchant = config.getBoolean(type + ".isEnchant");
         for (Integer index : indexList) {
+            loreList = ItemStackUtil.loreBatchReplaceMap(loreList, batchMap, null);
             inventory.setItem(index, ItemStackUtil.getItemStack(material, name, loreList, enchant, customModelDataId, map));
         }
     }
