@@ -121,7 +121,13 @@ public class DbExecution<T> implements BaseMapper<T> {
                 if (StrUtil.isNotEmpty(filedInfoParam.getFiledComment())) {
                     filedSql += String.format(DbConstant.COMMENT, filedInfoParam.getFiledComment());
                 }
-                String fieldCommentSql = String.format(DbConstant.ADD_COLUMN_COMMENT, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength(), filedSql);
+                Integer filedLength = filedInfoParam.getFiledLength() != 0 ? filedInfoParam.getFiledLength() : fieldTypeEnum.getLength();
+                String mysqlType = fieldTypeEnum.getMysqlType();
+                String filedLengthStr = filedLength.toString();
+                if (FieldTypeEnum.DOUBLE.getMysqlType().equals(mysqlType) || FieldTypeEnum.BASIC_DOUBLE.getMysqlType().equals(mysqlType)) {
+                    filedLengthStr = filedLength + ", 2";
+                }
+                String fieldCommentSql = String.format(DbConstant.ADD_COLUMN_COMMENT, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedLengthStr, filedSql);
                 MessageApi.sendConsoleDebugMessage("新增字段注释: " + fieldCommentSql);
                 SqlService.getInstance().executionSql(fieldCommentSql);
             }
