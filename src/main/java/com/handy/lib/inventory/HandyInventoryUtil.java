@@ -65,8 +65,9 @@ public class HandyInventoryUtil {
     /**
      * 获取配置中的index坐标
      *
-     * @param config 配置
-     * @param type   类型
+     * @param rawSlot 点击坐标
+     * @param config  配置
+     * @param type    类型
      * @return 是否为点击的坐标
      * @since 2.7.8
      */
