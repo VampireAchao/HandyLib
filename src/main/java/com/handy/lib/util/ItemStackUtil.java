@@ -422,6 +422,10 @@ public class ItemStackUtil {
                 return material;
             }
         }
+        // 小于1.8处理
+        if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_8.getVersionId()) {
+            return defaultMaterial;
+        }
         return XMaterial.matchXMaterial(materialStr).orElse(XMaterial.matchXMaterial(defaultMaterial)).parseMaterial();
     }
 
