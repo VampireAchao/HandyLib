@@ -549,13 +549,6 @@ public class ItemStackUtil {
     }
 
     /**
-     * 注册键值
-     *
-     * @since 2.7.4
-     */
-    static NamespacedKey HANDY_DATA = new NamespacedKey(InitApi.PLUGIN, "handy_data");
-
-    /**
      * 设置数据容器
      *
      * @param itemStack  物品
@@ -584,7 +577,7 @@ public class ItemStackUtil {
         // 获取数据容器
         PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
         // 添加自定义标签
-        dataContainer.set(HANDY_DATA, PersistentDataType.STRING, customData);
+        dataContainer.set(new NamespacedKey(InitApi.PLUGIN, "handy_data"), PersistentDataType.STRING, customData);
     }
 
     /**
@@ -599,7 +592,7 @@ public class ItemStackUtil {
         if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_14.getVersionId() || itemMeta == null) {
             return null;
         }
-        return itemMeta.getPersistentDataContainer().get(HANDY_DATA, PersistentDataType.STRING);
+        return itemMeta.getPersistentDataContainer().get(new NamespacedKey(InitApi.PLUGIN, "handy_data"), PersistentDataType.STRING);
     }
 
 }
