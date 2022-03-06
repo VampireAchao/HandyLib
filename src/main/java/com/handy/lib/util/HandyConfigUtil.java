@@ -100,4 +100,19 @@ public class HandyConfigUtil {
         }
     }
 
+    /**
+     * 判断是否包含 然后设置节点
+     *
+     * @param fileConfiguration 文件
+     * @param path              yml节点
+     * @param value             内容
+     * @param comments          注释
+     */
+    public static void setPathIsNotContains(FileConfiguration fileConfiguration, String path, Object value, List<String> comments) {
+        if (fileConfiguration.contains(path)) {
+            return;
+        }
+        setPath(fileConfiguration, path, value, comments);
+    }
+
 }
