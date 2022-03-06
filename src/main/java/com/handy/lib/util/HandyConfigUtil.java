@@ -75,9 +75,10 @@ public class HandyConfigUtil {
      * @param fileConfiguration 文件
      * @param path              yml节点
      * @param value             内容
+     * @param child             文件路径
      */
-    public static void setPath(FileConfiguration fileConfiguration, String path, Object value) {
-        setPath(fileConfiguration, path, value, null);
+    public static void setPath(FileConfiguration fileConfiguration, String path, Object value, String child) {
+        setPath(fileConfiguration, path, value, null, child);
     }
 
     /**
@@ -87,14 +88,15 @@ public class HandyConfigUtil {
      * @param path              yml节点
      * @param value             内容
      * @param comments          注释
+     * @param child             文件路径
      */
-    public static void setPath(FileConfiguration fileConfiguration, String path, Object value, List<String> comments) {
+    public static void setPath(FileConfiguration fileConfiguration, String path, Object value, List<String> comments, String child) {
         try {
             fileConfiguration.set(path, value);
             if (CollUtil.isNotEmpty(comments) && VersionCheckEnum.getEnum().getVersionId() >= VersionCheckEnum.V_1_18.getVersionId()) {
                 fileConfiguration.setComments(path, comments);
             }
-            fileConfiguration.save(new File(InitApi.PLUGIN.getDataFolder(), fileConfiguration.getName()));
+            fileConfiguration.save(new File(InitApi.PLUGIN.getDataFolder(), child));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,12 +109,13 @@ public class HandyConfigUtil {
      * @param path              yml节点
      * @param value             内容
      * @param comments          注释
+     * @param child             文件路径
      */
-    public static void setPathIsNotContains(FileConfiguration fileConfiguration, String path, Object value, List<String> comments) {
+    public static void setPathIsNotContains(FileConfiguration fileConfiguration, String path, Object value, List<String> comments, String child) {
         if (fileConfiguration.contains(path)) {
             return;
         }
-        setPath(fileConfiguration, path, value, comments);
+        setPath(fileConfiguration, path, value, comments, child);
     }
 
 }
