@@ -208,4 +208,40 @@ public class DateUtil {
         return unit.between(toLocalDateTime(dateOne), toLocalDateTime(dateTwo));
     }
 
+    /**
+     * 根据日期获取本周几
+     *
+     * @param date 时间
+     * @param week 周几
+     * @return 对应周日期
+     * @since 2.8.5
+     */
+    public static Date getWeek(Date date, int week) {
+        week = week + 1;
+        if (week > 7) {
+            week = 1;
+        }
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.setTimeInMillis(date.getTime());
+        calendar.set(Calendar.DAY_OF_WEEK, week);
+        return calendar.getTime();
+    }
+
+    /**
+     * 时间增加
+     * 整数往后推,负数往前移动
+     *
+     * @param date 日期
+     * @param day  增加天数
+     * @return 时间
+     * @since 2.8.5
+     */
+    public static Date addDate(Date date, Integer day) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, day);
+        return calendar.getTime();
+    }
+
 }
