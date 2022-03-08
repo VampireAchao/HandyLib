@@ -288,4 +288,20 @@ public class DateUtil {
         return calendar.getTime();
     }
 
+    /**
+     * 调整日期和时间
+     *
+     * @param date   时间
+     * @param field  类型 参考Calendar
+     * @param offset 偏移量，正数为向后偏移，负数为向前偏移
+     * @return 新时间对象
+     * @since 2.8.6
+     */
+    public static Date offset(Date date, int field, int offset) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(field, offset);
+        return cal.getTime();
+    }
+
 }
