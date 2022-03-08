@@ -106,6 +106,7 @@ public class DbExecution<T> implements BaseMapper<T> {
                     filedLengthStr = filedLength + ", 2";
                 }
                 String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), mysqlType, filedLengthStr, filedSql);
+                createFieldSql = createFieldSql.replace("(0)", "");
                 MessageApi.sendConsoleDebugMessage("新增字段: " + createFieldSql);
                 SqlService.getInstance().executionSql(createFieldSql);
             }
@@ -128,6 +129,7 @@ public class DbExecution<T> implements BaseMapper<T> {
                     filedLengthStr = filedLength + ", 2";
                 }
                 String fieldCommentSql = String.format(DbConstant.ADD_COLUMN_COMMENT, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedLengthStr, filedSql);
+                fieldCommentSql = fieldCommentSql.replace("(0)", "");
                 MessageApi.sendConsoleDebugMessage("新增字段注释: " + fieldCommentSql);
                 SqlService.getInstance().executionSql(fieldCommentSql);
             }
