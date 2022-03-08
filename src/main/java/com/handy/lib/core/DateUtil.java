@@ -212,7 +212,7 @@ public class DateUtil {
      * 根据日期获取本周几
      *
      * @param date 时间
-     * @param week 周几
+     * @param week 周几1-7
      * @return 对应周日期
      * @since 2.8.5
      */
@@ -241,6 +241,50 @@ public class DateUtil {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, day);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取月初
+     *
+     * @param date 日期
+     * @since 2.8.5
+     */
+    public static Date getFirstDayOfMonth(Date date) {
+        Calendar cale = Calendar.getInstance();
+        cale.setTime(date);
+        cale.add(Calendar.MONTH, 0);
+        cale.set(Calendar.DAY_OF_MONTH, 1);
+        return cale.getTime();
+    }
+
+    /**
+     * 获取月末
+     *
+     * @param date 日期
+     * @since 2.8.5
+     */
+    public static Date getLastDayOfMonth(Date date) {
+        Calendar cale = Calendar.getInstance();
+        cale.setTime(date);
+        cale.add(Calendar.MONTH, 1);
+        cale.set(Calendar.DAY_OF_MONTH, 0);
+        return cale.getTime();
+    }
+
+    /**
+     * 根据日期获取本月几号
+     *
+     * @param date  时间
+     * @param month 几号
+     * @return 对应月日期
+     * @since 2.8.5
+     */
+    public static Date getMonth(Date date, int month) {
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.setTimeInMillis(date.getTime());
+        calendar.set(Calendar.DAY_OF_MONTH, month);
         return calendar.getTime();
     }
 
