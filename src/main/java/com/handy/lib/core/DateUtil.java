@@ -248,6 +248,7 @@ public class DateUtil {
      * 获取月初
      *
      * @param date 日期
+     * @return 月初
      * @since 2.8.5
      */
     public static Date getFirstDayOfMonth(Date date) {
@@ -262,6 +263,7 @@ public class DateUtil {
      * 获取月末
      *
      * @param date 日期
+     * @return 月末
      * @since 2.8.5
      */
     public static Date getLastDayOfMonth(Date date) {
