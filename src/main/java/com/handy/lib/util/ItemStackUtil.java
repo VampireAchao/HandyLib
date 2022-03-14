@@ -308,7 +308,10 @@ public class ItemStackUtil {
      * @return 是否成功扣除
      */
     public static Boolean removeItem(PlayerInventory playerInventory, ItemStack itemStack, Integer amount) {
-        ItemStack[] contents = playerInventory.getContents();
+        ItemStack[] contents = playerInventory.getStorageContents();
+        if (VersionCheckEnum.getEnum().getVersionId() <= VersionCheckEnum.V_1_8.getVersionId()) {
+            contents = playerInventory.getContents();
+        }
         int num = 0;
         List<ItemStack> items = new ArrayList<>();
         for (ItemStack item : contents) {
