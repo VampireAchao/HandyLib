@@ -19,6 +19,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
@@ -278,6 +280,18 @@ public class BaseUtil {
         }
         String msg = langConfig.getString(langMsg);
         return msg != null ? replaceChatColor(msg) : defaultMsg;
+    }
+
+    /**
+     * 获取中文名称
+     *
+     * @param itemStack 物品
+     * @return 中文名
+     * @since 2.8.9
+     */
+    public static String getDisplayName(ItemStack itemStack) {
+        ItemMeta itemMeta = ItemStackUtil.getItemMeta(itemStack);
+        return getDisplayName(itemMeta.getDisplayName(), itemStack.getType().name());
     }
 
     /**

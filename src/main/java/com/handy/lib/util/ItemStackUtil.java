@@ -471,7 +471,6 @@ public class ItemStackUtil {
         return Objects.requireNonNull(itemStack.getItemMeta());
     }
 
-
     /**
      * 进行lore的变量替换
      *
