@@ -9,6 +9,7 @@ import com.handy.lib.api.StorageApi;
 import com.handy.lib.command.HandyCommandFactory;
 import com.handy.lib.command.HandySubCommandParam;
 import com.handy.lib.command.IHandyCommandEvent;
+import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.core.ClassUtil;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
@@ -45,7 +46,7 @@ import java.util.stream.Collectors;
 public class InitApi {
     public static Plugin PLUGIN;
     private static ClassUtil CLASS_UTIL;
-    private final static String VERSION = "2.8.9";
+    private final static String VERSION = "2.9.0";
 
     private InitApi() {
     }
@@ -152,14 +153,7 @@ public class InitApi {
      */
     @SneakyThrows
     public InitApi initListener(String packageName) {
-        List<Class<?>> listenerTypesAnnotatedWith = CLASS_UTIL.getClassByAnnotation(packageName, HandyListener.class);
-        if (CollUtil.isEmpty(listenerTypesAnnotatedWith)) {
-            return this;
-        }
-        for (Class<?> aClass : listenerTypesAnnotatedWith) {
-            PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
-        }
-        return this;
+        return this.initListener(packageName, null);
     }
 
     /**
@@ -175,11 +169,15 @@ public class InitApi {
         if (CollUtil.isEmpty(listenerTypesAnnotatedWith)) {
             return this;
         }
+        Integer versionId = VersionCheckEnum.getEnum().getVersionId();
         for (Class<?> aClass : listenerTypesAnnotatedWith) {
             if (CollUtil.isNotEmpty(ignoreList) && ignoreList.contains(aClass.getName())) {
                 continue;
             }
-            PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
+            HandyListener handyListener = aClass.getAnnotation(HandyListener.class);
+            if (handyListener != null && versionId >= handyListener.version().getVersionId()) {
+                PLUGIN.getServer().getPluginManager().registerEvents((Listener) aClass.newInstance(), PLUGIN);
+            }
         }
         return this;
     }

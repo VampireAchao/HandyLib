@@ -15,6 +15,7 @@ public enum VersionCheckEnum {
     /**
      * 版本
      */
+    V_1_6("1.6", 6),
     V_1_7("1.7", 7),
     V_1_8("1.8", 8),
     V_1_9("1.9", 9),
@@ -34,6 +35,7 @@ public enum VersionCheckEnum {
 
     /**
      * 获取当前版本枚举
+     * 未知版本默认会返回最新版
      *
      * @return 当前版本VersionCheckEnum
      */
@@ -45,7 +47,7 @@ public enum VersionCheckEnum {
                 return versionCheckEnum;
             }
         }
-        return VersionCheckEnum.V_1_17;
+        return VersionCheckEnum.V_1_18;
     }
 
 }
