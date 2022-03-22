@@ -3,6 +3,7 @@ package com.handy.lib.api;
 import com.handy.lib.InitApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.constants.VersionCheckEnum;
+import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.BaseUtil;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -59,6 +60,9 @@ public class MessageApi {
      * @param msg    消息
      */
     public static void sendMessage(Player player, String msg) {
+        if (StrUtil.isEmpty(msg)) {
+            return;
+        }
         player.sendMessage(BaseUtil.replaceChatColor(msg));
     }
 
@@ -103,6 +107,9 @@ public class MessageApi {
      * @param msg    消息
      */
     public static void sendMessage(CommandSender sender, String msg) {
+        if (StrUtil.isEmpty(msg)) {
+            return;
+        }
         sender.sendMessage(BaseUtil.replaceChatColor(msg));
     }
 
@@ -112,6 +119,9 @@ public class MessageApi {
      * @param msg 消息
      */
     public static void sendAllMessage(String msg) {
+        if (StrUtil.isEmpty(msg)) {
+            return;
+        }
         Bukkit.broadcastMessage(BaseUtil.replaceChatColor(msg));
     }
 
@@ -121,6 +131,9 @@ public class MessageApi {
      * @param msg 消息
      */
     public static void sendConsoleMessage(String msg) {
+        if (StrUtil.isEmpty(msg)) {
+            return;
+        }
         getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "[" + InitApi.PLUGIN.getName() + "] " + BaseUtil.replaceChatColor(msg));
     }
 
@@ -216,6 +229,9 @@ public class MessageApi {
      * @param msg    消息
      */
     public static void sendActionbar(Player player, String msg) {
+        if (StrUtil.isEmpty(msg)) {
+            return;
+        }
         if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_9.getVersionId()) {
             sendMessage(player, msg);
             return;
@@ -229,6 +245,9 @@ public class MessageApi {
      * @param msg 消息
      */
     public static void sendAllActionbar(String msg) {
+        if (StrUtil.isEmpty(msg)) {
+            return;
+        }
         if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_9.getVersionId()) {
             sendAllMessage(msg);
             return;
