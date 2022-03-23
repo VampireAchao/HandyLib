@@ -3,6 +3,7 @@ package com.handy.lib.util;
 import com.handy.lib.InitApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
+import com.handy.lib.core.StrUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -28,17 +29,13 @@ public class SqlManagerUtil {
 
     /**
      * 初始化连接
-     */
-    public void enableTable() {
-        this.enableTable(this.getStorageMethod());
-    }
-
-    /**
-     * 初始化连接
      *
      * @param storageMethod 连接方式
      */
     public void enableTable(String storageMethod) {
+        if (StrUtil.isEmpty(storageMethod)) {
+            storageMethod = this.getStorageMethod();
+        }
         if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
             HikariConfig hikariConfig = new HikariConfig();
             String host = BaseConstants.STORAGE_CONFIG.getString("MySQL.Host");
