@@ -57,12 +57,12 @@ public class DbExecution<T> implements BaseMapper<T> {
         String createTable = isMysql ? DbConstant.CREATE_TABLE : DbConstant.SQLITE_CREATE_TABLE;
         String createTableSql = String.format(createTable, tableInfoParam.getTableName());
         MessageApi.sendConsoleDebugMessage("新增表sql: " + createTableSql);
-        SqlService.getInstance().executionSql(createTableSql);
+        SqlService.getInstance().executionSql(createTableSql, storageMethod);
         // 新增表注释
         if (isMysql) {
             String tableCommentSql = String.format(DbConstant.TABLE_COMMENT, tableInfoParam.getTableName(), tableInfoParam.getTableComment());
             MessageApi.sendConsoleDebugMessage("新增表注释: " + tableCommentSql);
-            SqlService.getInstance().executionSql(tableCommentSql);
+            SqlService.getInstance().executionSql(tableCommentSql, storageMethod);
         }
         // 现有字段
         LinkedHashMap<String, FiledInfoParam> filedInfoMap = dbSql.getFiledInfoMap();
@@ -108,7 +108,7 @@ public class DbExecution<T> implements BaseMapper<T> {
                 String createFieldSql = String.format(addColumn, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), mysqlType, filedLengthStr, filedSql);
                 createFieldSql = createFieldSql.replace("(0)", "");
                 MessageApi.sendConsoleDebugMessage("新增字段: " + createFieldSql);
-                SqlService.getInstance().executionSql(createFieldSql);
+                SqlService.getInstance().executionSql(createFieldSql, storageMethod);
             }
             if (isMysql) {
                 // 修改字段信息
@@ -131,7 +131,7 @@ public class DbExecution<T> implements BaseMapper<T> {
                 String fieldCommentSql = String.format(DbConstant.ADD_COLUMN_COMMENT, tableInfoParam.getTableName(), filedInfoParam.getFiledName(), fieldTypeEnum.getMysqlType(), filedLengthStr, filedSql);
                 fieldCommentSql = fieldCommentSql.replace("(0)", "");
                 MessageApi.sendConsoleDebugMessage("新增字段注释: " + fieldCommentSql);
-                SqlService.getInstance().executionSql(fieldCommentSql);
+                SqlService.getInstance().executionSql(fieldCommentSql, storageMethod);
             }
         }
         // 新增索引
@@ -155,7 +155,7 @@ public class DbExecution<T> implements BaseMapper<T> {
                 }
                 String addIndexSql = String.format(DbConstant.ADD_INDEX, tableInfoParam.getTableName(), indexName, filedName);
                 MessageApi.sendConsoleDebugMessage("新增表索引: " + addIndexSql);
-                SqlService.getInstance().executionSql(addIndexSql);
+                SqlService.getInstance().executionSql(addIndexSql, storageMethod);
             }
         }
     }
@@ -167,7 +167,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         ResultSet rst = null;
         String sql = "";
         try {
-            conn = SqlManagerUtil.getInstance().getConnection();
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             sql = dbSql.insertDataSql();
             MessageApi.sendConsoleDebugMessage("insert: " + sql);
             ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -214,7 +214,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         ResultSet rst = null;
         String sql = "";
         try {
-            conn = SqlManagerUtil.getInstance().getConnection();
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             sql = dbSql.selectDataSql();
             MessageApi.sendConsoleDebugMessage("selectOne: " + sql);
             ps = conn.prepareStatement(sql);
@@ -263,7 +263,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         int count = 0;
         String sql = "";
         try {
-            conn = SqlManagerUtil.getInstance().getConnection();
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             sql = dbSql.selectCountSql();
             MessageApi.sendConsoleDebugMessage("count: " + sql);
             ps = conn.prepareStatement(sql);
@@ -293,7 +293,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         List<T> list = new ArrayList<>();
         String sql = "";
         try {
-            conn = SqlManagerUtil.getInstance().getConnection();
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             sql = dbSql.selectDataSql();
             MessageApi.sendConsoleDebugMessage("list: " + sql);
             ps = conn.prepareStatement(sql);
@@ -407,7 +407,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         PreparedStatement ps = null;
         String sql = "";
         try {
-            conn = SqlManagerUtil.getInstance().getConnection();
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             sql = dbSql.deleteDataSql();
             MessageApi.sendConsoleDebugMessage("delete: " + sql);
             ps = conn.prepareStatement(sql);
@@ -432,7 +432,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         PreparedStatement ps = null;
         String sql = "";
         try {
-            conn = SqlManagerUtil.getInstance().getConnection();
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             sql = dbSql.updateDataSql();
             MessageApi.sendConsoleDebugMessage("update: " + sql);
             ps = conn.prepareStatement(sql);

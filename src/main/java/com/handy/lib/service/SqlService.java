@@ -37,10 +37,21 @@ public class SqlService {
      * @since 1.2.3
      */
     public void executionSql(String sql) {
+        this.executionSql(sql, null);
+    }
+
+    /**
+     * 执行普通sql
+     *
+     * @param sql           sql
+     * @param storageMethod 储存方式
+     * @since 2.9.3
+     */
+    public void executionSql(String sql, String storageMethod) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            conn = SqlManagerUtil.getInstance().getConnection();
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             ps = conn.prepareStatement(sql);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -96,12 +107,24 @@ public class SqlService {
      * @since 1.9.6
      */
     public List<String> getMysqlTableIndex(String sql) {
+        return this.getMysqlTableIndex(sql, null);
+    }
+
+    /**
+     * 查询表索引字段
+     *
+     * @param sql           sql
+     * @param storageMethod 储存方式
+     * @return true/成功
+     * @since 2.9.3
+     */
+    public List<String> getMysqlTableIndex(String sql, String storageMethod) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rst = null;
         List<String> columnNameList = new ArrayList<>();
         try {
-            conn = SqlManagerUtil.getInstance().getConnection();
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             ps = conn.prepareStatement(sql);
             rst = ps.executeQuery();
             while (rst.next()) {

@@ -33,6 +33,7 @@ public class SqlManagerUtil {
      * @param storageMethod 连接方式
      */
     public void enableTable(String storageMethod) {
+        // 没有指定链接获取默认方式
         if (StrUtil.isEmpty(storageMethod)) {
             storageMethod = this.getStorageMethod();
         }
@@ -71,6 +72,10 @@ public class SqlManagerUtil {
      * @throws SQLException 异常
      */
     public Connection getConnection(String storageMethod) throws SQLException {
+        // 没有指定链接获取默认方式
+        if (StrUtil.isEmpty(storageMethod)) {
+            storageMethod = this.getStorageMethod();
+        }
         if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
             // 如果链接被关闭了，就重新打开
             if (ds.isClosed()) {
@@ -89,7 +94,7 @@ public class SqlManagerUtil {
      * @throws SQLException 异常
      */
     public Connection getConnection() throws SQLException {
-        return this.getConnection(BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD));
+        return this.getConnection(null);
     }
 
     /**
