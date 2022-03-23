@@ -32,16 +32,6 @@ public class SqlService {
     /**
      * 执行普通sql
      *
-     * @param sql sql
-     * @since 1.2.3
-     */
-    public void executionSql(String sql) {
-        this.executionSql(sql, null);
-    }
-
-    /**
-     * 执行普通sql
-     *
      * @param sql           sql
      * @param storageMethod 储存方式
      * @since 2.9.3
@@ -63,12 +53,12 @@ public class SqlService {
     /**
      * 查询表字段
      *
-     * @param storageMethod 存储方法
      * @param sql           sql
+     * @param storageMethod 存储方法
      * @return true/成功
      * @since 1.2.3
      */
-    public List<String> getTableInfo(String storageMethod, String sql) {
+    public List<String> getTableInfo(String sql, String storageMethod) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rst = null;
@@ -92,17 +82,6 @@ public class SqlService {
             SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
         }
         return filedNameList;
-    }
-
-    /**
-     * 查询表索引字段
-     *
-     * @param sql sql
-     * @return true/成功
-     * @since 1.9.6
-     */
-    public List<String> getMysqlTableIndex(String sql) {
-        return this.getMysqlTableIndex(sql, null);
     }
 
     /**

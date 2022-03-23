@@ -73,7 +73,7 @@ public class DbExecution<T> implements BaseMapper<T> {
             sql = String.format(DbConstant.SQLITE_TABLE_INFO, tableInfoParam.getTableName());
         }
         MessageApi.sendConsoleDebugMessage("查询字段sql: " + sql);
-        List<String> filedNameList = SqlService.getInstance().getTableInfo(storageMethod, sql);
+        List<String> filedNameList = SqlService.getInstance().getTableInfo(sql, storageMethod);
         // 新增字段
         for (String filedName : filedInfoMap.keySet()) {
             // 新增字段
@@ -137,7 +137,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         if (isMysql) {
             String showIndexSql = String.format(DbConstant.SHOW_INDEX, tableInfoParam.getTableName());
             MessageApi.sendConsoleDebugMessage("查询表索引sql: " + showIndexSql);
-            List<String> mysqlTableIndexList = SqlService.getInstance().getMysqlTableIndex(showIndexSql);
+            List<String> mysqlTableIndexList = SqlService.getInstance().getMysqlTableIndex(showIndexSql, storageMethod);
             for (String filedName : filedInfoMap.keySet()) {
                 FiledInfoParam filedInfoParam = filedInfoMap.get(filedName);
                 if (IndexEnum.NOT.equals(filedInfoParam.getIndexEnum())) {
