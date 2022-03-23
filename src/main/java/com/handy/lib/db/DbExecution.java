@@ -11,7 +11,6 @@ import com.handy.lib.db.enums.IndexEnum;
 import com.handy.lib.db.enums.SqlKeyword;
 import com.handy.lib.db.param.FiledInfoParam;
 import com.handy.lib.db.param.TableInfoParam;
-import com.handy.lib.service.SqlService;
 import com.handy.lib.util.SqlManagerUtil;
 
 import java.lang.reflect.Constructor;
@@ -74,7 +73,7 @@ public class DbExecution<T> implements BaseMapper<T> {
             sql = String.format(DbConstant.SQLITE_TABLE_INFO, tableInfoParam.getTableName());
         }
         MessageApi.sendConsoleDebugMessage("查询字段sql: " + sql);
-        List<String> filedNameList = SqlService.getInstance().getTableInfo(BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD), sql);
+        List<String> filedNameList = SqlService.getInstance().getTableInfo(storageMethod, sql);
         // 新增字段
         for (String filedName : filedInfoMap.keySet()) {
             // 新增字段

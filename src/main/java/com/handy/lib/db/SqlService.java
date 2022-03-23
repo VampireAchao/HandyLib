@@ -1,7 +1,6 @@
-package com.handy.lib.service;
+package com.handy.lib.db;
 
 import com.handy.lib.constants.BaseConstants;
-import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.SqlManagerUtil;
 
 import java.sql.Connection;
@@ -75,11 +74,7 @@ public class SqlService {
         ResultSet rst = null;
         List<String> filedNameList = new ArrayList<>();
         try {
-            if (StrUtil.isNotEmpty(storageMethod)) {
-                conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
-            } else {
-                conn = SqlManagerUtil.getInstance().getConnection();
-            }
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
             ps = conn.prepareStatement(sql);
             rst = ps.executeQuery();
             while (rst.next()) {
