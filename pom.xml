@@ -22,6 +22,7 @@
         <HikariCP.version>4.0.3</HikariCP.version>
         <slf4j.version>1.7.32</slf4j.version>
         <SXAttribute.version>2.0.3</SXAttribute.version>
+        <MythicMobsLib.version>1.0.0</MythicMobsLib.version>
     </properties>
 
     <distributionManagement>
@@ -79,6 +80,11 @@
             <version>${SXAttribute.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.handy.lib.mm</groupId>
+            <artifactId>MythicMobsLib</artifactId>
+            <version>${MythicMobsLib.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -106,6 +112,7 @@
                             <include>org.slf4j:*:*:*</include>
                             <include>org.bstats:*:*:*</include>
                             <include>com.iroselle:*:*:*</include>
+                            <include>com.handy.lib.mm:*:*:*</include>
                         </includes>
                     </artifactSet>
                     <relocations>
