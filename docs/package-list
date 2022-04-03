@@ -13,5 +13,4 @@ com.handy.lib.expand
 com.handy.lib.inventory
 com.handy.lib.metrics
 com.handy.lib.param
-com.handy.lib.service
 com.handy.lib.util
