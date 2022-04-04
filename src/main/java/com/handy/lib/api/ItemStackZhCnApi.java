@@ -39,21 +39,27 @@ public class ItemStackZhCnApi {
             // 获取zh_cn.json文件
             HandyHttpUtil.getZhCn();
         }
-
         // 加载item.json
+        initItem();
+        // 获取云汉化
+        if (isCloudItem) {
+            HandyHttpUtil.setCloudItemJsonCacheMap(VersionCheckEnum.getEnum().getVersion());
+        }
+        // 自动同步自定义汉化
+        HandyHttpUtil.setItemName();
+    }
+
+    /**
+     * 加载item.json
+     *
+     * @since 2.9.9
+     */
+    public static void initItem() {
         File itemFile = new File(InitApi.PLUGIN.getDataFolder(), "item.json");
         if (!itemFile.exists()) {
             InitApi.PLUGIN.saveResource("item.json", false);
         }
         BaseUtil.readJsonFileToItemJsonCacheMap(itemFile);
-
-        // 获取云汉化
-        if (isCloudItem) {
-            HandyHttpUtil.setCloudItemJsonCacheMap(VersionCheckEnum.getEnum().getVersion());
-        }
-
-        // 自动同步自定义汉化
-        HandyHttpUtil.setItemName();
     }
 
 }
