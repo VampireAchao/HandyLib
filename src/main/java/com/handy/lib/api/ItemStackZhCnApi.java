@@ -59,7 +59,11 @@ public class ItemStackZhCnApi {
         if (!itemFile.exists()) {
             InitApi.PLUGIN.saveResource("item.json", false);
         }
-        BaseUtil.readJsonFileToItemJsonCacheMap(itemFile);
+        try {
+            BaseUtil.readJsonFileToItemJsonCacheMap(itemFile);
+        } catch (Exception e) {
+            MessageApi.sendConsoleMessage("item.json 加载失败,原因:json格式异常");
+        }
     }
 
 }
