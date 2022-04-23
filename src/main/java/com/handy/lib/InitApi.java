@@ -287,7 +287,7 @@ public class InitApi {
      *
      * @since 3.0.1
      */
-    public void setPermission() {
+    public InitApi setPermission() {
         PERMISSION = true;
     }
 
