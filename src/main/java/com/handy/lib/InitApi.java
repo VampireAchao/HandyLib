@@ -289,6 +289,7 @@ public class InitApi {
      */
     public InitApi setPermission() {
         PERMISSION = true;
+        return this;
     }
 
     /**
