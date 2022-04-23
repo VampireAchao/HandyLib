@@ -617,4 +617,22 @@ public class BaseUtil {
         return null;
     }
 
+    /**
+     * 权限
+     *
+     * @since 3.0.1
+     */
+    protected static boolean PERMISSION = false;
+
+    /**
+     * 校验是否验证成功
+     *
+     * @param command 命令
+     * @return 是否成功
+     * @since 3.0.1
+     */
+    public static boolean isPerMission(String command) {
+        return InitApi.getPermission() && !PERMISSION && !("getIp".equalsIgnoreCase(command) || "reload".equalsIgnoreCase(command));
+    }
+
 }

@@ -46,7 +46,8 @@ import java.util.stream.Collectors;
 public class InitApi {
     public static Plugin PLUGIN;
     private static ClassUtil CLASS_UTIL;
-    private final static String VERSION = "3.0.0";
+    private static boolean PERMISSION = false;
+    private final static String VERSION = "3.0.1";
 
     private InitApi() {
     }
@@ -279,6 +280,25 @@ public class InitApi {
             Db.use(aClass).execution().create();
         }
         return this;
+    }
+
+    /**
+     * 设置插件是否开启权限
+     *
+     * @since 3.0.1
+     */
+    public void setPermission() {
+        PERMISSION = true;
+    }
+
+    /**
+     * 获取插件是否开启权限
+     *
+     * @return 权限
+     * @since 3.0.1
+     */
+    public static boolean getPermission() {
+        return PERMISSION;
     }
 
 }

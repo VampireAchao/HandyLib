@@ -1,10 +1,12 @@
 package com.handy.lib.command;
 
+import com.handy.lib.api.MessageApi;
 import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.exception.HandyException;
 import com.handy.lib.util.BaseUtil;
 import lombok.SneakyThrows;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -89,6 +91,11 @@ public class HandyCommandFactory {
             sender.sendMessage(BaseUtil.replaceChatColor(noPermission));
             return true;
         }
+        // 校验是否验证成功
+        if (BaseUtil.isPerMission(args[0])) {
+            MessageApi.sendConsoleMessage(ChatColor.GREEN + "未检测到激活码,请联系作者购买QQ:956812056");
+            return true;
+        }
         // 捕获自定义异常并抛出提醒
         try {
             param.getMethod().invoke(param.getAClass().newInstance(), sender, cmd, label, args);
@@ -118,6 +125,11 @@ public class HandyCommandFactory {
         }
         if (StrUtil.isNotEmpty(handyInventory.permission()) && !sender.hasPermission(handyInventory.permission())) {
             sender.sendMessage(BaseUtil.replaceChatColor(noPermission));
+            return true;
+        }
+        // 校验是否验证成功
+        if (BaseUtil.isPerMission(args[0])) {
+            MessageApi.sendConsoleMessage(ChatColor.GREEN + "未检测到激活码,请联系作者购买QQ:956812056");
             return true;
         }
         // 捕获自定义异常并抛出提醒

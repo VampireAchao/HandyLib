@@ -66,14 +66,14 @@ public class HandyHttpUtil {
                     }
                     String result = HttpUtil.get(VERIFY_SIGN, paramMap);
                     if (BaseConstants.TRUE.equals(result)) {
-                        BaseConstants.PERMISSION = true;
+                        BaseUtil.PERMISSION = true;
                         if (CollUtil.isNotEmpty(verifySignParam.getVerifySignSucceedMsg())) {
                             for (String verifySignSucceedMsg : verifySignParam.getVerifySignSucceedMsg()) {
                                 MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignSucceedMsg));
                             }
                         }
                     } else {
-                        BaseConstants.PERMISSION = false;
+                        BaseUtil.PERMISSION = false;
                         if (CollUtil.isNotEmpty(verifySignParam.getVerifySignFailureMsg())) {
                             for (String verifySignFailureMsg : verifySignParam.getVerifySignFailureMsg()) {
                                 MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(verifySignFailureMsg));
@@ -82,7 +82,7 @@ public class HandyHttpUtil {
                     }
                     this.cancel();
                 } catch (Exception e) {
-                    BaseConstants.PERMISSION = false;
+                    BaseUtil.PERMISSION = false;
                     if (CollUtil.isNotEmpty(verifySignParam.getRequestError())) {
                         for (String requestError : verifySignParam.getRequestError()) {
                             MessageApi.sendConsoleMessage(BaseUtil.replaceChatColor(requestError));

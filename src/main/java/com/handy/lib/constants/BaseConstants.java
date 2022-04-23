@@ -68,13 +68,6 @@ public abstract class BaseConstants {
     public static Map<String, String> CLOUD_ITEM_JSON_CACHE_MAP = new HashMap<>();
 
     /**
-     * 权限
-     *
-     * @since 2.7.1
-     */
-    public static Boolean PERMISSION = false;
-
-    /**
      * 验证方式
      *
      * @since 2.7.1
