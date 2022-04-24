@@ -115,6 +115,17 @@ public class SqlService {
     /**
      * 自定义sql查询并返回map
      *
+     * @param sql sql
+     * @return Map
+     * @since 3.0.4
+     */
+    public Map<String, Object> selectMap(String sql) {
+        return this.selectMap(sql, BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD));
+    }
+
+    /**
+     * 自定义sql查询并返回map
+     *
      * @param sql           sql
      * @param storageMethod 存储方法
      * @return Map
@@ -139,6 +150,17 @@ public class SqlService {
             SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
         }
         return map;
+    }
+
+    /**
+     * 自定义sql查询并返回List
+     *
+     * @param sql sql
+     * @return List
+     * @since 3.0.4
+     */
+    public List<Map<String, Object>> selectListMap(String sql) {
+        return this.selectListMap(sql, BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD));
     }
 
     /**
