@@ -3,12 +3,11 @@ package com.handy.lib.db;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.util.SqlManagerUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * sql基础方法
@@ -111,6 +110,68 @@ public class SqlService {
             SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
         }
         return columnNameList;
+    }
+
+    /**
+     * 自定义sql查询并返回map
+     *
+     * @param sql           sql
+     * @param storageMethod 存储方法
+     * @return Map
+     * @since 3.0.3
+     */
+    public Map<String, Object> selectMap(String sql, String storageMethod) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rst = null;
+        Map<String, Object> map = new HashMap<>();
+        try {
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
+            ps = conn.prepareStatement(sql);
+            rst = ps.executeQuery();
+            ResultSetMetaData rstMetaData = rst.getMetaData();
+            for (int i = 1; i <= rstMetaData.getColumnCount(); i++) {
+                map.put(rstMetaData.getColumnLabel(i), rst.getObject(i));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
+        }
+        return map;
+    }
+
+    /**
+     * 自定义sql查询并返回List
+     *
+     * @param sql           sql
+     * @param storageMethod 存储方法
+     * @return List
+     * @since 3.0.3
+     */
+    public List<Map<String, Object>> selectListMap(String sql, String storageMethod) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rst = null;
+        List<Map<String, Object>> list = new ArrayList<>();
+        try {
+            conn = SqlManagerUtil.getInstance().getConnection(storageMethod);
+            ps = conn.prepareStatement(sql);
+            rst = ps.executeQuery();
+            ResultSetMetaData rstMetaData = rst.getMetaData();
+            while (rst.next()) {
+                Map<String, Object> map = new HashMap<>();
+                for (int i = 1; i <= rstMetaData.getColumnCount(); i++) {
+                    map.put(rstMetaData.getColumnName(i), rst.getObject(i));
+                }
+                list.add(map);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
+        }
+        return list;
     }
 
 }
