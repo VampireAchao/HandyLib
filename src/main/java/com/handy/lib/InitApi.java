@@ -285,6 +285,7 @@ public class InitApi {
     /**
      * 设置插件是否开启权限
      *
+     * @return this
      * @since 3.0.1
      */
     public InitApi setPermission() {
