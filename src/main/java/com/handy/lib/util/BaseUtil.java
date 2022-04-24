@@ -625,6 +625,16 @@ public class BaseUtil {
     protected static boolean PERMISSION = false;
 
     /**
+     * 获取插件权限
+     *
+     * @return 权限
+     * @since 3.0.2
+     */
+    public static boolean getPermission() {
+        return PERMISSION;
+    }
+
+    /**
      * 校验是否验证成功
      *
      * @param command 命令
