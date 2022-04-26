@@ -320,27 +320,7 @@ public class ItemStackUtil {
             if (item == null || Material.AIR.equals(item.getType())) {
                 continue;
             }
-            // 1.判断类型
-            if (!item.getType().equals(itemStack.getType())) {
-                continue;
-            }
-            if (item.getItemMeta() == null || itemStack.getItemMeta() == null) {
-                continue;
-            }
-            String displayName = item.getItemMeta().getDisplayName();
-            if (StrUtil.isEmpty(displayName)) {
-                displayName = "";
-            }
-            String displayName1 = itemStack.getItemMeta().getDisplayName();
-            if (StrUtil.isEmpty(displayName1)) {
-                displayName1 = "";
-            }
-            // 2.判断名称
-            if (!displayName.equals(displayName1)) {
-                continue;
-            }
-            // 3.判断lore
-            if (!CollUtil.equals(item.getItemMeta().getLore(), itemStack.getItemMeta().getLore())) {
+            if (!item.isSimilar(itemStack)) {
                 continue;
             }
             num += item.getAmount();
@@ -351,21 +331,21 @@ public class ItemStackUtil {
             }
         }
         if (num == amount) {
-            for (ItemStack itemStack1 : items) {
-                playerInventory.removeItem(itemStack1);
+            for (ItemStack item : items) {
+                playerInventory.removeItem(item);
             }
             return true;
         }
         if (num > amount) {
-            for (ItemStack itemStack1 : items) {
+            for (ItemStack item : items) {
                 if (amount == 0) {
                     return true;
                 }
-                if (amount > itemStack1.getAmount()) {
-                    amount = amount - itemStack1.getAmount();
-                    playerInventory.removeItem(itemStack1);
+                if (amount > item.getAmount()) {
+                    amount = amount - item.getAmount();
+                    playerInventory.removeItem(item);
                 } else {
-                    itemStack1.setAmount(itemStack1.getAmount() - amount);
+                    item.setAmount(item.getAmount() - amount);
                     amount = 0;
                 }
             }
