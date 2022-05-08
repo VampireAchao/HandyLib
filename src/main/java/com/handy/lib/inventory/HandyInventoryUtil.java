@@ -32,20 +32,10 @@ public class HandyInventoryUtil {
      * 刷新背包
      *
      * @param inventory gui
-     */
-    public static void refreshInventory(Inventory inventory) {
-        refreshInventory(inventory, BaseConstants.GUI_SIZE_54);
-    }
-
-    /**
-     * 刷新背包
-     *
-     * @param inventory gui
-     * @param size      大小
      * @since 1.2.0
      */
-    public static void refreshInventory(Inventory inventory, int size) {
-        for (int i = 0; i < size; i++) {
+    public static void refreshInventory(Inventory inventory) {
+        for (int i = 0; i < inventory.getSize(); i++) {
             inventory.setItem(i, new ItemStack(Material.AIR));
         }
     }
