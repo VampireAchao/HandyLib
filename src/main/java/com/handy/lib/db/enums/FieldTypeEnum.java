@@ -1,5 +1,6 @@
 package com.handy.lib.db.enums;
 
+import com.handy.lib.db.param.FiledInfoParam;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -27,6 +28,7 @@ public enum FieldTypeEnum {
     BASIC_DOUBLE("double", "DOUBLE", 11),
     FLOAT("java.lang.Float", "FLOAT", 11),
     BASIC_FLOAT("float", "FLOAT", 11),
+    TEXT("java.lang.String", "TEXT", 0),
     ;
 
     private final String javaType;
@@ -36,10 +38,16 @@ public enum FieldTypeEnum {
     /**
      * 获取枚举
      *
-     * @param javaType 字段类型
+     * @param filedInfoParam 字段信息
      * @return FieldTypeEnum
      */
-    public static FieldTypeEnum getEnum(String javaType) {
+    public static FieldTypeEnum getEnum(FiledInfoParam filedInfoParam) {
+        String javaType = filedInfoParam.getFiledType();
+        Integer filedLength = filedInfoParam.getFiledLength();
+        // 字符串长度过大直接转换为TEXT类型
+        if ("java.lang.String".equals(javaType) && filedLength >= 16383) {
+            return TEXT;
+        }
         for (FieldTypeEnum fieldTypeEnum : FieldTypeEnum.values()) {
             if (fieldTypeEnum.getJavaType().equals(javaType)) {
                 return fieldTypeEnum;

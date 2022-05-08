@@ -78,7 +78,7 @@ public class DbExecution<T> implements BaseMapper<T> {
         for (String filedName : filedInfoMap.keySet()) {
             // 新增字段
             FiledInfoParam filedInfoParam = filedInfoMap.get(filedName);
-            FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam.getFiledType());
+            FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam);
             if (!filedNameList.contains(filedName)) {
                 String addColumn = isMysql ? DbConstant.ADD_COLUMN : DbConstant.SQLITE_ADD_COLUMN;
                 String filedSql;
@@ -240,7 +240,8 @@ public class DbExecution<T> implements BaseMapper<T> {
                 }
             }
             return newInstance;
-        } catch (SQLException | NoSuchFieldException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        } catch (SQLException | NoSuchFieldException | NoSuchMethodException | InstantiationException |
+                 IllegalAccessException | InvocationTargetException e) {
             MessageApi.sendConsoleMessage("&a selectOne查询出现异常,错误sql:" + sql);
             e.printStackTrace();
         } finally {
@@ -321,7 +322,8 @@ public class DbExecution<T> implements BaseMapper<T> {
                 list.add(newInstance);
             }
             return list;
-        } catch (SQLException | NoSuchFieldException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        } catch (SQLException | NoSuchFieldException | NoSuchMethodException | InstantiationException |
+                 IllegalAccessException | InvocationTargetException e) {
             MessageApi.sendConsoleMessage("&a List查询出现异常,错误sql:" + sql);
             e.printStackTrace();
         } finally {
@@ -338,7 +340,7 @@ public class DbExecution<T> implements BaseMapper<T> {
      * @return 新值
      */
     private Object specialHandling(FiledInfoParam filedInfoParam, Object obj) {
-        FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam.getFiledType());
+        FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getEnum(filedInfoParam);
         switch (fieldTypeEnum) {
             // date处理
             case DATE:
