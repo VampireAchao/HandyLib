@@ -78,7 +78,7 @@ public class SqlManagerUtil {
         }
         if (BaseConstants.MYSQL.equalsIgnoreCase(storageMethod)) {
             // 如果链接被关闭了，就重新打开
-            if (ds.isClosed()) {
+            if (ds == null || ds.isClosed()) {
                 MessageApi.sendConsoleDebugMessage(" HikariDataSource 链接异常关闭，重新打开");
                 enableTable(storageMethod);
             }
