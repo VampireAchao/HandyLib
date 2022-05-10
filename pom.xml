@@ -7,7 +7,7 @@
     <groupId>com.handy.lib</groupId>
     <artifactId>HandyLib</artifactId>
     <name>HandyLib</name>
-    <version>3.0.6</version>
+    <version>3.0.7</version>
     <description>handy的基础插件</description>
 
     <properties>
@@ -16,11 +16,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spigot-api.vesion>1.18.2-R0.1-SNAPSHOT</spigot-api.vesion>
         <bstats.version>1.7</bstats.version>
-        <lombok.version>1.18.22</lombok.version>
-        <mysql.version>8.0.28</mysql.version>
+        <lombok.version>1.18.24</lombok.version>
+        <mysql.version>8.0.29</mysql.version>
         <sqlite.version>3.36.0.3</sqlite.version>
         <HikariCP.version>4.0.3</HikariCP.version>
-        <slf4j.version>1.7.32</slf4j.version>
+        <slf4j.version>1.7.36</slf4j.version>
         <SXAttribute.version>2.0.3</SXAttribute.version>
         <MythicMobsLib.version>1.0.1</MythicMobsLib.version>
     </properties>
