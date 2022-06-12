@@ -38,6 +38,19 @@ public class TextUtil {
     }
 
     /**
+     * 添加鼠标点击事件
+     *
+     * @param action 類型
+     * @param msg    消息
+     * @return this
+     * @since 3.0.9
+     */
+    public TextUtil addClick(ClickEvent.Action action, String msg) {
+        textComponent.setClickEvent(new ClickEvent(action, msg));
+        return this;
+    }
+
+    /**
      * 添加鼠标点击打开url
      *
      * @param url url
@@ -56,6 +69,18 @@ public class TextUtil {
      */
     public TextUtil addClickCommand(String command) {
         textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+        return this;
+    }
+
+    /**
+     * 添加鼠标点击 将给定的字符串插入到玩家的文本框中。
+     *
+     * @param suggestCommand 字符串
+     * @return this
+     * @since 3.0.9
+     */
+    public TextUtil addClickSuggestCommand(String suggestCommand) {
+        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, suggestCommand));
         return this;
     }
 

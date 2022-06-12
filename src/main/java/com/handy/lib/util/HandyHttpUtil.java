@@ -11,7 +11,6 @@ import com.handy.lib.core.JsonUtil;
 import com.handy.lib.core.NetUtil;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.param.VerifySignParam;
-import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -42,6 +41,7 @@ public class HandyHttpUtil {
     private final static String URL_1_16 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.16.json";
     private final static String URL_1_17 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.17.json";
     private final static String URL_1_18 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.18.json";
+    private final static String URL_1_19 = "https://minecraft-admin.oss-cn-hangzhou.aliyuncs.com/zh_cn/1.19.json";
 
     /**
      * 签名验证
@@ -115,17 +115,10 @@ public class HandyHttpUtil {
             String tagName = BaseUtil.getOfficialVersion(url);
             if (tagName != null && BaseUtil.convertVersion(tagName) > BaseUtil.convertVersion(version)) {
                 String oneMsg = ChatColor.GRAY + "_________________/ &e" + InitApi.PLUGIN.getDescription().getName() + ChatColor.GRAY + " \\_________________\n";
-                oneMsg = BaseUtil.replaceChatColor(oneMsg);
-                TextComponent message = new TextComponent(oneMsg);
+                TextComponent message = TextUtil.getInstance().init(oneMsg).build();
                 String twoMsg = "&7| &a最新版本: &d" + tagName + " &a当前版本: &d" + version + " &a点击&d&n此处查看&a更新内容 &7|\n";
-                twoMsg = BaseUtil.replaceChatColor(twoMsg);
-                TextComponent content = new TextComponent("     " + twoMsg);
-                content.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, InitApi.PLUGIN.getDescription().getWebsite()));
-                String threeMsg = ChatColor.GRAY + "-----------------------------------------------";
-                threeMsg = BaseUtil.replaceChatColor(threeMsg);
-                TextComponent endMessage = new TextComponent(threeMsg);
-                message.addExtra(content);
-                message.addExtra(endMessage);
+                message.addExtra(TextUtil.getInstance().init("     " + twoMsg).addClickUrl(InitApi.PLUGIN.getDescription().getWebsite()).build());
+                message.addExtra(TextUtil.getInstance().init(ChatColor.GRAY + "-----------------------------------------------").build());
                 if (player == null) {
                     MessageApi.sendConsoleMessage(twoMsg);
                 } else {
@@ -167,8 +160,11 @@ public class HandyHttpUtil {
             case V_1_18:
                 getCloudZhCn(URL_1_18);
                 break;
+            case V_1_19:
+                getCloudZhCn(URL_1_19);
+                break;
             default:
-                getCloudZhCn(URL_1_18);
+                getCloudZhCn(URL_1_19);
                 break;
         }
     }
