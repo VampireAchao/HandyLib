@@ -47,7 +47,7 @@ public class InitApi {
     public static Plugin PLUGIN;
     private static ClassUtil CLASS_UTIL;
     private static boolean PERMISSION = false;
-    private final static String VERSION = "3.0.9";
+    private final static String VERSION = "3.1.0";
 
     private InitApi() {
     }
