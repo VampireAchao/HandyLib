@@ -136,4 +136,30 @@ public class StrUtil {
         return sb.toString();
     }
 
+    /**
+     * 去除字符串中所有的空白符
+     *
+     * @param str 字符串
+     * @return 新字符串
+     * @since 3.1.0
+     */
+    public static String deleteWhitespace(String str) {
+        if (isEmpty(str)) {
+            return str;
+        }
+        int sz = str.length();
+        char[] chs = new char[sz];
+        int count = 0;
+        for (int i = 0; i < sz; ++i) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                chs[count++] = str.charAt(i);
+            }
+        }
+        if (count == sz) {
+            return str;
+        } else {
+            return new String(chs, 0, count);
+        }
+    }
+
 }
