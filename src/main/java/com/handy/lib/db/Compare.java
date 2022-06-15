@@ -185,7 +185,6 @@ public class Compare<T> implements Serializable {
     /**
      * 大于等于 (fn + val = compareFn)
      *
-     * @param condition 执行条件
      * @param fn        字段
      * @param val       值
      * @param compareFn 比较字段
@@ -198,7 +197,7 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 大于等于 (fn + val > compareFn)
+     * 大于 (fn + val 大于  compareFn)
      *
      * @param condition 执行条件
      * @param fn        字段
@@ -239,7 +238,7 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 小于 (fn + val < compareFn)
+     * 小于 (fn + val 小于 compareFn)
      *
      * @param fn        字段
      * @param val       值
@@ -267,7 +266,7 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 小于 (fn < compareFn)
+     * 小于 (fn 小于 compareFn)
      *
      * @param condition 执行条件
      * @param fn        字段
@@ -282,7 +281,7 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 小于 (fn + val < compareFn)
+     * 小于 (fn + val 小于 compareFn)
      *
      * @param condition 执行条件
      * @param fn        字段
@@ -352,9 +351,8 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 大于等于 (fn + val >= compareFn)
+     * 大于等于 (fn + val 大于等于 compareFn)
      *
-     * @param condition 执行条件
      * @param fn        字段
      * @param val       值
      * @param compareFn 比较字段
@@ -367,7 +365,7 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 大于等于 (fn + val >= compareFn)
+     * 大于等于 (fn + val 大于等于 compareFn)
      *
      * @param condition 执行条件
      * @param fn        字段
@@ -437,7 +435,7 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 小于等于 (fn + val <= compareFn)
+     * 小于等于 (fn + val 小于等于 compareFn)
      *
      * @param fn        字段
      * @param val       值
@@ -451,7 +449,7 @@ public class Compare<T> implements Serializable {
     }
 
     /**
-     * 小于等于 (fn + val <= compareFn)
+     * 小于等于 (fn + val 小于等于 compareFn)
      *
      * @param condition 执行条件
      * @param fn        字段

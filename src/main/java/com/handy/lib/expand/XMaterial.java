@@ -1578,7 +1578,6 @@ public enum XMaterial {
     /**
      * Checks if the version is 1.13 Aquatic Update or higher.
      * An invocation of this method yields the cached result from the expression:
-     * <p>
      * <blockquote>
      * {@link #supports(int) 13}}
      * </blockquote>
@@ -1599,13 +1598,12 @@ public enum XMaterial {
      * It can be used in {@link org.bukkit.event.player.PlayerInteractEvent}
      * or when accessing {@link org.bukkit.entity.Player#getMainHand()},
      * or other compatibility related methods.
-     * <p>
      * An invocation of this method yields exactly the same result as the expression:
-     * <p>
      * <blockquote>
      * !{@link #supports(int)} 9
      * </blockquote>
      *
+     * @return true
      * @since 2.0.0
      * @deprecated Use {@code !XMaterial.supports(9)} instead.
      */
@@ -1666,6 +1664,8 @@ public enum XMaterial {
      * Parses the given material name as an XMaterial with a given data
      * value in the string if attached. Check {@link #matchXMaterialWithData(String)} for more info.
      *
+     * @param name 名称
+     * @return XMaterial
      * @see #matchXMaterialWithData(String)
      * @see #matchDefinedXMaterial(String, byte)
      * @since 2.0.0
@@ -1713,6 +1713,8 @@ public enum XMaterial {
     /**
      * Parses the given material as an XMaterial.
      *
+     * @param material material
+     * @return XMaterial
      * @throws IllegalArgumentException may be thrown as an unexpected exception.
      * @see #matchDefinedXMaterial(String, byte)
      * @see #matchXMaterial(ItemStack)
@@ -2002,6 +2004,7 @@ public enum XMaterial {
      * Use {@link #parseItem()} instead when creating new ItemStacks.
      *
      * @param item the item to change its type.
+     * @return ItemStack
      * @see #parseItem()
      * @since 3.0.0
      */
