@@ -9,6 +9,7 @@
     <name>HandyLib</name>
     <version>3.1.0</version>
     <description>handy的Minecraft快速开发框架</description>
+    <url>https://github.com/handy-git/HandyLib</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -158,6 +159,9 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
+                        <configuration>
+                            <keyname>handy</keyname>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
