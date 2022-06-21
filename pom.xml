@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.handy.lib</groupId>
+    <groupId>cn.handyplus.lib</groupId>
     <artifactId>HandyLib</artifactId>
     <name>HandyLib</name>
     <version>3.1.0</version>
@@ -118,19 +118,19 @@
                     <relocations>
                         <relocation>
                             <pattern>com.zaxxer</pattern>
-                            <shadedPattern>com.handy.lib.zaxxer</shadedPattern>
+                            <shadedPattern>cn.handyplus.lib.zaxxer</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.slf4j</pattern>
-                            <shadedPattern>com.handy.lib.slf4j</shadedPattern>
+                            <shadedPattern>cn.handyplus.lib.slf4j</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>com.handy.lib.bstats</shadedPattern>
+                            <shadedPattern>cn.handyplus.lib.bstats</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.iroselle</pattern>
-                            <shadedPattern>com.handy.lib.cstats</shadedPattern>
+                            <shadedPattern>cn.handyplus.lib.cstats</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
