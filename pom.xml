@@ -7,7 +7,7 @@
     <groupId>cn.handyplus.lib</groupId>
     <artifactId>HandyLib</artifactId>
     <name>HandyLib</name>
-    <version>3.1.0</version>
+    <version>3.1.1</version>
     <description>handy的Minecraft快速开发框架</description>
     <url>https://github.com/handy-git/HandyLib</url>
 
@@ -23,7 +23,7 @@
         <HikariCP.version>4.0.3</HikariCP.version>
         <slf4j.version>1.7.36</slf4j.version>
         <SXAttribute.version>2.0.3</SXAttribute.version>
-        <MythicMobsLib.version>1.0.1</MythicMobsLib.version>
+        <MythicMobsLib.version>1.0.2</MythicMobsLib.version>
     </properties>
 
     <issueManagement>
@@ -100,7 +100,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.handy.lib.mm</groupId>
+            <groupId>cn.handyplus.lib.mm</groupId>
             <artifactId>MythicMobsLib</artifactId>
             <version>${MythicMobsLib.version}</version>
         </dependency>
@@ -200,25 +200,25 @@
                             <include>org.slf4j:*:*:*</include>
                             <include>org.bstats:*:*:*</include>
                             <include>com.iroselle:*:*:*</include>
-                            <include>com.handy.lib.mm:*:*:*</include>
+                            <include>cn.handyplus.lib.mm:*:*:*</include>
                         </includes>
                     </artifactSet>
                     <relocations>
                         <relocation>
                             <pattern>com.zaxxer</pattern>
-                            <shadedPattern>cn.handyplus.lib.zaxxer</shadedPattern>
+                            <shadedPattern>cn.handyplus.lib.expand.zaxxer</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.slf4j</pattern>
-                            <shadedPattern>cn.handyplus.lib.slf4j</shadedPattern>
+                            <shadedPattern>cn.handyplus.lib.expand.slf4j</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>cn.handyplus.lib.bstats</shadedPattern>
+                            <shadedPattern>cn.handyplus.lib.expand.bstats</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.iroselle</pattern>
-                            <shadedPattern>cn.handyplus.lib.cstats</shadedPattern>
+                            <shadedPattern>cn.handyplus.lib.expand.cstats</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
