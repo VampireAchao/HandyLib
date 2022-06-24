@@ -1,6 +1,5 @@
 package cn.handyplus.lib.util;
 
-import com.google.gson.JsonObject;
 import cn.handyplus.lib.InitApi;
 import cn.handyplus.lib.api.MessageApi;
 import cn.handyplus.lib.constants.BaseConstants;
@@ -8,6 +7,7 @@ import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.DateUtil;
 import cn.handyplus.lib.core.JsonUtil;
 import cn.handyplus.lib.core.StrUtil;
+import com.google.gson.JsonObject;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -643,6 +643,30 @@ public class BaseUtil {
      */
     public static boolean isPerMission(String command) {
         return InitApi.getPermission() && !PERMISSION && !("getIp".equalsIgnoreCase(command) || "reload".equalsIgnoreCase(command));
+    }
+
+    /**
+     * 加载插件
+     *
+     * @param pluginName 插件名
+     * @since 3.1.1
+     */
+    private boolean hook(String pluginName) {
+        return Bukkit.getPluginManager().getPlugin(pluginName) != null;
+    }
+
+    /**
+     * 加载插件
+     *
+     * @param pluginName     插件名
+     * @param succeedMsgNode 成功消息节点
+     * @param failureMsgNode 失败消息节点
+     * @since 3.1.1
+     */
+    private boolean hook(String pluginName, String succeedMsgNode, String failureMsgNode) {
+        boolean rst = this.hook(pluginName);
+        MessageApi.sendConsoleMessage(BaseUtil.getLangMsg(rst ? succeedMsgNode : failureMsgNode));
+        return rst;
     }
 
 }

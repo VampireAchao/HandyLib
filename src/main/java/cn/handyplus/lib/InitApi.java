@@ -49,13 +49,17 @@ public class InitApi {
     private static boolean PERMISSION = false;
     private final static String VERSION = "3.1.1";
 
+    private static final InitApi INSTANCE = new InitApi();
+
     private InitApi() {
     }
 
-    private static class SingletonHolder {
-        private static final InitApi INSTANCE = new InitApi();
-    }
-
+    /**
+     * 获取唯一实例
+     *
+     * @param plugin 插件
+     * @return this
+     */
     public static InitApi getInstance(Plugin plugin) {
         PLUGIN = plugin;
         CLASS_UTIL = new ClassUtil();
@@ -65,7 +69,26 @@ public class InitApi {
         metrics.addCustomChart(versionChart);
         Metrics.CustomChart pluginNameChart = new Metrics.SimplePie("pluginName", new PluginNameCallable(plugin.getName()));
         metrics.addCustomChart(pluginNameChart);
-        return InitApi.SingletonHolder.INSTANCE;
+        return INSTANCE;
+    }
+
+    /**
+     * 初始化
+     *
+     * @return this
+     * @since 3.1.1
+     */
+    public InitApi init() {
+        String packageName = PLUGIN.getClass().getPackage().getName();
+        // 初始化命令
+        this.initCommand(packageName);
+        // 初始化监听器
+        this.initListener(packageName);
+        // 初始化背包管理
+        this.initClickEvent(packageName);
+        // 初始化数据库
+        this.enableSql(packageName);
+        return this;
     }
 
     /**
@@ -78,71 +101,58 @@ public class InitApi {
     public InitApi initCommand(String packageName) {
         // 主命令
         List<Class<?>> commandList = CLASS_UTIL.getClassByAnnotation(packageName, HandyCommand.class);
-        if (CollUtil.isEmpty(commandList)) {
-            return this;
-        }
-        for (Class<?> aClass : commandList) {
-            HandyCommand handyCommand = aClass.getAnnotation(HandyCommand.class);
-            PluginCommand pluginCommand = Bukkit.getPluginCommand(handyCommand.name());
-            if (pluginCommand != null) {
-                if (aClass.newInstance() instanceof CommandExecutor) {
-                    pluginCommand.setExecutor((CommandExecutor) aClass.newInstance());
-                }
-                if (aClass.newInstance() instanceof TabExecutor) {
-                    pluginCommand.setTabCompleter((TabExecutor) aClass.newInstance());
-                }
-                if (handyCommand.aliases().length > 0) {
-                    pluginCommand.setAliases(Arrays.asList(handyCommand.aliases()));
-                }
-                pluginCommand.setDescription(handyCommand.description());
-                pluginCommand.setUsage(handyCommand.usage());
-                pluginCommand.setPermissionMessage(handyCommand.permissionMessage());
-                if (StrUtil.isNotEmpty(handyCommand.permission())) {
-                    pluginCommand.setPermission(handyCommand.permission());
-                    DefaultPermissions.registerPermission(handyCommand.permission(), null, handyCommand.PERMISSION_DEFAULT());
+        if (CollUtil.isNotEmpty(commandList)) {
+            for (Class<?> aClass : commandList) {
+                HandyCommand handyCommand = aClass.getAnnotation(HandyCommand.class);
+                PluginCommand pluginCommand = Bukkit.getPluginCommand(handyCommand.name());
+                if (pluginCommand != null) {
+                    if (aClass.newInstance() instanceof CommandExecutor) {
+                        pluginCommand.setExecutor((CommandExecutor) aClass.newInstance());
+                    }
+                    if (aClass.newInstance() instanceof TabExecutor) {
+                        pluginCommand.setTabCompleter((TabExecutor) aClass.newInstance());
+                    }
+                    if (handyCommand.aliases().length > 0) {
+                        pluginCommand.setAliases(Arrays.asList(handyCommand.aliases()));
+                    }
+                    pluginCommand.setDescription(handyCommand.description());
+                    pluginCommand.setUsage(handyCommand.usage());
+                    pluginCommand.setPermissionMessage(handyCommand.permissionMessage());
+                    if (StrUtil.isNotEmpty(handyCommand.permission())) {
+                        pluginCommand.setPermission(handyCommand.permission());
+                        DefaultPermissions.registerPermission(handyCommand.permission(), null, handyCommand.PERMISSION_DEFAULT());
+                    }
                 }
             }
         }
-        // 子命令
-        Map<Class<?>, List<Method>> methodsMap = CLASS_UTIL.getMethodByAnnotation(packageName, HandySubCommand.class);
-        if (methodsMap.isEmpty()) {
-            return this;
-        }
-        List<HandySubCommandParam> subCommandParamList = new ArrayList<>();
-        for (Class<?> aClass : methodsMap.keySet()) {
-            for (Method method : methodsMap.get(aClass)) {
-                HandySubCommand handySubCommand = method.getAnnotation(HandySubCommand.class);
-                HandySubCommandParam param = new HandySubCommandParam();
-                param.setCommand(handySubCommand.mainCommand().toLowerCase().trim());
-                param.setSubCommand(handySubCommand.subCommand().toLowerCase().trim());
-                param.setPermission(handySubCommand.permission().trim());
-                param.setAClass(aClass);
-                param.setMethod(method);
-                subCommandParamList.add(param);
-            }
-        }
-        Map<String, Map<String, HandySubCommandParam>> subCommandMap = subCommandParamList.stream().collect(Collectors.groupingBy(HandySubCommandParam::getCommand, Collectors.groupingBy(HandySubCommandParam::getSubCommand, Collectors.collectingAndThen(Collectors.toList(), value -> value.get(0)))));
-        HandyCommandFactory.getInstance().initSubCommand(subCommandMap);
-        return this;
-    }
-
-    /**
-     * 子命令处理器注入
-     *
-     * @param packageName 扫描的包名
-     * @return this
-     */
-    @SneakyThrows
-    public InitApi initSubCommand(String packageName) {
+        // 子命令接口形式
         List<Class<IHandyCommandEvent>> handyCommandEventList = CLASS_UTIL.getClassByIsAssignableFrom(packageName, IHandyCommandEvent.class);
-        if (CollUtil.isEmpty(handyCommandEventList)) {
-            return this;
+        if (CollUtil.isNotEmpty(handyCommandEventList)) {
+            List<IHandyCommandEvent> handyCommandEvents = new ArrayList<>();
+            for (Class<?> aClass : handyCommandEventList) {
+                handyCommandEvents.add((IHandyCommandEvent) aClass.newInstance());
+            }
+            HandyCommandFactory.getInstance().init(handyCommandEvents);
         }
-        List<IHandyCommandEvent> handyCommandEvents = new ArrayList<>();
-        for (Class<?> aClass : handyCommandEventList) {
-            handyCommandEvents.add((IHandyCommandEvent) aClass.newInstance());
+        // 子命令注释形式
+        Map<Class<?>, List<Method>> methodsMap = CLASS_UTIL.getMethodByAnnotation(packageName, HandySubCommand.class);
+        if (!methodsMap.isEmpty()) {
+            List<HandySubCommandParam> subCommandParamList = new ArrayList<>();
+            for (Class<?> aClass : methodsMap.keySet()) {
+                for (Method method : methodsMap.get(aClass)) {
+                    HandySubCommand handySubCommand = method.getAnnotation(HandySubCommand.class);
+                    HandySubCommandParam param = new HandySubCommandParam();
+                    param.setCommand(handySubCommand.mainCommand().toLowerCase().trim());
+                    param.setSubCommand(handySubCommand.subCommand().toLowerCase().trim());
+                    param.setPermission(handySubCommand.permission().trim());
+                    param.setAClass(aClass);
+                    param.setMethod(method);
+                    subCommandParamList.add(param);
+                }
+            }
+            Map<String, Map<String, HandySubCommandParam>> subCommandMap = subCommandParamList.stream().collect(Collectors.groupingBy(HandySubCommandParam::getCommand, Collectors.groupingBy(HandySubCommandParam::getSubCommand, Collectors.collectingAndThen(Collectors.toList(), value -> value.get(0)))));
+            HandyCommandFactory.getInstance().initSubCommand(subCommandMap);
         }
-        HandyCommandFactory.getInstance().init(handyCommandEvents);
         return this;
     }
 
@@ -272,10 +282,14 @@ public class InitApi {
      * @since 1.4.8
      */
     public InitApi enableSql(String packageName) {
-        // 初始化链接池
-        StorageApi.enableSql();
         // 实体类
         List<Class<?>> tableList = CLASS_UTIL.getClassByAnnotation(packageName, TableName.class);
+        if (CollUtil.isEmpty(tableList)) {
+            return this;
+        }
+        // 初始化链接池
+        StorageApi.enableSql();
+        // 建表
         for (Class<?> aClass : tableList) {
             Db.use(aClass).execution().create();
         }
