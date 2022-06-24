@@ -651,7 +651,7 @@ public class BaseUtil {
      * @param pluginName 插件名
      * @since 3.1.1
      */
-    private boolean hook(String pluginName) {
+    private static boolean hook(String pluginName) {
         return Bukkit.getPluginManager().getPlugin(pluginName) != null;
     }
 
@@ -663,8 +663,8 @@ public class BaseUtil {
      * @param failureMsgNode 失败消息节点
      * @since 3.1.1
      */
-    private boolean hook(String pluginName, String succeedMsgNode, String failureMsgNode) {
-        boolean rst = this.hook(pluginName);
+    private static boolean hook(String pluginName, String succeedMsgNode, String failureMsgNode) {
+        boolean rst = hook(pluginName);
         MessageApi.sendConsoleMessage(BaseUtil.getLangMsg(rst ? succeedMsgNode : failureMsgNode));
         return rst;
     }
